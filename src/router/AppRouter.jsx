@@ -1,8 +1,8 @@
 import { useEffect } from 'react';
 import { Routes, Route, Navigate } from 'react-router-dom';
 import { useAuthStore } from '../hooks';
-import { AuthPage } from '../auth';
-import { Application } from '../application';
+import { AuthRoutes } from '../auth';
+import { ApplicationRoutes } from '../application';
 
 
 export const AppRouter = () => {
@@ -18,15 +18,14 @@ export const AppRouter = () => {
                 status === 'authenticated'
                     ? (
                         <>
-                            <Route path="/" element={<Application />} />
-                            <Route path="*" element={<Navigate to="/" />} />
+                            <Route path="/" element={<ApplicationRoutes />} />
+                            <Route path="/*" element={<Navigate to="/" />} />
                         </>
                     )
                     :
                     (
                         <>
-                            <Route path="/auth/*" element={<AuthPage />} />
-                            <Route path="/*" element={<Navigate to="/auth/login" />} />
+                            <Route path="/*" element={<AuthRoutes />} />
                         </>
                     )
             }
