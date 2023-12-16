@@ -1,5 +1,5 @@
 import { useAuthStore, useForm } from '../../hooks';
-import { InputComponent } from '../components';
+import { InputComponent, Message } from '../components';
 import { emailValidator, passwordValidation } from '../../helpers';
 
 
@@ -10,11 +10,12 @@ const loginForm = {
 
 const loginFormValidations = {
     email: [emailValidator, 'Email inválido'],
-    password: [passwordValidation, 'Contraseña inválida']
+    password: [passwordValidation, 'La contraseña debe contener al menos 5 caracteres']
 }
 
 export const Login = () => {
-    const { email, password, isFormSubmitted, isFormValid, emailValid, passwordValid, handleInputChange, handleResetForm, setFormSubmitted } = useForm(loginForm, loginFormValidations);
+    const { email, password, isFormSubmitted, isFormValid, emailValid, passwordValid, formState, handleInputChange, handleResetForm, setFormSubmitted } = useForm(loginForm, loginFormValidations);
+    const { status, errorMessage, startLogin } = useAuthStore();
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -24,14 +25,21 @@ export const Login = () => {
         if (!isFormValid) {
             return;
         }
-        // TODO: implement the useAuthStore custom hook here
-        console.log('submitted');
+
+        startLogin(formState);
+
+        if (errorMessage) {
+            handleResetForm();
+        }
     }
 
     return (
-        <div className="h-screen flex justify-center items-center">
+        <div className="h-screen bg-blue-900 flex justify-center items-center">
             <div className="w-11/12 md:w-3/6 lg:w-2/6 bg-white px-6 py-8 rounded-md shadow-md">
                 <div className="w-full space-y-3">
+                    {
+                        !!errorMessage && <Message message={errorMessage} severity='error' />
+                    }
                     <h3 className="text-center font-bold text-2xl">Iniciar sesi&oacute;n</h3>
                     <form
                         onSubmit={handleSubmit}
@@ -63,6 +71,7 @@ export const Login = () => {
                         />
                         <button
                             type="submit"
+                            disabled={status === 'checking'}
                             className='w-full rounded bg-indigo-600 text-white font-bold p-2'
                         >
                             Ingresar

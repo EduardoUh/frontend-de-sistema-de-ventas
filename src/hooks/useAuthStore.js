@@ -11,12 +11,16 @@ export const useAuthStore = () => {
         dispatch(onChecking());
 
         try {
-            const { data } = await api.post('/auth/login', { email, password });
-            sessionStorage.setItem('token', data.token);
-            dispatch(onLogin({ ...data.usuario, fechaCreacionToken: data.fechaCreacionToken, fechaExpiracionToken: data.fechaExpiracionToken }));
+            const data = await api.post('/auth/login', { email, password });
+            console.log(data);
+            /* sessionStorage.setItem('token', data.token);
+            dispatch(onLogin({ ...data.usuario, fechaCreacionToken: data.fechaCreacionToken, fechaExpiracionToken: data.fechaExpiracionToken })); */
 
         } catch (error) {
+            console.log(error);
+            console.log(error.response.data.message);
             dispatch(onLogout(error.response.data.message));
+            console.log(errorMessage);
             setTimeout(() => {
                 dispatch(clearErrorMessage())
             }, 10);
