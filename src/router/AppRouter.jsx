@@ -3,6 +3,7 @@ import { Routes, Route } from 'react-router-dom';
 import { useAuthStore } from '../hooks';
 import { AuthRoutes } from '../auth';
 import { ApplicationRoutes } from '../application';
+import { LoadingPage } from '../utilities';
 
 
 export const AppRouter = () => {
@@ -12,7 +13,7 @@ export const AppRouter = () => {
         checkAuthToken();
     }, []);
 
-    // TODO: create a component to be rendered when the status is "checking", also midify the checkAuthToken function to change the status to checking so the component work properly
+    if (status === 'checking') return <LoadingPage />
 
     return (
         <Routes>

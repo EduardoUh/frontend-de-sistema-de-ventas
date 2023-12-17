@@ -14,7 +14,7 @@ const loginFormValidations = {
 }
 
 export const Login = () => {
-    const { email, password, isFormSubmitted, isFormValid, emailValid, passwordValid, formState, handleInputChange, handleResetForm, setFormSubmitted } = useForm(loginForm, loginFormValidations);
+    const { email, password, isFormSubmitted, isFormValid, emailValid, passwordValid, formState, handleInputChange, setFormSubmitted } = useForm(loginForm, loginFormValidations);
     const { status, errorMessage, startLogin } = useAuthStore();
 
     const handleSubmit = (e) => {
@@ -68,7 +68,7 @@ export const Login = () => {
                         <button
                             type="submit"
                             disabled={status === 'checking'}
-                            className={`w-full rounded bg-indigo-600 text-white font-bold p-2 ${status === 'checking' ? 'bg-indigo-400' : ''}`}
+                            className={`w-full rounded bg-indigo-600 text-white font-bold p-2  hover:bg-indigo-800 focus:bg-indigo-400`}
                         >
                             Ingresar
                         </button>

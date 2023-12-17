@@ -33,6 +33,8 @@ export const useAuthStore = () => {
     }
 
     const checkAuthToken = async () => {
+        dispatch(onChecking());
+
         const token = sessionStorage.getItem('token');
 
         if (!token) return dispatch(onLogout());
