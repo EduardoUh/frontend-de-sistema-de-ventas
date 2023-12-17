@@ -6,6 +6,7 @@ export const ApplicationRoutes = () => {
     return (
         <Routes>
             <Route path="/home" element={<Application />} />
+            <Route path="*" element={<Navigate to="/home" />} />
         </Routes>
     )
 }

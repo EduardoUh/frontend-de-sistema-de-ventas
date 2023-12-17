@@ -27,10 +27,6 @@ export const Login = () => {
         }
 
         startLogin(formState);
-
-        if (errorMessage) {
-            handleResetForm();
-        }
     }
 
     return (
@@ -72,7 +68,7 @@ export const Login = () => {
                         <button
                             type="submit"
                             disabled={status === 'checking'}
-                            className='w-full rounded bg-indigo-600 text-white font-bold p-2'
+                            className={`w-full rounded bg-indigo-600 text-white font-bold p-2 ${status === 'checking' ? 'bg-indigo-400' : ''}`}
                         >
                             Ingresar
                         </button>
