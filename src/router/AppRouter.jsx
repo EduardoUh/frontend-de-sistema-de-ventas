@@ -1,8 +1,9 @@
 import { useEffect } from 'react';
-import { Routes, Route, Navigate } from 'react-router-dom';
+import { Routes, Route } from 'react-router-dom';
 import { useAuthStore } from '../hooks';
-import { AuthPage } from '../auth';
-import { Application } from '../application';
+import { AuthRoutes } from '../auth';
+import { ApplicationRoutes } from '../application';
+import { LoadingPage } from '../utilities';
 
 
 export const AppRouter = () => {
@@ -12,21 +13,21 @@ export const AppRouter = () => {
         checkAuthToken();
     }, []);
 
+    if (status === 'checking') return <LoadingPage />
+
     return (
         <Routes>
             {
                 status === 'authenticated'
                     ? (
                         <>
-                            <Route path="/" element={<Application />} />
-                            <Route path="*" element={<Navigate to="/" />} />
+                            <Route path="/*" element={<ApplicationRoutes />} />
                         </>
                     )
                     :
                     (
                         <>
-                            <Route path="/auth/*" element={<AuthPage />} />
-                            <Route path="/*" element={<Navigate to="/auth/login" />} />
+                            <Route path="/*" element={<AuthRoutes />} />
                         </>
                     )
             }

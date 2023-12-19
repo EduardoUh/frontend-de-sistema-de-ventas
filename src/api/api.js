@@ -10,6 +10,7 @@ api.interceptors.request.use(config => {
         ...config.headers,
         'x-token': sessionStorage.getItem('token')
     }
+    return config;
 });
 
 export { api };

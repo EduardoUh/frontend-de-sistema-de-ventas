@@ -1,1 +1,1 @@
-export * from './pages/Application';
+export * from './routes/ApplicationRoutes';
