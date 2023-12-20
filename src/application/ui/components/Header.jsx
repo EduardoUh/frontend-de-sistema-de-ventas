@@ -1,7 +1,7 @@
 export const Header = () => {
     return (
-        <div className="h-[4rem] bg-slate-500 p-4 text-white">
+        <header className="h-[4rem] bg-white p-4 text-gray-900 font-bold text-lg">
             Header
-        </div>
+        </header>
     )
 }
