@@ -1,4 +1,4 @@
-import { Home, Brands, CreatePurchase, CreateSelling, Customers, Profile, Providers, Sellings, Stock, ProductTypes, Products, Purchases, Users } from '../pages/index';
+import { Brands, CreatePurchase, CreateSelling, Customers, Profile, Providers, Sellings, Stock, ProductTypes, Products, Purchases, Users } from '../pages/index';
 
 export const modules = {
     Sucursales: Brands,

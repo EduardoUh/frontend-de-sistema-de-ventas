@@ -1,16 +1,18 @@
 import { useAuthStore } from '../../../hooks';
+import { ListItem } from './ListItem';
 
 
 export const NavBar = () => {
     const { user } = useAuthStore();
 
     return (
-        <aside className="border-2 border-purple-600 bg-[#343a40] font-bold text-gray-200 text-sm overflow-y-auto">
+        <aside className="min-w-[13rem] bg-gradient-to-br from-blue-500 to-cyan-500 font-bold text-white text-sm overflow-y-auto">
             <ul className="p-3 space-y-3">
+                <ListItem route="/home" text="Inicio" />
                 {
                     user.modulos.map(modulo =>
                     (
-                        <li key={modulo.nombre}>{modulo.nombre}</li>
+                        <ListItem key={modulo.nombre} route={modulo.ruta} text={modulo.nombre} />
                     )
                     )
                 }
