@@ -9,11 +9,11 @@ export const ApplicationRoutes = () => {
     const { showNavbar } = useUIStore();
 
     return (
-        <div className="h-screen">
+        <>
             <Header />
             <main className="w-full border-2 border-red-500 h-[calc(100vh-64px)] flex">
                 <NavBar />
-                <div className={`${showNavbar ? "w-6/12 sm:w-10/12 ml-1" : "w-full"} overflow-auto`}>
+                <section className={`${showNavbar ? "w-6/12 sm:w-10/12" : "w-full"} border-2 border-black p-2 overflow-auto`}>
                     <Routes>
                         <Route path="/home" element={<Home />} />
                         <Route path="*" element={<Navigate to="/home" />} />
@@ -23,8 +23,8 @@ export const ApplicationRoutes = () => {
                             ))
                         }
                     </Routes>
-                </div>
+                </section>
             </main>
-        </div>
+        </>
     )
 }
