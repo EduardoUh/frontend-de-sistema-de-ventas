@@ -1,5 +1,6 @@
-import { useForm } from '../../hooks';
+import { useForm, usePagination } from '../../hooks';
 import { InputComponent } from '../../utilities';
+import { CardsContainer, Card, DataContainer, PaginationBar } from '../ui';
 
 
 const filtersForm = {
@@ -21,11 +22,19 @@ const selectOptions = [
     }
 ]
 
+const baseUrl = '/sucursales';
+
 // Permissions in this module -> CREAR - VER -ACTUALIZAR
+// TODO: take the select logic off the InputComponent and refactor it to accept pagination if there is a next page, then implement it in the InputComponent
+// TODO: implement a custom hook to manage the api communication with the brands module and handle pagination there (counter state), and return the options in the same
+// format as the selectOptions object you can take it as a base.
 export const Brands = ({ permissions }) => {
     const { nombre, ciudad, email, activa, creador, handleInputChange, isFormSubmitted, setFormSubmitted, handleResetForm } = useForm(filtersForm);
+    const { data: branchesData, error: branchesError, page: currentBranchesPage, nextPage: nextBranchesPage, previousPage: previousBranchesPage } = usePagination(baseUrl);
 
     if (!permissions || !Array.isArray(permissions) || Array.isArray(permissions) && permissions.length === 0) return (<div>Sin credenciales en &eacute;ste m&oacute;dulo</div>)
+
+    console.log(1);
 
     return (
         <div className="space-y-3">
@@ -91,9 +100,29 @@ export const Brands = ({ permissions }) => {
                                 </div>
                             </form>
                         </div>
-                        <div className="border">
-                            Cards and pagination here
-                        </div>
+                            {!!branchesData &&
+                                <>
+                                    <CardsContainer>
+                                        {
+                                            branchesData.sucursales.map(branchData => (
+                                                <Card key={branchData.id} cardStyles="mt-3 transition duration-500 ease-in-ou hover:scale-105 p-0 p-5">
+                                                    <DataContainer name='Nombre' data={branchData.nombre} />
+                                                    <DataContainer name='Ciudad' data={branchData.ciudad} />
+                                                    <DataContainer name='Direccion' data={branchData.direccion} />
+                                                    <DataContainer name='Email' data={branchData.email} />
+                                                    <DataContainer name='Estatus' data={branchData.activa ? 'Activa' : 'inactiva'} />
+                                                    <DataContainer name='Creador' data={branchData.creador.nombres} />
+                                                    {/* // TODO: implement a config object in the toLocaleDateString method used to parse dates */}
+                                                    <DataContainer name='Creada el' data={branchData.fechaCreacion} convertToDate={true} />
+                                                    <DataContainer name='Ultimo en modificar' data={branchData.ultimoEnModificar.nombres} />
+                                                    <DataContainer name='Modificada el' data={branchData.fechaUltimaModificacion} convertToDate={true} />
+                                                </Card>
+                                            ))
+                                        }
+                                    </CardsContainer>
+                                    <PaginationBar currentPage={currentBranchesPage} pagesCanBeGenerated={branchesData.pagesCanBeGenerated} nextPage={nextBranchesPage} previousPage={previousBranchesPage}/>
+                                </>
+                            }
                     </>
                 )
             }
