@@ -8,11 +8,12 @@ export const usePagination = (baseUrl) => {
     const { requestData, data, error } = useRequest();
 
     useEffect(() => {
+        console.log('api call');
         requestData(url);
     }, [url]);
 
     useEffect(() => {
-        setUrl(`${baseUrl.trim()}?page=${page}`);
+        setUrl(current => `${current.split('page=')[0]}page=${page}`);
     }, [page]);
 
     const nextPage = () => {
@@ -27,8 +28,24 @@ export const usePagination = (baseUrl) => {
         setPage(current => current - 1);
     }
 
-    const addFiltersToUrl = (url = '', filters = {}) => {
+    const addFiltersToUrl = (baseUrl = '', filters = {}) => {
+        let emptyFilters = 0;
+        if (typeof baseUrl !== 'string' || typeof filters !== 'object' || Array.isArray(filters) || Object.keys(filters).length < 1) return;
 
+        if (baseUrl.lastIndexOf('?') === -1) baseUrl += '?';
+
+        let newUrl = baseUrl;
+
+        for (const key in filters) {
+            if (filters[key].trim().length === 0) {
+                emptyFilters += 1;
+                continue;
+            }
+            newUrl += `${key}=${filters[key]}&`;
+        }
+
+        setUrl(emptyFilters === Object.keys(filters).length ?`${newUrl}page=${page}` : `${newUrl}page=1`);
+        setPage(current => emptyFilters === Object.keys(filters).length ? current : 1);
     }
 
     return {
@@ -39,5 +56,6 @@ export const usePagination = (baseUrl) => {
         // ?? methods
         nextPage,
         previousPage,
+        addFiltersToUrl,
     }
 } 

@@ -1,19 +1,26 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { api } from '../api/api';
 
 
+const errorInitialForm = {
+    hasError: false,
+    errorMessage: null
+}
+
 export const useRequest = () => {
     const [data, setData] = useState(null);
-    const [error, setError] = useState(null);
+    const [error, setError] = useState(errorInitialForm);
 
     const requestData = async (url) => {
         try {
             const { data } = await api.get(url);
             setData(data);
+            setError(errorInitialForm);
 
         }
         catch (error) {
-            setError(error.response.data.message);
+            setError({ hasError: true, errorMessage: error.response.data.message });
+            setData(null);
         }
     }
 

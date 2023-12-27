@@ -1,6 +1,7 @@
-import { useForm, usePagination } from '../../hooks';
+import { useState } from 'react';
+import { useForm } from '../../hooks';
 import { InputComponent } from '../../utilities';
-import { CardsContainer, Card, DataContainer, PaginationBar } from '../ui';
+import { PaginationContainer, CardsContainer, Card, DataContainer } from '../ui';
 
 
 const filtersForm = {
@@ -24,13 +25,19 @@ const selectOptions = [
 
 const baseUrl = '/sucursales';
 
+const handleSumbit = (event, addFiltersFn, url, params) => {
+    event.preventDefault();
+
+    addFiltersFn(url, { ...params });
+}
+
 // Permissions in this module -> CREAR - VER -ACTUALIZAR
 // TODO: take the select logic off the InputComponent and refactor it to accept pagination if there is a next page, then implement it in the InputComponent
-// TODO: implement a custom hook to manage the api communication with the brands module and handle pagination there (counter state), and return the options in the same
-// format as the selectOptions object you can take it as a base.
+
 export const Brands = ({ permissions }) => {
-    const { nombre, ciudad, email, activa, creador, handleInputChange, isFormSubmitted, setFormSubmitted, handleResetForm } = useForm(filtersForm);
-    const { data: branchesData, error: branchesError, page: currentBranchesPage, nextPage: nextBranchesPage, previousPage: previousBranchesPage } = usePagination(baseUrl);
+    const [data, setData] = useState(null);
+    const [addFiltersFn, setAddFiltersFn] = useState(null);
+    const { nombre, ciudad, email, activa, creador, formState, handleInputChange, isFormSubmitted, setFormSubmitted, handleResetForm } = useForm(filtersForm);
 
     if (!permissions || !Array.isArray(permissions) || Array.isArray(permissions) && permissions.length === 0) return (<div>Sin credenciales en &eacute;ste m&oacute;dulo</div>)
 
@@ -55,7 +62,7 @@ export const Brands = ({ permissions }) => {
                     // TODO: Implement the following filters -> nombre, ciudad, email, activa, creador(id)
                     <>
                         <div className="border">
-                            <form className="border border-black">
+                            <form className="border border-black" onSubmit={(e) => handleSumbit(e, addFiltersFn, baseUrl, formState)}>
                                 <div className="flex flex-wrap justify-around">
                                     <InputComponent
                                         inputId='nombre'
@@ -98,31 +105,35 @@ export const Brands = ({ permissions }) => {
                                         containerStyle='border border-red-400 w-[30%]'
                                     />
                                 </div>
+                                <button className="bg-indigo-500 font-bold text-white" type="submit">
+                                    Filtrar
+                                </button>
                             </form>
                         </div>
-                            {!!branchesData &&
-                                <>
-                                    <CardsContainer>
-                                        {
-                                            branchesData.sucursales.map(branchData => (
-                                                <Card key={branchData.id} cardStyles="mt-3 transition duration-500 ease-in-ou hover:scale-105 p-0 p-5">
-                                                    <DataContainer name='Nombre' data={branchData.nombre} />
-                                                    <DataContainer name='Ciudad' data={branchData.ciudad} />
-                                                    <DataContainer name='Direccion' data={branchData.direccion} />
-                                                    <DataContainer name='Email' data={branchData.email} />
-                                                    <DataContainer name='Estatus' data={branchData.activa ? 'Activa' : 'inactiva'} />
-                                                    <DataContainer name='Creador' data={branchData.creador.nombres} />
-                                                    {/* // TODO: implement a config object in the toLocaleDateString method used to parse dates */}
-                                                    <DataContainer name='Creada el' data={branchData.fechaCreacion} convertToDate={true} />
-                                                    <DataContainer name='Ultimo en modificar' data={branchData.ultimoEnModificar.nombres} />
-                                                    <DataContainer name='Modificada el' data={branchData.fechaUltimaModificacion} convertToDate={true} />
-                                                </Card>
-                                            ))
-                                        }
-                                    </CardsContainer>
-                                    <PaginationBar currentPage={currentBranchesPage} pagesCanBeGenerated={branchesData.pagesCanBeGenerated} nextPage={nextBranchesPage} previousPage={previousBranchesPage}/>
-                                </>
-                            }
+                        <PaginationContainer setAddFiltersFn={setAddFiltersFn} setData={setData} baseUrl={baseUrl}>
+                            <CardsContainer>
+                                {
+                                    data !== null ?
+                                        data.sucursales.map(branchData => (
+                                            <Card key={branchData.id} cardStyles="mt-3 transition duration-500 ease-in-ou hover:scale-105 p-0 p-5">
+                                                <DataContainer name='Nombre' data={branchData.nombre} />
+                                                <DataContainer name='Ciudad' data={branchData.ciudad} />
+                                                <DataContainer name='Direccion' data={branchData.direccion} />
+                                                <DataContainer name='Email' data={branchData.email} />
+                                                <DataContainer name='Estatus' data={branchData.activa ? 'Activa' : 'inactiva'} />
+                                                <DataContainer name='Creador' data={branchData.creador.nombres} />
+                                                <DataContainer name='Creada el' data={branchData.fechaCreacion} convertToDate={true} />
+                                                <DataContainer name='Ultimo en modificar' data={branchData.ultimoEnModificar.nombres} />
+                                                <DataContainer name='Modificada el' data={branchData.fechaUltimaModificacion} convertToDate={true} />
+                                            </Card>
+                                        ))
+                                        :
+                                        (
+                                            <></>
+                                        )
+                                }
+                            </CardsContainer>
+                        </PaginationContainer>
                     </>
                 )
             }
