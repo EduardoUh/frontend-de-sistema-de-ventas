@@ -8,7 +8,6 @@ export const usePagination = (baseUrl) => {
     const { requestData, data, error } = useRequest();
 
     useEffect(() => {
-        console.log('api call');
         requestData(url);
     }, [url]);
 
