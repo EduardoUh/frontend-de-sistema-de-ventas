@@ -4,17 +4,7 @@ import { PaginationBar } from './PaginationBar';
 import { Message } from '../../../utilities';
 
 
-export const PaginationContainer = ({ children, baseUrl = '', setAddFiltersFn, setData }) => {
-    const { data, isLoading, error, page, nextPage, previousPage, addFiltersToUrl } = usePagination(baseUrl);
-
-    useEffect(() => {
-        setData(data);
-    }, [data]);
-
-    useEffect(() => {
-        setAddFiltersFn(current => addFiltersToUrl);
-    }, [data]);
-
+export const PaginationContainer = ({ children, data, isLoading, error, page, nextPage, previousPage }) => {
     if (isLoading) return (<div className="text-center font-bold text-xl">Cargando...</div>);
 
     return (

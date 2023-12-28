@@ -1,7 +1,7 @@
 import { useState } from 'react';
-import { useForm } from '../../hooks';
+import { useForm, usePagination, useUpdateRecordStore } from '../../hooks';
 import { InputComponent } from '../../utilities';
-import { PaginationContainer, CardsContainer, Card, DataContainer } from '../ui';
+import { PaginationContainer, CardsContainer, Card, DataContainer, Button } from '../ui';
 
 
 const filtersForm = {
@@ -35,9 +35,10 @@ const handleSumbit = (event, addFiltersFn, url, params) => {
 // TODO: take the select logic off the InputComponent and refactor it to accept pagination if there is a next page, then implement it in the InputComponent
 
 export const Brands = ({ permissions }) => {
-    const [data, setData] = useState(null);
-    const [addFiltersFn, setAddFiltersFn] = useState(null);
+    const { data, isLoading, error, page, nextPage, previousPage, addFiltersToUrl } = usePagination(baseUrl);
+    const { selectedRecord, isUpdating, updatedRecord, error: updatingRecordError, startSelectingRecord, startCleaningRecord, startUpdatingRecord, startCleaningUpdatedRecord } = useUpdateRecordStore();
     const { nombre, ciudad, email, activa, creador, formState, handleInputChange, isFormSubmitted, setFormSubmitted, handleResetForm } = useForm(filtersForm);
+
 
     if (!permissions || !Array.isArray(permissions) || Array.isArray(permissions) && permissions.length === 0) return (<div>Sin credenciales en &eacute;ste m&oacute;dulo</div>)
 
@@ -62,7 +63,7 @@ export const Brands = ({ permissions }) => {
                     // TODO: Implement the following filters -> nombre, ciudad, email, activa, creador(id)
                     <>
                         <div className="border">
-                            <form className="border border-black" onSubmit={(e) => handleSumbit(e, addFiltersFn, baseUrl, formState)}>
+                            <form className="border border-black" onSubmit={(e) => handleSumbit(e, addFiltersToUrl, baseUrl, formState)}>
                                 <div className="flex flex-wrap justify-around">
                                     <InputComponent
                                         inputId='nombre'
@@ -110,7 +111,7 @@ export const Brands = ({ permissions }) => {
                                 </button>
                             </form>
                         </div>
-                        <PaginationContainer setAddFiltersFn={setAddFiltersFn} setData={setData} baseUrl={baseUrl}>
+                        <PaginationContainer data={data} isLoading={isLoading} error={error} page={page} nextPage={nextPage} previousPage={previousPage}>
                             <CardsContainer>
                                 {
                                     data !== null ?
@@ -125,6 +126,10 @@ export const Brands = ({ permissions }) => {
                                                 <DataContainer name='Creada el' data={branchData.fechaCreacion} convertToDate={true} />
                                                 <DataContainer name='Ultimo en modificar' data={branchData.ultimoEnModificar.nombres} />
                                                 <DataContainer name='Modificada el' data={branchData.fechaUltimaModificacion} convertToDate={true} />
+                                                {
+                                                    permissions.find(permission => permission === 'ACTUALIZAR') &&
+                                                    <Button text='Actualizar' type='button' buttonSyles='w-full' handleClick={() => startSelectingRecord(branchData)} />
+                                                }
                                             </Card>
                                         ))
                                         :
