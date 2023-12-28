@@ -1,5 +1,3 @@
-import { useEffect } from 'react';
-import { usePagination } from '../../../hooks';
 import { PaginationBar } from './PaginationBar';
 import { Message } from '../../../utilities';
 
