@@ -5,7 +5,7 @@ import { useRequest } from './useRequest';
 export const usePagination = (baseUrl) => {
     const [page, setPage] = useState(1);
     const [url, setUrl] = useState(`${baseUrl.trim()}?page=${page}`);
-    const { requestData, data, error } = useRequest();
+    const { requestData, data, isLoading, error } = useRequest();
 
     useEffect(() => {
         requestData(url);
@@ -43,13 +43,14 @@ export const usePagination = (baseUrl) => {
             newUrl += `${key}=${filters[key]}&`;
         }
 
-        setUrl(emptyFilters === Object.keys(filters).length ?`${newUrl}page=${page}` : `${newUrl}page=1`);
+        setUrl(emptyFilters === Object.keys(filters).length ? `${newUrl}page=${page}` : `${newUrl}page=1`);
         setPage(current => emptyFilters === Object.keys(filters).length ? current : 1);
     }
 
     return {
         // ?? properties
         data,
+        isLoading,
         error,
         page,
         // ?? methods

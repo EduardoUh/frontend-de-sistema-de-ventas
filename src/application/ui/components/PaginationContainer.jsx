@@ -5,7 +5,7 @@ import { Message } from '../../../utilities';
 
 
 export const PaginationContainer = ({ children, baseUrl = '', setAddFiltersFn, setData }) => {
-    const { data, error, page, nextPage, previousPage, addFiltersToUrl } = usePagination(baseUrl);
+    const { data, isLoading, error, page, nextPage, previousPage, addFiltersToUrl } = usePagination(baseUrl);
 
     useEffect(() => {
         setData(data);
@@ -14,6 +14,8 @@ export const PaginationContainer = ({ children, baseUrl = '', setAddFiltersFn, s
     useEffect(() => {
         setAddFiltersFn(current => addFiltersToUrl);
     }, [data]);
+
+    if (isLoading) return (<div className="text-center font-bold text-xl">Cargando...</div>);
 
     return (
         <>
@@ -26,7 +28,7 @@ export const PaginationContainer = ({ children, baseUrl = '', setAddFiltersFn, s
                 )
                 :
                 (
-                    error.hasError === true && data === null && <Message message={error.errorMessage} severity='error' />
+                    error.hasError === true && data === null && <div className="flex justify-center items-center"><Message message={error.errorMessage} severity='error' messageStyle='w-1/3' /></div>
                 )
             }
         </>
