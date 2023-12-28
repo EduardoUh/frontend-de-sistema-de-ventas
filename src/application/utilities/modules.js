@@ -1,7 +1,7 @@
-import { Brands, CreatePurchase, CreateSelling, Customers, Profile, Providers, Sellings, Stock, ProductTypes, Products, Purchases, Users } from '../pages/index';
+import { Branches, CreatePurchase, CreateSelling, Customers, Profile, Providers, Sellings, Stock, ProductTypes, Products, Purchases, Users } from '../pages';
 
 export const modules = {
-    Sucursales: Brands,
+    Sucursales: Branches,
     Usuarios: Users,
     Perfil: Profile,
     Proveedores: Providers,

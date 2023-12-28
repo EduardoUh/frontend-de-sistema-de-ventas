@@ -34,7 +34,7 @@ const handleSumbit = (event, addFiltersFn, url, params) => {
 // Permissions in this module -> CREAR - VER -ACTUALIZAR
 // TODO: take the select logic off the InputComponent and refactor it to accept pagination if there is a next page, then implement it in the InputComponent
 
-export const Brands = ({ permissions }) => {
+export const Branches = ({ permissions }) => {
     const { data, isLoading, error, page, nextPage, previousPage, addFiltersToUrl } = usePagination(baseUrl);
     const { selectedRecord, isUpdating, updatedRecord, error: updatingRecordError, startSelectingRecord, startCleaningRecord, startUpdatingRecord, startCleaningUpdatedRecord } = useUpdateRecordStore();
     const { nombre, ciudad, email, activa, creador, formState, handleInputChange, isFormSubmitted, setFormSubmitted, handleResetForm } = useForm(filtersForm);
