@@ -40,7 +40,7 @@ export const usePagination = (baseUrl) => {
                 emptyFilters += 1;
                 continue;
             }
-            newUrl += `${key}=${filters[key]}&`;
+            newUrl += `${key}=${encodeURIComponent(filters[key])}&`;
         }
 
         setUrl(emptyFilters === Object.keys(filters).length ? `${newUrl}page=${page}` : `${newUrl}page=1`);
