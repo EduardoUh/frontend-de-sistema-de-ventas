@@ -1,4 +1,4 @@
-import { useForm, usePagination, useUpdateRecordStore, useUIStore } from '../../hooks';
+import { useForm, usePaginationStore, useUIStore } from '../../hooks';
 import { InputComponent } from '../../utilities';
 import { PaginationContainer, CardsContainer, Card, DataContainer, Button, Modal } from '../ui';
 
@@ -23,6 +23,7 @@ const selectOptions = [
 ]
 
 const baseUrl = '/sucursales';
+const keyToGetCollectionOfData = 'sucursales';
 
 const handleSumbit = (event, addFiltersFn, url, params) => {
     event.preventDefault();
@@ -39,9 +40,13 @@ const handleOpenModalAndStartSelectingRecord = (openModal, startSelectingRecord,
 // TODO: take the select logic off the InputComponent and refactor it to accept pagination if there is a next page, then implement it in the InputComponent
 
 export const Branches = ({ permissions }) => {
-    const { data, isLoading, error, page, nextPage, previousPage, addFiltersToUrl } = usePagination(baseUrl);
+    const {
+        records, isLoading, error, page, pagesCanBeGenerated, nextPage, previousPage, addFiltersToUrl,
+        startSelectingRecord, startCleaningRecord, startUpdatingRecord, startCleaningUpdatedRecord,
+    } = usePaginationStore(baseUrl, keyToGetCollectionOfData);
+
     const { modalIsOpen, startOpenModal, startCloseModal } = useUIStore();
-    const { selectedRecord, isUpdating, updatedRecord, error: updatingRecordError, startSelectingRecord, startCleaningRecord, startUpdatingRecord, startCleaningUpdatedRecord } = useUpdateRecordStore();
+
     const { nombre, ciudad, email, activa, creador, formState, handleInputChange, isFormSubmitted, setFormSubmitted, handleResetForm } = useForm(filtersForm);
 
 
@@ -116,11 +121,11 @@ export const Branches = ({ permissions }) => {
                                 </button>
                             </form>
                         </div>
-                        <PaginationContainer data={data} isLoading={isLoading} error={error} page={page} nextPage={nextPage} previousPage={previousPage}>
+                        <PaginationContainer data={records} isLoading={isLoading} error={error} page={page} pagesCanBeGenerated={pagesCanBeGenerated} nextPage={nextPage} previousPage={previousPage}>
                             <CardsContainer>
                                 {
-                                    data !== null ?
-                                        data.sucursales.map(branchData => (
+                                    records !== null ?
+                                        records.map(branchData => (
                                             <Card key={branchData.id} cardStyles="mt-3 transition duration-500 ease-in-ou hover:scale-105 p-0 p-5">
                                                 <DataContainer name='Nombre' data={branchData.nombre} />
                                                 <DataContainer name='Ciudad' data={branchData.ciudad} />

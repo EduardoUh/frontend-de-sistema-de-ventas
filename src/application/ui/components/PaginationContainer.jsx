@@ -2,7 +2,7 @@ import { PaginationBar } from './PaginationBar';
 import { Message } from '../../../utilities';
 
 
-export const PaginationContainer = ({ children, data, isLoading, error, page, nextPage, previousPage }) => {
+export const PaginationContainer = ({ children, data, isLoading, error, page, pagesCanBeGenerated, nextPage, previousPage }) => {
     if (isLoading) return (<div className="text-center font-bold text-xl">Cargando...</div>);
 
     return (
@@ -11,7 +11,7 @@ export const PaginationContainer = ({ children, data, isLoading, error, page, ne
                 (
                     <>
                         {children}
-                        <PaginationBar currentPage={page} pagesCanBeGenerated={data.pagesCanBeGenerated} nextPage={nextPage} previousPage={previousPage} />
+                        <PaginationBar currentPage={page} pagesCanBeGenerated={pagesCanBeGenerated} nextPage={nextPage} previousPage={previousPage} />
                     </>
                 )
                 :
