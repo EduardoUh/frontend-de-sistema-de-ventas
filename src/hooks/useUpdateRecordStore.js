@@ -1,5 +1,5 @@
 import { useSelector, useDispatch } from 'react-redux';
-import { selectRecord, clearRecord, clearError, setError, setIsUpdating, clearIsUpdating, onSetUpdatedRecord, onClearUpdatedRecord } from '../store/records/updateRecordSlice';
+import { selectRecord, clearRecord, clearError, setError, setIsUpdating, clearIsUpdating, onSetUpdatedRecord, onClearUpdatedRecord, setSuccessMessage, clearSuccessMessage } from '../store/records/updateRecordSlice';
 import { api } from '../api/api';
 
 
@@ -25,12 +25,16 @@ export const useUpdateRecordStore = () => {
             const { data } = await api.put(url, payload);
 
             dispatch(onSetUpdatedRecord(data));
+            dispatch(setSuccessMessage(data.message));
+            setTimeout(() => {
+                dispatch(clearSuccessMessage());
+            }, 4000);
 
         } catch (error) {
-            dispatch(setError(err.response.data.message));
-            
+            dispatch(setError(error.response.data.message));
+
             setTimeout(() => {
-                dispatch(clearError())
+                dispatch(clearError());
             }, 4000);
         }
         finally {

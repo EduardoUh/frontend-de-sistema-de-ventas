@@ -1,14 +1,17 @@
 import { createSlice } from '@reduxjs/toolkit';
 
 
+const initialStateForm = {
+    selectedRecord: null,
+    updatedRecord: null,
+    sucessMessage: null,
+    error: null,
+    isUpdating: false,
+}
+
 export const updateRecordSlice = createSlice({
     name: 'updateRecord',
-    initialState: {
-        selectedRecord: null,
-        updatedRecord: null,
-        error: null,
-        isUpdating: false,
-    },
+    initialState: initialStateForm,
     reducers: {
         selectRecord: (state, { payload }) => {
             state.selectedRecord = payload;
@@ -34,7 +37,13 @@ export const updateRecordSlice = createSlice({
         onClearUpdatedRecord: (state) => {
             state.updatedRecord = null;
         },
+        setSuccessMessage: (state, { payload }) => {
+            state.sucessMessage = payload;
+        },
+        clearSuccessMessage: (state) => {
+            state.sucessMessage = null;
+        }
     }
 });
 
-export const { selectRecord, clearRecord, setIsUpdating, clearIsUpdating, onSetUpdatedRecord, onClearUpdatedRecord, setError, clearError } = updateRecordSlice.actions;
+export const { selectRecord, clearRecord, setIsUpdating, clearIsUpdating, onSetUpdatedRecord, onClearUpdatedRecord, setError, clearError, setSuccessMessage, clearSuccessMessage } = updateRecordSlice.actions;

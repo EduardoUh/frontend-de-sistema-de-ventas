@@ -1,7 +1,6 @@
-import { useState } from 'react';
-import { useForm, usePagination, useUpdateRecordStore } from '../../hooks';
+import { useForm, usePagination, useUpdateRecordStore, useUIStore } from '../../hooks';
 import { InputComponent } from '../../utilities';
-import { PaginationContainer, CardsContainer, Card, DataContainer, Button } from '../ui';
+import { PaginationContainer, CardsContainer, Card, DataContainer, Button, Modal } from '../ui';
 
 
 const filtersForm = {
@@ -31,11 +30,17 @@ const handleSumbit = (event, addFiltersFn, url, params) => {
     addFiltersFn(url, { ...params });
 }
 
+const handleOpenModalAndStartSelectingRecord = (openModal, startSelectingRecord, record) => {
+    openModal();
+    startSelectingRecord(record);
+
+}
 // Permissions in this module -> CREAR - VER -ACTUALIZAR
 // TODO: take the select logic off the InputComponent and refactor it to accept pagination if there is a next page, then implement it in the InputComponent
 
 export const Branches = ({ permissions }) => {
     const { data, isLoading, error, page, nextPage, previousPage, addFiltersToUrl } = usePagination(baseUrl);
+    const { modalIsOpen, startOpenModal, startCloseModal } = useUIStore();
     const { selectedRecord, isUpdating, updatedRecord, error: updatingRecordError, startSelectingRecord, startCleaningRecord, startUpdatingRecord, startCleaningUpdatedRecord } = useUpdateRecordStore();
     const { nombre, ciudad, email, activa, creador, formState, handleInputChange, isFormSubmitted, setFormSubmitted, handleResetForm } = useForm(filtersForm);
 
@@ -128,7 +133,7 @@ export const Branches = ({ permissions }) => {
                                                 <DataContainer name='Modificada el' data={branchData.fechaUltimaModificacion} convertToDate={true} />
                                                 {
                                                     permissions.find(permission => permission === 'ACTUALIZAR') &&
-                                                    <Button text='Actualizar' type='button' buttonSyles='w-full' handleClick={() => startSelectingRecord(branchData)} />
+                                                    <Button text='Actualizar' type='button' buttonSyles='w-full' handleClick={() => handleOpenModalAndStartSelectingRecord(startOpenModal, startSelectingRecord, branchData)} />
                                                 }
                                             </Card>
                                         ))
@@ -139,6 +144,9 @@ export const Branches = ({ permissions }) => {
                                 }
                             </CardsContainer>
                         </PaginationContainer>
+                        <Modal showModal={modalIsOpen}>
+                            <p className="bg-white text-black font-bold">Eduardo</p>
+                        </Modal>
                     </>
                 )
             }
