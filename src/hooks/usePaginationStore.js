@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { onSetRecords, onClearRecords, selectRecord, clearRecord, clearError, setError, setIsLoading, clearIsLoading, onSetUpdatedRecord, onClearUpdatedRecord, setSuccessMessage, clearSuccessMessage } from '../store/records/paginationSlice';
+import { onSetRecords, onClearRecords, selectRecord, clearRecord, clearError, setError, setErrors, clearErrors, setIsLoading, clearIsLoading, onSetUpdatedRecord, setSuccessMessage, clearSuccessMessage } from '../store/records/paginationSlice';
 import { api } from '../api/api';
 
 
@@ -9,7 +9,7 @@ export const usePaginationStore = (baseUrl = '', keyToGetCollectionOfData = '') 
     const [page, setPage] = useState(1);
     const [url, setUrl] = useState(`${baseUrl.trim()}?page=${page}`);
     // ?? Store State
-    const { records, selectedRecord, updatedRecord, sucessMessage, error, isLoading, pagesCanBeGenerated } = useSelector(state => state.pagination);
+    const { records, selectedRecord, sucessMessage, error, errors,isLoading, pagesCanBeGenerated } = useSelector(state => state.pagination);
     const dispatch = useDispatch();
 
     useEffect(() => {
@@ -85,24 +85,34 @@ export const usePaginationStore = (baseUrl = '', keyToGetCollectionOfData = '') 
         dispatch(clearRecord());
     }
 
-    const startUpdatingRecord = async (url = null, payload = null) => {
+    const startUpdatingRecord = async (url = null, payload = null, keyToGetData = '') => {
         if (url === null || typeof url !== 'string' || payload === null || Object.keys(payload).length === 0) return;
+        dispatch(clearError());
         dispatch(setIsLoading());
 
         try {
-            const { data } = await api.put(url, payload);
+            const { data } = await api.put(`${url}/${selectedRecord.id}`, payload);
 
-            dispatch(onSetUpdatedRecord(data));
+            dispatch(onSetUpdatedRecord(data[keyToGetData]));
+
             dispatch(setSuccessMessage(data.message));
+
             setTimeout(() => {
                 dispatch(clearSuccessMessage());
-            }, 4000);
+            }, 10000);
 
         } catch (error) {
-            dispatch(setError(error.response.data.message));
+            if (error.response.data.message) {
+                dispatch(setError(error.response.data.message));
+            }
+
+            if (error.response.data.errors) {
+                dispatch(setErrors({...error.response.data.errors}));
+            }
 
             setTimeout(() => {
                 dispatch(clearError());
+                dispatch(clearErrors());
             }, 4000);
         }
         finally {
@@ -110,17 +120,13 @@ export const usePaginationStore = (baseUrl = '', keyToGetCollectionOfData = '') 
         }
     }
 
-    const startCleaningUpdatedRecord = () => {
-        dispatch(onClearUpdatedRecord());
-    }
-
     return {
         // ?? Properties
         records,
         selectedRecord,
-        updatedRecord,
         sucessMessage,
         error,
+        errors,
         isLoading,
         page,
         pagesCanBeGenerated,
@@ -131,6 +137,5 @@ export const usePaginationStore = (baseUrl = '', keyToGetCollectionOfData = '') 
         startSelectingRecord,
         startCleaningRecord,
         startUpdatingRecord,
-        startCleaningUpdatedRecord,
     }
 }

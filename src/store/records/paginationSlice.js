@@ -5,11 +5,14 @@ const initialStateForm = {
     records: null,
     pagesCanBeGenerated: null,
     selectedRecord: null,
-    updatedRecord: null,
     sucessMessage: null,
     error: {
         hasError: false,
         errorMessage: null
+    },
+    errors: {
+        hasErrors: false,
+        errors: null,
     },
     isLoading: false,
 }
@@ -46,11 +49,16 @@ export const paginationSlice = createSlice({
             state.error.hasError = false;
             state.error.errorMessage = null;
         },
-        onSetUpdatedRecord: (state, { payload }) => {
-            state.updatedRecord = payload;
+        setErrors: (state, { payload }) => {
+            state.errors.hasErrors = true;
+            state.errors.errors = payload;
         },
-        onClearUpdatedRecord: (state) => {
-            state.updatedRecord = null;
+        clearErrors: (state) => {
+            state.errors.hasErrors = false;
+            state.errors.errors = null;
+        },
+        onSetUpdatedRecord: (state, { payload }) => {
+            state.records = state.records.map(record => record.id === payload.id ? payload : record);
         },
         setSuccessMessage: (state, { payload }) => {
             state.sucessMessage = payload;
@@ -61,4 +69,4 @@ export const paginationSlice = createSlice({
     }
 });
 
-export const { onSetRecords, onClearRecords, selectRecord, clearRecord, setIsLoading, clearIsLoading, onSetUpdatedRecord, onClearUpdatedRecord, setError, clearError, setSuccessMessage, clearSuccessMessage } = paginationSlice.actions;
+export const { onSetRecords, onClearRecords, selectRecord, clearRecord, setIsLoading, clearIsLoading, onSetUpdatedRecord, setError, clearError, setErrors, clearErrors, setSuccessMessage, clearSuccessMessage } = paginationSlice.actions;
