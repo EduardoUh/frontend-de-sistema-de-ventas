@@ -2,6 +2,9 @@ import { createSlice } from '@reduxjs/toolkit';
 
 
 const initialStateForm = {
+    page: 1,
+    url: null,
+    keyToGetCollectionOfData: null,
     records: null,
     pagesCanBeGenerated: null,
     selectedRecord: null,
@@ -21,6 +24,15 @@ export const paginationSlice = createSlice({
     name: 'pagination',
     initialState: initialStateForm,
     reducers: {
+        setPage: (state, { payload }) => {
+            state.page = payload;
+        },
+        setUrl: (state, { payload }) => {
+            state.url = payload;
+        },
+        setKeyToGetCollectionOfData: (state, { payload }) => {
+            state.keyToGetCollectionOfData = payload;
+        },
         onSetRecords: (state, { payload }) => {
             state.records = payload.records;
             state.pagesCanBeGenerated = payload.pagesCanBeGenerated;
@@ -69,4 +81,4 @@ export const paginationSlice = createSlice({
     }
 });
 
-export const { onSetRecords, onClearRecords, selectRecord, clearRecord, setIsLoading, clearIsLoading, onSetUpdatedRecord, setError, clearError, setErrors, clearErrors, setSuccessMessage, clearSuccessMessage } = paginationSlice.actions;
+export const { setPage, setUrl, setKeyToGetCollectionOfData, onSetRecords, onClearRecords, selectRecord, clearRecord, setIsLoading, clearIsLoading, onSetUpdatedRecord, setError, clearError, setErrors, clearErrors, setSuccessMessage, clearSuccessMessage } = paginationSlice.actions;

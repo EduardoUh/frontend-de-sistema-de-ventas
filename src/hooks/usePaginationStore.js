@@ -1,35 +1,44 @@
-import { useState, useEffect } from 'react';
+import { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { onSetRecords, onClearRecords, selectRecord, clearRecord, clearError, setError, setErrors, clearErrors, setIsLoading, clearIsLoading, onSetUpdatedRecord, setSuccessMessage, clearSuccessMessage } from '../store/records/paginationSlice';
+import { setPage, setUrl, setKeyToGetCollectionOfData, onSetRecords, onClearRecords, selectRecord, clearRecord, clearError, setError, setErrors, clearErrors, setIsLoading, clearIsLoading, onSetUpdatedRecord, setSuccessMessage, clearSuccessMessage } from '../store/records/paginationSlice';
 import { api } from '../api/api';
 
 
-export const usePaginationStore = (baseUrl = '', keyToGetCollectionOfData = '') => {
-    // ?? Local State
-    const [page, setPage] = useState(1);
-    const [url, setUrl] = useState(`${baseUrl.trim()}?page=${page}`);
+export const usePaginationStore = () => {
     // ?? Store State
-    const { records, selectedRecord, sucessMessage, error, errors,isLoading, pagesCanBeGenerated } = useSelector(state => state.pagination);
+    const { page, url, keyToGetCollectionOfData, records, selectedRecord, sucessMessage, error, errors, isLoading, pagesCanBeGenerated } = useSelector(state => state.pagination);
     const dispatch = useDispatch();
 
     useEffect(() => {
-        startSettingRecords(url);
+        if (url && keyToGetCollectionOfData) {
+            startSettingRecords(url);
+        }
     }, [url]);
 
     useEffect(() => {
-        setUrl(current => `${current.split('page=')[0]}page=${page}`);
+        if (url) {
+            dispatch(setUrl(`${url.split('page=')[0]}page=${page}`));
+        }
     }, [page]);
 
-    const nextPage = () => {
-        if (!data || page === data.pagesCanBeGenerated) return;
+    const setBaseUrl = baseUrl => {
+        dispatch(setUrl(`${baseUrl.trim()}?page=${page}`));
+    }
 
-        setPage(current => current + 1);
+    const setTheKeyToGetCollectionOfData = keyToGetCollectionOfData => {
+        dispatch(setKeyToGetCollectionOfData(keyToGetCollectionOfData));
+    }
+
+    const nextPage = () => {
+        if (page === pagesCanBeGenerated) return;
+
+        dispatch(setPage(page + 1));
     }
 
     const previousPage = () => {
-        if (!data || page === 1) return;
+        if (page === 1) return;
 
-        setPage(current => current - 1);
+        dispatch(setPage(page - 1));
     }
 
     const addFiltersToUrl = (baseUrl = '', filters = {}) => {
@@ -49,9 +58,9 @@ export const usePaginationStore = (baseUrl = '', keyToGetCollectionOfData = '') 
             newUrl += `${key}=${encodeURIComponent(filters[key].trim())}&`;
         }
 
-        setUrl(emptyFilters === Object.keys(filters).length ? `${newUrl}page=${page}` : `${newUrl}page=1`);
+        dispatch(setUrl(emptyFilters === Object.keys(filters).length ? `${newUrl}page=${page}` : `${newUrl}page=1`));
 
-        setPage(current => emptyFilters === Object.keys(filters).length ? current : 1);
+        dispatch(setPage(emptyFilters === Object.keys(filters).length ? page : 1));
     }
 
     // ?? Using store
@@ -107,7 +116,7 @@ export const usePaginationStore = (baseUrl = '', keyToGetCollectionOfData = '') 
             }
 
             if (error.response.data.errors) {
-                dispatch(setErrors({...error.response.data.errors}));
+                dispatch(setErrors({ ...error.response.data.errors }));
             }
 
             setTimeout(() => {
@@ -131,6 +140,8 @@ export const usePaginationStore = (baseUrl = '', keyToGetCollectionOfData = '') 
         page,
         pagesCanBeGenerated,
         // ?? Methods
+        setBaseUrl,
+        setTheKeyToGetCollectionOfData,
         nextPage,
         previousPage,
         addFiltersToUrl,
