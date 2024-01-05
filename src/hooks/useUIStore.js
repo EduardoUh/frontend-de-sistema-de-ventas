@@ -1,30 +1,30 @@
 import { useSelector, useDispatch } from 'react-redux';
-import { onSwitchNavbarState, onOpenModal, onCloseModal } from '../store/ui/uISlice';
+import { onSwitchNavbarState, onOpenUpdateModal, onCloseUpdateModal } from '../store/ui/uISlice';
 
 
 export const useUIStore = () => {
-    const { showNavbar, modalIsOpen } = useSelector(state => state.uI);
+    const { showNavbar, updateModalIsOpen } = useSelector(state => state.uI);
     const dispatch = useDispatch();
 
     const startSwitchNavbarState = () => {
         dispatch(onSwitchNavbarState());
     }
 
-    const startOpenModal = () => {
-        dispatch(onOpenModal());
+    const startOpenUpdateModal = () => {
+        dispatch(onOpenUpdateModal());
     }
 
-    const startCloseModal = () => {
-        dispatch(onCloseModal());
+    const startCloseUpdateModal = () => {
+        dispatch(onCloseUpdateModal());
     }
 
     return {
         // ? properties
         showNavbar,
-        modalIsOpen,
+        updateModalIsOpen,
         // ? methods
         startSwitchNavbarState,
-        startOpenModal,
-        startCloseModal,
+        startOpenUpdateModal,
+        startCloseUpdateModal,
     }
 }

@@ -5,19 +5,19 @@ export const uISlice = createSlice({
     name: 'uI',
     initialState: {
         showNavbar: true,
-        modalIsOpen: false,
+        updateModalIsOpen: false,
     },
     reducers: {
         onSwitchNavbarState: (state) => {
             state.showNavbar = !state.showNavbar;
         },
-        onOpenModal: (state) => {
-            state.modalIsOpen = true;
+        onOpenUpdateModal: (state) => {
+            state.updateModalIsOpen = true;
         },
-        onCloseModal: (state) => {
-            state.modalIsOpen = false;
+        onCloseUpdateModal: (state) => {
+            state.updateModalIsOpen = false;
         },
     }
 });
 
-export const { onSwitchNavbarState, onOpenModal, onCloseModal } = uISlice.actions;
+export const { onSwitchNavbarState, onOpenUpdateModal, onCloseUpdateModal } = uISlice.actions;
