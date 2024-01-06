@@ -1,32 +1,39 @@
 import { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { setPage, setUrl, setKeyToGetCollectionOfData, onSetRecords, onClearRecords, selectRecord, clearRecord, clearError, setError, setErrors, clearErrors, setIsLoading, clearIsLoading, onSetUpdatedRecord, setSuccessMessage, clearSuccessMessage } from '../store/records/paginationSlice';
+import { setPage, setUrl, setKeyToGetCollectionOfData, onSetRecords, onClearRecords, selectRecord, clearRecord, clearError, setError, setErrors, clearErrors, setIsLoading, clearIsLoading, setIsFilteringBySameFilters, clearIsFilteringBySameFilters, onSetUpdatedRecord, setSuccessMessage, clearSuccessMessage } from '../store/records/paginationSlice';
 import { api } from '../api/api';
 
 
-export const usePaginationStore = () => {
-    // ?? Store State
-    const { page, url, keyToGetCollectionOfData, records, selectedRecord, sucessMessage, error, errors, isLoading, pagesCanBeGenerated } = useSelector(state => state.pagination);
+export const usePaginationStoreHooks = () => {
+    const { url, keyToGetCollectionOfData, isFilteringBySameFilters, page, startSettingRecords } = usePaginationStore();
     const dispatch = useDispatch();
 
     useEffect(() => {
-        if (url && keyToGetCollectionOfData) {
-            startSettingRecords(url);
-        }
+        if (url && keyToGetCollectionOfData) startSettingRecords(url);
     }, [url]);
+
+    useEffect(() => {
+        if (isFilteringBySameFilters) startSettingRecords(url);
+    }, [isFilteringBySameFilters]);
 
     useEffect(() => {
         if (url) {
             dispatch(setUrl(`${url.split('page=')[0]}page=${page}`));
         }
     }, [page]);
+}
+
+export const usePaginationStore = () => {
+    // ?? Store State
+    const { page, url, keyToGetCollectionOfData, records, selectedRecord, sucessMessage, error, errors, isLoading, isFilteringBySameFilters, pagesCanBeGenerated } = useSelector(state => state.pagination);
+    const dispatch = useDispatch();
 
     const setBaseUrl = baseUrl => {
         dispatch(setUrl(`${baseUrl.trim()}?page=${page}`));
     }
 
-    const setTheKeyToGetCollectionOfData = keyToGetCollectionOfData => {
-        dispatch(setKeyToGetCollectionOfData(keyToGetCollectionOfData));
+    const setTheKeyToGetCollectionOfData = (key = '') => {
+        dispatch(setKeyToGetCollectionOfData(key));
     }
 
     const nextPage = () => {
@@ -58,9 +65,18 @@ export const usePaginationStore = () => {
             newUrl += `${key}=${encodeURIComponent(filters[key].trim())}&`;
         }
 
-        dispatch(setUrl(emptyFilters === Object.keys(filters).length ? `${newUrl}page=${page}` : `${newUrl}page=1`));
+        if (url.split('page=')[0] !== newUrl) {
+            dispatch(setUrl(emptyFilters === Object.keys(filters).length ? `${newUrl}page=${page}` : `${newUrl}page=1`));
 
-        dispatch(setPage(emptyFilters === Object.keys(filters).length ? page : 1));
+            dispatch(setPage(emptyFilters === Object.keys(filters).length ? page : 1));
+        }
+        else {
+            dispatch(setIsFilteringBySameFilters(true));
+
+            setTimeout(() => {
+                dispatch(clearIsFilteringBySameFilters(false));
+            }, 500);
+        }
     }
 
     // ?? Using store
@@ -131,12 +147,15 @@ export const usePaginationStore = () => {
 
     return {
         // ?? Properties
+        url,
+        keyToGetCollectionOfData,
         records,
         selectedRecord,
         sucessMessage,
         error,
         errors,
         isLoading,
+        isFilteringBySameFilters,
         page,
         pagesCanBeGenerated,
         // ?? Methods
@@ -145,6 +164,7 @@ export const usePaginationStore = () => {
         nextPage,
         previousPage,
         addFiltersToUrl,
+        startSettingRecords,
         startSelectingRecord,
         startCleaningRecord,
         startUpdatingRecord,
