@@ -18,6 +18,7 @@ const initialStateForm = {
         errors: null,
     },
     isLoading: false,
+    isFilteringBySameFilters: false,
 }
 
 export const paginationSlice = createSlice({
@@ -53,6 +54,12 @@ export const paginationSlice = createSlice({
         clearIsLoading: (state) => {
             state.isLoading = false;
         },
+        setIsFilteringBySameFilters: (state) => {
+            state.isFilteringBySameFilters = true;
+        },
+        clearIsFilteringBySameFilters: (state) => {
+            state.isFilteringBySameFilters = false;
+        },
         setError: (state, { payload }) => {
             state.error.hasError = true;
             state.error.errorMessage = payload;
@@ -81,4 +88,4 @@ export const paginationSlice = createSlice({
     }
 });
 
-export const { setPage, setUrl, setKeyToGetCollectionOfData, onSetRecords, onClearRecords, selectRecord, clearRecord, setIsLoading, clearIsLoading, onSetUpdatedRecord, setError, clearError, setErrors, clearErrors, setSuccessMessage, clearSuccessMessage } = paginationSlice.actions;
+export const { setPage, setUrl, setKeyToGetCollectionOfData, onSetRecords, onClearRecords, selectRecord, clearRecord, setIsLoading, clearIsLoading, setIsFilteringBySameFilters, clearIsFilteringBySameFilters, onSetUpdatedRecord, setError, clearError, setErrors, clearErrors, setSuccessMessage, clearSuccessMessage } = paginationSlice.actions;
