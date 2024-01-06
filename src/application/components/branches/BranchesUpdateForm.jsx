@@ -1,13 +1,23 @@
-import { useForm, usePaginationStore, useUIStore } from "../../../hooks"
-import { InputComponent, Message } from "../../../utilities"
-import { Modal } from "../../ui"
+import { useForm, usePaginationStore, useUIStore } from '../../../hooks';
+import { InputComponent, Message } from '../../../utilities';
+import { Modal } from '../../ui';
+import { emailValidator, stringValuesValidation, booleanValuesValidation } from '../../../helpers';
 
 
 const updateForm = {
     nombre: '',
     ciudad: '',
+    direccion: '',
     email: '',
     activa: '',
+}
+
+const updateFormValidations = {
+    nombre: [stringValuesValidation, 'El campo nombre es inválido'],
+    ciudad: [stringValuesValidation, 'El campo ciudad es inválido'],
+    direccion: [stringValuesValidation, 'El campo dirección en inválido'],
+    email: [emailValidator, 'El campo email es inválido'],
+    activa: [booleanValuesValidation, 'El campo status es inválido'],
 }
 
 const selectOptions = [
@@ -21,8 +31,12 @@ const selectOptions = [
     }
 ]
 
-const handleSubmitUpdateForm = (event, updateFn, url, payload) => {
+const handleSubmitUpdateForm = (event, updateFn, url, payload, isFormValid, setFormSubmitted) => {
     event.preventDefault();
+
+    setFormSubmitted(true);
+
+    if (!isFormValid) return;
 
     payload.activa = payload.activa === 'true';
 
@@ -31,15 +45,20 @@ const handleSubmitUpdateForm = (event, updateFn, url, payload) => {
     updateFn(url, payload, 'sucursal');
 }
 
-const handleCloseModalAndClearSelectedRecord = (startCloseUpdateModal, startCleaningRecord) => {
+const handleCloseModalAndClearSelectedRecord = (startCloseUpdateModal, startCleaningRecord, handleResetForm, setFormSubmitted) => {
     startCloseUpdateModal();
     startCleaningRecord();
+    handleResetForm();
+    setFormSubmitted(false);
 }
 
 export const BranchesUpdateForm = ({ baseUrl }) => {
     const { selectedRecord, errors, error, sucessMessage, isLoading, startUpdatingRecord, startCleaningRecord } = usePaginationStore();
     const { updateModalIsOpen, startCloseUpdateModal } = useUIStore();
-    const { nombre, ciudad, email, activa, direccion, formState, handleInputChange, isFormSubmitted, setFormSubmitted, handleResetForm } = useForm(selectedRecord ? selectedRecord : updateForm);
+    const {
+        nombre, ciudad, email, activa, direccion, formState, nombreValid, ciudadValid, emailValid, activaValid, direccionValid,
+        handleInputChange, isFormSubmitted, isFormValid, setFormSubmitted, handleResetForm
+    } = useForm(selectedRecord ? selectedRecord : updateForm, updateFormValidations);
 
     return (
         <Modal showModal={updateModalIsOpen}>
@@ -60,7 +79,7 @@ export const BranchesUpdateForm = ({ baseUrl }) => {
                         sucessMessage && <div className="flex justify-center items-center"><Message message={sucessMessage} severity='success' /></div>
                     }
                     <form
-                        onSubmit={event => handleSubmitUpdateForm(event, startUpdatingRecord, baseUrl, formState)}
+                        onSubmit={event => handleSubmitUpdateForm(event, startUpdatingRecord, baseUrl, {...formState}, isFormValid, setFormSubmitted)}
                         className='space-y-3'
                     >
                         <InputComponent
@@ -70,9 +89,9 @@ export const BranchesUpdateForm = ({ baseUrl }) => {
                             labelText='Nombre'
                             value={nombre}
                             severity='error'
-                            hasError={false}
+                            hasError={!!nombreValid && isFormSubmitted}
                             handleChange={handleInputChange}
-                            errorMessage='Nombre es inválido'
+                            errorMessage={nombreValid}
                             placeholder='Nombre'
                         />
                         <InputComponent
@@ -82,9 +101,9 @@ export const BranchesUpdateForm = ({ baseUrl }) => {
                             labelText='Ciudad'
                             value={ciudad}
                             severity='error'
-                            hasError={false}
+                            hasError={!!ciudadValid && isFormSubmitted}
                             handleChange={handleInputChange}
-                            errorMessage='Ciudad es inválida'
+                            errorMessage={ciudadValid}
                             placeholder='Ciudad'
                         />
                         <InputComponent
@@ -94,9 +113,9 @@ export const BranchesUpdateForm = ({ baseUrl }) => {
                             labelText='Dirección'
                             value={direccion}
                             severity='error'
-                            hasError={false}
+                            hasError={!!direccionValid && isFormSubmitted}
                             handleChange={handleInputChange}
-                            errorMessage='Dirección es inválida'
+                            errorMessage={direccionValid}
                             placeholder='Dirección'
                         />
                         <InputComponent
@@ -106,9 +125,9 @@ export const BranchesUpdateForm = ({ baseUrl }) => {
                             labelText='Email'
                             value={email}
                             severity='error'
-                            hasError={false}
+                            hasError={!!emailValid && isFormSubmitted}
                             handleChange={handleInputChange}
-                            errorMessage='Email es inválido'
+                            errorMessage={emailValid}
                             placeholder='Email'
                         />
                         <InputComponent
@@ -118,9 +137,9 @@ export const BranchesUpdateForm = ({ baseUrl }) => {
                             labelText='Estatus'
                             value={activa}
                             severity='error'
-                            hasError={false}
+                            hasError={!!activaValid && isFormSubmitted}
                             handleChange={handleInputChange}
-                            errorMessage='Estatus inválido'
+                            errorMessage={activaValid}
                             selectOptions={selectOptions}
                         />
                         <div className="flex flex-col space-y-2 sm:flex-row sm:justify-between sm:space-y-0">
@@ -135,7 +154,7 @@ export const BranchesUpdateForm = ({ baseUrl }) => {
                                 type="button"
                                 disabled={isLoading}
                                 className={`w-full sm:w-1/3 rounded bg-red-600 text-white font-bold p-2  hover:bg-red-800 focus:bg-red-400`}
-                                onClick={() => handleCloseModalAndClearSelectedRecord(startCloseUpdateModal, startCleaningRecord)}
+                                onClick={() => handleCloseModalAndClearSelectedRecord(startCloseUpdateModal, startCleaningRecord, handleResetForm, setFormSubmitted)}
                             >
                                 Cerrar
                             </button>

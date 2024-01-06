@@ -1,8 +1,7 @@
 import { useEffect } from 'react';
-import { useForm, usePaginationStore, useUIStore } from '../../hooks';
+import { useForm, usePaginationStore, usePaginationStoreHooks } from '../../hooks';
 import { BranchesPagination, BranchesUpdateForm } from '../components/branches';
-import { InputComponent, Message } from '../../utilities';
-import { PaginationContainer, CardsContainer, Card, DataContainer, Button, Modal } from '../ui';
+import { InputComponent } from '../../utilities';
 
 
 const filtersForm = {
@@ -25,6 +24,7 @@ const selectOptions = [
 ]
 
 const baseUrl = '/sucursales';
+
 const keyToGetCollectionOfData = 'sucursales';
 
 const handleSumbitFiltersForm = (event, addFiltersFn, url, params) => {
@@ -37,17 +37,17 @@ const handleSumbitFiltersForm = (event, addFiltersFn, url, params) => {
 // TODO: take the select logic off the InputComponent and refactor it to accept pagination if there is a next page, then implement it in the InputComponent
 
 export const Branches = ({ permissions }) => {
-    const {
-        records, isLoading, error, page, pagesCanBeGenerated, setBaseUrl, setTheKeyToGetCollectionOfData, nextPage, previousPage, addFiltersToUrl,
-        errors, selectedRecord, sucessMessage, startSelectingRecord, startCleaningRecord, startUpdatingRecord,
-    } = usePaginationStore();
-
-    const { nombre, ciudad, email, activa, creador, formState, handleInputChange, isFormSubmitted, setFormSubmitted, handleResetForm } = useForm(filtersForm);
+    usePaginationStoreHooks();
 
     useEffect(() => {
         setBaseUrl(baseUrl);
         setTheKeyToGetCollectionOfData(keyToGetCollectionOfData);
-    }, [baseUrl]);
+    }, []);
+
+    const { setBaseUrl, setTheKeyToGetCollectionOfData, addFiltersToUrl } = usePaginationStore();
+
+    const { nombre, ciudad, email, activa, creador, formState, handleInputChange, isFormSubmitted, setFormSubmitted, handleResetForm } = useForm(filtersForm);
+
 
     if (!permissions || !Array.isArray(permissions) || Array.isArray(permissions) && permissions.length === 0) return (<div>Sin credenciales en &eacute;ste m&oacute;dulo</div>)
 
@@ -124,7 +124,7 @@ export const Branches = ({ permissions }) => {
                     </>
                 )
             }
-            <BranchesUpdateForm baseUrl={baseUrl}/>
+            <BranchesUpdateForm baseUrl={baseUrl} />
         </div >
     )
 }
