@@ -36,7 +36,7 @@ const handleSumbitFiltersForm = (event, addFiltersFn, url, params) => {
 // Permissions in this module -> CREAR - VER -ACTUALIZAR
 // TODO: take the select logic off the InputComponent and refactor it to accept pagination if there is a next page, then implement it in the InputComponent
 
-export const Branches = ({ permissions }) => {
+export const Branches = ({ permissions, name }) => {
     usePaginationStoreHooks();
 
     useEffect(() => {
@@ -55,7 +55,7 @@ export const Branches = ({ permissions }) => {
 
     return (
         <div className="space-y-3">
-            <h2 className="text-center font-bold text-lg">Sucursales</h2>
+            <h2 className="text-center font-bold text-lg">{name}</h2>
             {
                 permissions.find(permission => permission === 'CREAR') &&
                 (

@@ -19,7 +19,7 @@ export const ApplicationRoutes = () => {
                         <Route path="*" element={<Navigate to="/sucursales" />} /> {/* //TODO: change the default route */}
                         {
                             modulesComponentsCollection.map((Component, index) => (
-                                < Route key={modulesCollection[index]?.nombre} path={modulesCollection[index]?.ruta} element={<Component permissions={modulesCollection[index]?.permisos} />} />
+                                < Route key={modulesCollection[index]?.nombre} path={modulesCollection[index]?.ruta} element={<Component permissions={modulesCollection[index]?.permisos} name={modulesCollection[index]?.nombre}/>} />
                             ))
                         }
                     </Routes>
