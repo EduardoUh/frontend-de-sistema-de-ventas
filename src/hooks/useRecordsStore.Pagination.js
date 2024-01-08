@@ -1,11 +1,11 @@
 import { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { setPage, setUrl, setKeyToGetCollectionOfData, onSetRecords, onClearRecords, selectRecord, clearRecord, clearError, setError, setErrors, clearErrors, setIsLoading, clearIsLoading, setIsFilteringBySameFilters, clearIsFilteringBySameFilters, onSetUpdatedRecord, setSuccessMessage, clearSuccessMessage } from '../store/records/paginationSlice';
+import { setPage, setUrl, setKeyToGetCollectionOfData, onSetRecords, onClearRecords, clearError, setError, setIsLoading, clearIsLoading, setIsFilteringBySameFilters, clearIsFilteringBySameFilters, } from '../store/records/recordsSlice';
 import { api } from '../api/api';
 
 
-export const usePaginationStoreHooks = () => {
-    const { url, keyToGetCollectionOfData, isFilteringBySameFilters, page, startSettingRecords } = usePaginationStore();
+export const useRecordsStorePaginationHooks = () => {
+    const { url, keyToGetCollectionOfData, isFilteringBySameFilters, page, startSettingRecords } = useRecordsStorePagination();
     const dispatch = useDispatch();
 
     useEffect(() => {
@@ -23,9 +23,9 @@ export const usePaginationStoreHooks = () => {
     }, [page]);
 }
 
-export const usePaginationStore = () => {
+export const useRecordsStorePagination = () => {
     // ?? Store State
-    const { page, url, keyToGetCollectionOfData, records, selectedRecord, sucessMessage, error, errors, isLoading, isFilteringBySameFilters, pagesCanBeGenerated } = useSelector(state => state.pagination);
+    const { page, url, keyToGetCollectionOfData, records, sucessMessage, error, errors, isLoading, isFilteringBySameFilters, pagesCanBeGenerated } = useSelector(state => state.records);
     const dispatch = useDispatch();
 
     const setBaseUrl = baseUrl => {
@@ -100,57 +100,11 @@ export const usePaginationStore = () => {
         }
     }
 
-    const startSelectingRecord = (record = null) => {
-        if (record === null || Object.keys(record).length === 0) return;
-
-        dispatch(selectRecord(record));
-    }
-
-    const startCleaningRecord = () => {
-        dispatch(clearRecord());
-    }
-
-    const startUpdatingRecord = async (url = null, payload = null, keyToGetData = '') => {
-        if (url === null || typeof url !== 'string' || payload === null || Object.keys(payload).length === 0) return;
-        dispatch(clearError());
-        dispatch(setIsLoading());
-
-        try {
-            const { data } = await api.put(`${url}/${selectedRecord.id}`, payload);
-
-            dispatch(onSetUpdatedRecord(data[keyToGetData]));
-
-            dispatch(setSuccessMessage(data.message));
-
-            setTimeout(() => {
-                dispatch(clearSuccessMessage());
-            }, 10000);
-
-        } catch (error) {
-            if (error.response.data.message) {
-                dispatch(setError(error.response.data.message));
-            }
-
-            if (error.response.data.errors) {
-                dispatch(setErrors({ ...error.response.data.errors }));
-            }
-
-            setTimeout(() => {
-                dispatch(clearError());
-                dispatch(clearErrors());
-            }, 4000);
-        }
-        finally {
-            dispatch(clearIsLoading());
-        }
-    }
-
     return {
         // ?? Properties
         url,
         keyToGetCollectionOfData,
         records,
-        selectedRecord,
         sucessMessage,
         error,
         errors,
@@ -165,8 +119,5 @@ export const usePaginationStore = () => {
         previousPage,
         addFiltersToUrl,
         startSettingRecords,
-        startSelectingRecord,
-        startCleaningRecord,
-        startUpdatingRecord,
     }
 }

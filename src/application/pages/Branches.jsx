@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
-import { useForm, usePaginationStore, usePaginationStoreHooks } from '../../hooks';
-import { BranchesPagination, BranchesUpdateForm } from '../components/branches';
+import { useForm, useRecordsStorePaginationHooks, useRecordsStorePagination } from '../../hooks';
+import { BranchesPagination, BranchesUpdateForm, BranchesCreateButton, BranchesCreateForm } from '../components/branches';
 import { InputComponent } from '../../utilities';
 
 
@@ -37,14 +37,14 @@ const handleSumbitFiltersForm = (event, addFiltersFn, url, params) => {
 // TODO: take the select logic off the InputComponent and refactor it to accept pagination if there is a next page, then implement it in the InputComponent
 
 export const Branches = ({ permissions, name }) => {
-    usePaginationStoreHooks();
+    useRecordsStorePaginationHooks();
 
     useEffect(() => {
         setBaseUrl(baseUrl);
         setTheKeyToGetCollectionOfData(keyToGetCollectionOfData);
     }, []);
 
-    const { setBaseUrl, setTheKeyToGetCollectionOfData, addFiltersToUrl } = usePaginationStore();
+    const { setBaseUrl, setTheKeyToGetCollectionOfData, addFiltersToUrl } = useRecordsStorePagination();
 
     const { nombre, ciudad, email, activa, creador, formState, handleInputChange, isFormSubmitted, setFormSubmitted, handleResetForm } = useForm(filtersForm);
 
@@ -59,11 +59,7 @@ export const Branches = ({ permissions, name }) => {
             {
                 permissions.find(permission => permission === 'CREAR') &&
                 (
-                    <div className="p-2">
-                        <button className="rounded-3xl px-3 py-1 bg-gradient-to-br from-blue-500  to-purple-300 text-white font-bold text-3xl flex justify-center items-center transition hover:scale-110 hover:bg-indigo-700">
-                            +
-                        </button>
-                    </div>
+                    <BranchesCreateButton />
                 )
             }
             {
@@ -125,6 +121,7 @@ export const Branches = ({ permissions, name }) => {
                 )
             }
             <BranchesUpdateForm baseUrl={baseUrl} />
+            <BranchesCreateForm baseUrl={baseUrl} />
         </div >
     )
 }
