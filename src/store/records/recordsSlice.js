@@ -21,8 +21,8 @@ const initialStateForm = {
     isFilteringBySameFilters: false,
 }
 
-export const paginationSlice = createSlice({
-    name: 'pagination',
+export const recordsSlice = createSlice({
+    name: 'records',
     initialState: initialStateForm,
     reducers: {
         setPage: (state, { payload }) => {
@@ -79,6 +79,9 @@ export const paginationSlice = createSlice({
         onSetUpdatedRecord: (state, { payload }) => {
             state.records = state.records.map(record => record.id === payload.id ? payload : record);
         },
+        onSetCreatedRecord: (state, { payload }) => {
+            state.records = [...state.records, payload];
+        },
         setSuccessMessage: (state, { payload }) => {
             state.sucessMessage = payload;
         },
@@ -88,4 +91,4 @@ export const paginationSlice = createSlice({
     }
 });
 
-export const { setPage, setUrl, setKeyToGetCollectionOfData, onSetRecords, onClearRecords, selectRecord, clearRecord, setIsLoading, clearIsLoading, setIsFilteringBySameFilters, clearIsFilteringBySameFilters, onSetUpdatedRecord, setError, clearError, setErrors, clearErrors, setSuccessMessage, clearSuccessMessage } = paginationSlice.actions;
+export const { setPage, setUrl, setKeyToGetCollectionOfData, onSetRecords, onClearRecords, selectRecord, clearRecord, setIsLoading, clearIsLoading, setIsFilteringBySameFilters, clearIsFilteringBySameFilters, onSetUpdatedRecord, onSetCreatedRecord, setError, clearError, setErrors, clearErrors, setSuccessMessage, clearSuccessMessage } = recordsSlice.actions;
