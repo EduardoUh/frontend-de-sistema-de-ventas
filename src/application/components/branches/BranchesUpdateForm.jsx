@@ -1,4 +1,4 @@
-import { useForm, usePaginationStore, useUIStore } from '../../../hooks';
+import { useForm, useRecordsStoreUpdate, useUIStore } from '../../../hooks';
 import { InputComponent, Message } from '../../../utilities';
 import { Modal } from '../../ui';
 import { emailValidator, stringValuesValidation, booleanValuesValidation } from '../../../helpers';
@@ -53,7 +53,7 @@ const handleCloseModalAndClearSelectedRecord = (startCloseUpdateModal, startClea
 }
 
 export const BranchesUpdateForm = ({ baseUrl }) => {
-    const { selectedRecord, errors, error, sucessMessage, isLoading, startUpdatingRecord, startCleaningRecord } = usePaginationStore();
+    const { selectedRecord, errors, error, sucessMessage, isLoading, startUpdatingRecord, startCleaningRecord } = useRecordsStoreUpdate();
     const { updateModalIsOpen, startCloseUpdateModal } = useUIStore();
     const {
         nombre, ciudad, email, activa, direccion, formState, nombreValid, ciudadValid, emailValid, activaValid, direccionValid,
@@ -79,7 +79,7 @@ export const BranchesUpdateForm = ({ baseUrl }) => {
                         sucessMessage && <div className="flex justify-center items-center"><Message message={sucessMessage} severity='success' /></div>
                     }
                     <form
-                        onSubmit={event => handleSubmitUpdateForm(event, startUpdatingRecord, baseUrl, {...formState}, isFormValid, setFormSubmitted)}
+                        onSubmit={event => handleSubmitUpdateForm(event, startUpdatingRecord, baseUrl, { ...formState }, isFormValid, setFormSubmitted)}
                         className='space-y-3'
                     >
                         <InputComponent

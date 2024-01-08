@@ -1,4 +1,4 @@
-import { usePaginationStore, useUIStore } from "../../../hooks"
+import { usePaginationStore, useUIStore, useRecordsStoreUpdate } from "../../../hooks"
 import { Button, Card, CardsContainer, DataContainer, PaginationContainer } from "../../ui"
 
 const handleOpenModalAndStartSelectingRecord = (startOpenUpdateModal, startSelectingRecord, record) => {
@@ -7,8 +7,10 @@ const handleOpenModalAndStartSelectingRecord = (startOpenUpdateModal, startSelec
 }
 
 export const BranchesPagination = ({ permissions }) => {
-    const { records, isLoading, error, page, pagesCanBeGenerated, nextPage, previousPage, startSelectingRecord } = usePaginationStore();
+    const { records, isLoading, error, page, pagesCanBeGenerated, nextPage, previousPage } = usePaginationStore();
     const { startOpenUpdateModal } = useUIStore();
+    const { startSelectingRecord } = useRecordsStoreUpdate();
+
     return (
         <PaginationContainer data={records} isLoading={isLoading} error={error} page={page} pagesCanBeGenerated={pagesCanBeGenerated} nextPage={nextPage} previousPage={previousPage}>
             <CardsContainer>
