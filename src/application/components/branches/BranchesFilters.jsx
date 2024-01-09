@@ -1,5 +1,6 @@
 import { useForm, useRecordsStorePagination } from '../../../hooks';
 import { InputComponent } from '../../../utilities';
+import { Button, PaginatedSelect } from '../../ui';
 
 
 const filtersForm = {
@@ -37,8 +38,8 @@ export const BranchesFilters = ({ baseUrl }) => {
     if (!baseUrl || typeof baseUrl !== 'string') return (<div>baseUrl prop is required</div>);
 
     return (
-        <div className="border">
-            <form className="border border-black" onSubmit={(e) => handleSumbitFiltersForm(e, addFiltersToUrl, baseUrl, { ...formState })}>
+        <div className="border rounded-md shadow-md p-3">
+            <form className="space-y-3" onSubmit={(e) => handleSumbitFiltersForm(e, addFiltersToUrl, baseUrl, { ...formState })}>
                 <div className="flex flex-col items-center sm:flex-row sm:justify-around sm:flex-wrap">
                     <InputComponent
                         inputId='nombre'
@@ -48,7 +49,7 @@ export const BranchesFilters = ({ baseUrl }) => {
                         labelText='Filtrar por nombre'
                         handleChange={handleInputChange}
                         value={nombre}
-                        containerStyle='border border-red-400 w-[80%] sm:w-[30%]'
+                        containerStyle='w-[80%] sm:w-[30%]'
                     />
                     <InputComponent
                         inputId='ciudad'
@@ -58,7 +59,7 @@ export const BranchesFilters = ({ baseUrl }) => {
                         labelText='Filtrar por ciudad'
                         handleChange={handleInputChange}
                         value={ciudad}
-                        containerStyle='border border-red-400 w-[80%] sm:w-[30%]'
+                        containerStyle='w-[80%] sm:w-[30%]'
                     />
                     <InputComponent
                         inputId='email'
@@ -68,7 +69,7 @@ export const BranchesFilters = ({ baseUrl }) => {
                         labelText='Filtrar por email'
                         handleChange={handleInputChange}
                         value={email}
-                        containerStyle='border border-red-400 w-[80%] sm:w-[30%]'
+                        containerStyle='w-[80%] sm:w-[30%]'
                     />
                     <InputComponent
                         inputId='activa'
@@ -78,12 +79,24 @@ export const BranchesFilters = ({ baseUrl }) => {
                         handleChange={handleInputChange}
                         value={activa}
                         selectOptions={selectOptions}
-                        containerStyle='border border-red-400 w-[80%] sm:w-[30%]'
+                        containerStyle='w-[80%] sm:w-[30%]'
+                    />
+                    <PaginatedSelect
+                        baseUrl='/usuarios'
+                        inputId='creador'
+                        inputName='creador'
+                        labelText='Filtrar por creador'
+                        value={creador}
+                        handleChange={handleInputChange}
+                        keyToGetSelectValue='id'
+                        keyToGetSelectText='nombres'
+                        keyToGetData='usuarios'
+                        containerStyle='w-[80%] sm:w-[30%]'
                     />
                 </div>
-                <button className="bg-indigo-500 font-bold text-white" type="submit">
-                    Filtrar
-                </button>
+                <div className="flex justify-center">
+                    <Button text='Filtrar' type='submit' buttonSyles='w-[80%] sm:w-[30%]' />
+                </div>
             </form>
         </div>
     )
