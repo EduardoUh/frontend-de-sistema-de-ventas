@@ -2,7 +2,7 @@ import { useUIStore } from '../../../hooks';
 
 
 export const BranchesCreateButton = () => {
-    const { createModalIsOpen, startOpenCreateModal } = useUIStore();
+    const { startOpenCreateModal } = useUIStore();
 
     return (
         <div className="p-2">
