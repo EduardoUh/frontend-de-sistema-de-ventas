@@ -10,12 +10,15 @@ export const useRecordsStoreCreate = () => {
     const { isLoading, errors, error, sucessMessage } = useSelector(state => state.records);
     const dispatch = useDispatch();
 
-    const startCreatingRecord = async (url = null, payload = null, keyToGetData) => {
-        if (!url || typeof url !== 'string' || Array.isArray(payload) || !Object.keys(payload).length === 0) return;
-
+    const clearMessages = () => {
         dispatch(clearErrors());
         dispatch(clearError());
         dispatch(clearSuccessMessage());
+    }
+
+    const startCreatingRecord = async (url = null, payload = null, keyToGetData) => {
+        if (!url || typeof url !== 'string' || Array.isArray(payload) || !Object.keys(payload).length === 0) return;
+        clearMessages();
         dispatch(setIsLoading());
 
         try {
@@ -25,7 +28,7 @@ export const useRecordsStoreCreate = () => {
 
             dispatch(setSuccessMessage(data.message));
 
-            setTimeout(()=> {
+            setTimeout(() => {
                 dispatch(clearSuccessMessage());
             }, 4000);
 
@@ -51,6 +54,7 @@ export const useRecordsStoreCreate = () => {
         error,
         sucessMessage,
         // ? Methods
+        clearMessages,
         startCreatingRecord,
     }
 }
