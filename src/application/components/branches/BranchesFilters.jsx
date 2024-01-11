@@ -42,7 +42,7 @@ export const BranchesFilters = ({ baseUrl }) => {
             <form className="space-y-3" onSubmit={(e) => handleSumbitFiltersForm(e, addFiltersToUrl, baseUrl, { ...formState })}>
                 <div className="flex flex-col items-center sm:flex-row sm:justify-around sm:flex-wrap">
                     <InputComponent
-                        inputId='nombre'
+                        inputId='nombreFilter'
                         inputName='nombre'
                         inputType='text'
                         placeholder='Nombre de la sucursal'
@@ -52,7 +52,7 @@ export const BranchesFilters = ({ baseUrl }) => {
                         containerStyle='w-[80%] sm:w-[30%]'
                     />
                     <InputComponent
-                        inputId='ciudad'
+                        inputId='ciudadFilter'
                         inputName='ciudad'
                         inputType='text'
                         placeholder='Nombre de la ciudad'
@@ -62,7 +62,7 @@ export const BranchesFilters = ({ baseUrl }) => {
                         containerStyle='w-[80%] sm:w-[30%]'
                     />
                     <InputComponent
-                        inputId='email'
+                        inputId='emailFilter'
                         inputName='email'
                         inputType='text'
                         placeholder='Email'
@@ -72,7 +72,7 @@ export const BranchesFilters = ({ baseUrl }) => {
                         containerStyle='w-[80%] sm:w-[30%]'
                     />
                     <InputComponent
-                        inputId='activa'
+                        inputId='activaFilter'
                         inputName='activa'
                         inputType='select'
                         labelText='Filtrar status'
@@ -83,7 +83,7 @@ export const BranchesFilters = ({ baseUrl }) => {
                     />
                     <PaginatedSelect
                         baseUrl='/usuarios'
-                        inputId='creador'
+                        inputId='creadorFilter'
                         inputName='creador'
                         labelText='Filtrar por creador'
                         value={creador}

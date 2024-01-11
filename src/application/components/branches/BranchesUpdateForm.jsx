@@ -83,7 +83,7 @@ export const BranchesUpdateForm = ({ baseUrl }) => {
                         className='space-y-3'
                     >
                         <InputComponent
-                            inputId='nombre'
+                            inputId='nombreUpdate'
                             inputName='nombre'
                             inputType='text'
                             labelText='Nombre'
@@ -95,7 +95,7 @@ export const BranchesUpdateForm = ({ baseUrl }) => {
                             placeholder='Nombre'
                         />
                         <InputComponent
-                            inputId='ciudad'
+                            inputId='ciudadUpdate'
                             inputName='ciudad'
                             inputType='text'
                             labelText='Ciudad'
@@ -107,7 +107,7 @@ export const BranchesUpdateForm = ({ baseUrl }) => {
                             placeholder='Ciudad'
                         />
                         <InputComponent
-                            inputId='direccion'
+                            inputId='direccionUpdate'
                             inputName='direccion'
                             inputType='text'
                             labelText='Dirección'
@@ -119,7 +119,7 @@ export const BranchesUpdateForm = ({ baseUrl }) => {
                             placeholder='Dirección'
                         />
                         <InputComponent
-                            inputId='email'
+                            inputId='emailUpdate'
                             inputName='email'
                             inputType='email'
                             labelText='Email'
@@ -131,7 +131,7 @@ export const BranchesUpdateForm = ({ baseUrl }) => {
                             placeholder='Email'
                         />
                         <InputComponent
-                            inputId='activa'
+                            inputId='activaUpdate'
                             inputName='activa'
                             inputType='select'
                             labelText='Estatus'
