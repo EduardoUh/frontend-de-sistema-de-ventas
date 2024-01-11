@@ -28,17 +28,14 @@ const handleSumbitFiltersForm = (event, addFiltersToUrl, url, params) => {
     addFiltersToUrl(url, params);
 }
 
-// ? Permissions in this module -> CREAR - VER -ACTUALIZAR
-// TODO: Implement the following filters -> nombre, ciudad, email, activa, creador(id)
-// TODO: take the select logic off the InputComponent and refactor it to accept pagination if there is a next page, then implement it in the InputComponent
 export const BranchesFilters = ({ baseUrl }) => {
     const { addFiltersToUrl } = useRecordsStorePagination();
-    const { nombre, ciudad, email, activa, creador, formState, handleInputChange, isFormSubmitted, setFormSubmitted, handleResetForm } = useForm(filtersForm);
+    const { nombre, ciudad, email, activa, creador, formState, handleInputChange, handleResetForm } = useForm(filtersForm);
 
     if (!baseUrl || typeof baseUrl !== 'string') return (<div>baseUrl prop is required</div>);
 
     return (
-        <div className="border rounded-md shadow-md p-3">
+        <div className="relative border rounded-md shadow-md p-3">
             <form className="space-y-3" onSubmit={(e) => handleSumbitFiltersForm(e, addFiltersToUrl, baseUrl, { ...formState })}>
                 <div className="flex flex-col items-center sm:flex-row sm:justify-around sm:flex-wrap">
                     <InputComponent
@@ -94,8 +91,9 @@ export const BranchesFilters = ({ baseUrl }) => {
                         containerStyle='w-[80%] sm:w-[30%]'
                     />
                 </div>
-                <div className="flex justify-center">
+                <div className="flex flex-col gap-2 sm:flex-row justify-center items-center">
                     <Button text='Filtrar' type='submit' buttonSyles='w-[80%] sm:w-[30%]' />
+                    <Button text='Limpiar filtros' type='button' buttonSyles='w-[80%] sm:w-[30%]' handleClick={handleResetForm} />
                 </div>
             </form>
         </div>

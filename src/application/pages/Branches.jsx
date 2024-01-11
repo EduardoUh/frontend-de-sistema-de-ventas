@@ -19,8 +19,6 @@ export const Branches = ({ permissions, name }) => {
 
     if (!permissions || !Array.isArray(permissions) || Array.isArray(permissions) && permissions.length === 0) return (<div>Sin credenciales en &eacute;ste m&oacute;dulo</div>)
 
-    console.log(1);
-
     return (
         <div className="space-y-3">
             <h2 className="text-center font-bold text-lg">{name}</h2>
