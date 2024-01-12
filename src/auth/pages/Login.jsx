@@ -1,5 +1,5 @@
 import { useAuthStore, useForm } from '../../hooks';
-import { InputComponent, Message } from '../components';
+import { InputComponent, Message } from '../../utilities';
 import { emailValidator, passwordValidation } from '../../helpers';
 
 

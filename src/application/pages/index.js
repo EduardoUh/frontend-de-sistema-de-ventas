@@ -1,5 +1,5 @@
 export * from './Home';
-export * from './Brands';
+export * from './Branches';
 export * from './CreatePurchase';
 export * from './CreateSelling';
 export * from './Customers';
