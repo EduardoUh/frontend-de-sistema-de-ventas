@@ -31,7 +31,7 @@ export const Home = () => {
             <CardsContainer title='Módulos del usuario' headingTag='h4'>
                 {
                     user.modulos.map(modulo => (
-                        <Card key={modulo.nombre} cardStyles='w-full sm:w-[30%] mt-2 flex flex-col justify-center items-center transition duration-500 ease-in-out hover:scale-105'>
+                        <Card key={modulo.nombre} cardStyles='flex flex-col justify-center items-center transition duration-500 ease-in-out hover:scale-105'>
                             <p className="font-semibold text-center">{modulo.nombre}</p>
                             <Link className="hover:text-blue-600" to={modulo.ruta}>ir</Link>
                         </Card>
