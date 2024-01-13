@@ -37,7 +37,7 @@ export const BranchesFilters = ({ baseUrl }) => {
     return (
         <div className="relative border rounded-md shadow-md p-3">
             <form className="space-y-3" onSubmit={(e) => handleSumbitFiltersForm(e, addFiltersToUrl, baseUrl, { ...formState })}>
-                <div className="flex flex-col items-center sm:flex-row sm:justify-around sm:flex-wrap">
+                <div className="flex flex-col items-center md:flex-row sm:justify-around sm:flex-wrap">
                     <InputComponent
                         inputId='nombreFilter'
                         inputName='nombre'
