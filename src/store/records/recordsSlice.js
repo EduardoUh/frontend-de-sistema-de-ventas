@@ -2,6 +2,7 @@ import { createSlice } from '@reduxjs/toolkit';
 
 
 const initialStateForm = {
+    componentName: null,
     page: 1,
     url: null,
     keyToGetCollectionOfData: null,
@@ -25,6 +26,9 @@ export const recordsSlice = createSlice({
     name: 'records',
     initialState: initialStateForm,
     reducers: {
+        setComponentName: (state, { payload }) => {
+            state.componentName = payload;
+        },
         setPage: (state, { payload }) => {
             state.page = payload;
         },
@@ -87,8 +91,28 @@ export const recordsSlice = createSlice({
         },
         clearSuccessMessage: (state) => {
             state.sucessMessage = null;
+        },
+        clearRecordsSlice: (state) => {
+            state.componentName = null;
+            state.page = 1;
+            state.url = null;
+            state.keyToGetCollectionOfData = null;
+            state.records = null;
+            state.pagesCanBeGenerated = null;
+            state.selectedRecord = null;
+            state.sucessMessage = null;
+            state.error = {
+                hasError: false,
+                errorMessage: null,
+            };
+            state.errors = {
+                hasErrors: false,
+                errors: null,
+            };
+            state.isLoading = false;
+            state.isFilteringBySameFilters = false;
         }
     }
 });
 
-export const { setPage, setUrl, setKeyToGetCollectionOfData, onSetRecords, onClearRecords, selectRecord, clearRecord, setIsLoading, clearIsLoading, setIsFilteringBySameFilters, clearIsFilteringBySameFilters, onSetUpdatedRecord, onSetCreatedRecord, setError, clearError, setErrors, clearErrors, setSuccessMessage, clearSuccessMessage } = recordsSlice.actions;
+export const { setComponentName, setPage, setUrl, setKeyToGetCollectionOfData, onSetRecords, onClearRecords, selectRecord, clearRecord, setIsLoading, clearIsLoading, setIsFilteringBySameFilters, clearIsFilteringBySameFilters, onSetUpdatedRecord, onSetCreatedRecord, setError, clearError, setErrors, clearErrors, setSuccessMessage, clearSuccessMessage, clearRecordsSlice } = recordsSlice.actions;
