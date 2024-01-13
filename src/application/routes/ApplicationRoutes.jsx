@@ -14,7 +14,8 @@ export const ApplicationRoutes = () => {
             <Header />
             <main className="w-full h-[calc(100vh-64px)] flex">
                 <NavBar />
-                <section className={`${showNavbar ? "w-6/12 sm:w-10/12" : "w-full"} p-2 overflow-auto`}>
+                {/* w-6/12 */}
+                <section className={`${showNavbar ? "hidden sm:block sm:w-9/12 md:w-10/12" : "w-full"} p-2 overflow-auto`}>
                     <Routes >
                         <Route path="/auth/login" element={<Navigate to="/inicio" />} />
                         <Route path="/" element={<Navigate to="/inicio" />} />
