@@ -8,14 +8,16 @@ const baseUrl = '/sucursales';
 const keyToGetCollectionOfData = 'sucursales';
 
 export const Branches = ({ permissions, name }) => {
-    useRecordsStorePaginationHooks();
+    const { startCleaningRecordsSlice, startSettingComponentName, setBaseUrl, setTheKeyToGetCollectionOfData } = useRecordsStorePagination();
 
     useEffect(() => {
+        startCleaningRecordsSlice();
+        startSettingComponentName(name);
         setBaseUrl(baseUrl);
         setTheKeyToGetCollectionOfData(keyToGetCollectionOfData);
     }, []);
 
-    const { setBaseUrl, setTheKeyToGetCollectionOfData } = useRecordsStorePagination();
+    useRecordsStorePaginationHooks(name);
 
     if (!permissions || !Array.isArray(permissions) || Array.isArray(permissions) && permissions.length === 0) return (<div>Sin credenciales en &eacute;ste m&oacute;dulo</div>)
 
