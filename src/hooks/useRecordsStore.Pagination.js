@@ -1,31 +1,23 @@
 import { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { setPage, setUrl, setKeyToGetCollectionOfData, onSetRecords, onClearRecords, clearError, setError, setIsLoading, clearIsLoading, setIsFilteringBySameFilters, clearIsFilteringBySameFilters, } from '../store/records/recordsSlice';
+import { setComponentName, setPage, setUrl, setKeyToGetCollectionOfData, onSetRecords, onClearRecords, clearError, setError, setIsLoading, clearIsLoading, setIsFilteringBySameFilters, clearIsFilteringBySameFilters, clearRecordsSlice, } from '../store/records/recordsSlice';
 import { api } from '../api/api';
 
 
-export const useRecordsStorePaginationHooks = () => {
-    const { url, keyToGetCollectionOfData, isFilteringBySameFilters, page, startSettingRecords } = useRecordsStorePagination();
-    const dispatch = useDispatch();
+export const useRecordsStorePaginationHooks = (name) => {
+    const { componentName, url, keyToGetCollectionOfData, isFilteringBySameFilters, startSettingRecords } = useRecordsStorePagination();
 
     useEffect(() => {
-        if (url && keyToGetCollectionOfData) startSettingRecords(url);
+        if (url && keyToGetCollectionOfData && name === componentName) startSettingRecords(url);
     }, [url]);
 
     useEffect(() => {
         if (isFilteringBySameFilters) startSettingRecords(url);
     }, [isFilteringBySameFilters]);
-
-    useEffect(() => {
-        if (url) {
-            dispatch(setUrl(`${url.split('page=')[0]}page=${page}`));
-        }
-    }, [page]);
 }
 
 export const useRecordsStorePagination = () => {
-    // ?? Store State
-    const { page, url, keyToGetCollectionOfData, records, sucessMessage, error, errors, isLoading, isFilteringBySameFilters, pagesCanBeGenerated } = useSelector(state => state.records);
+    const { componentName, page, url, keyToGetCollectionOfData, records, sucessMessage, error, errors, isLoading, isFilteringBySameFilters, pagesCanBeGenerated } = useSelector(state => state.records);
     const dispatch = useDispatch();
 
     const setBaseUrl = baseUrl => {
@@ -40,12 +32,16 @@ export const useRecordsStorePagination = () => {
         if (page === pagesCanBeGenerated) return;
 
         dispatch(setPage(page + 1));
+
+        dispatch(setUrl(`${url.split('page=')[0]}page=${page + 1}`));
     }
 
     const previousPage = () => {
         if (page === 1) return;
 
         dispatch(setPage(page - 1));
+        
+        dispatch(setUrl(`${url.split('page=')[0]}page=${page - 1}`));
     }
 
     const addFiltersToUrl = (baseUrl = '', filters = {}) => {
@@ -66,9 +62,9 @@ export const useRecordsStorePagination = () => {
         }
 
         if (url.split('page=')[0] !== newUrl) {
-            dispatch(setUrl(emptyFilters === Object.keys(filters).length ? `${newUrl}page=${page}` : `${newUrl}page=1`));
+            dispatch(setUrl(`${newUrl}page=1`));
 
-            dispatch(setPage(emptyFilters === Object.keys(filters).length ? page : 1));
+            dispatch(setPage(1));
         }
         else {
             dispatch(setIsFilteringBySameFilters(true));
@@ -79,7 +75,6 @@ export const useRecordsStorePagination = () => {
         }
     }
 
-    // ?? Using store
     const startSettingRecords = async (url) => {
         try {
             dispatch(clearError());
@@ -100,8 +95,18 @@ export const useRecordsStorePagination = () => {
         }
     }
 
+    const startSettingComponentName = (name = '') => {
+        if (typeof name !== 'string' || name.length === 0) return;
+        dispatch(setComponentName(name));
+    }
+
+    const startCleaningRecordsSlice = () => {
+        dispatch(clearRecordsSlice());
+    }
+
     return {
         // ?? Properties
+        componentName,
         url,
         keyToGetCollectionOfData,
         records,
@@ -113,11 +118,13 @@ export const useRecordsStorePagination = () => {
         page,
         pagesCanBeGenerated,
         // ?? Methods
+        startSettingComponentName,
         setBaseUrl,
         setTheKeyToGetCollectionOfData,
         nextPage,
         previousPage,
         addFiltersToUrl,
         startSettingRecords,
+        startCleaningRecordsSlice,
     }
 }
