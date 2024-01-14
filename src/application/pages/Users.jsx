@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import { useRecordsStorePaginationHooks, useRecordsStorePagination } from '../../hooks';
-import { Button, Card, CardsContainer, DataContainer, PaginationContainer } from '../ui';
+import { UsersPagination, } from '../components/users';
 
 
 const baseUrl = '/usuarios';
@@ -8,7 +8,7 @@ const baseUrl = '/usuarios';
 const keyToGetCollectionOfData = 'usuarios';
 
 export const Users = ({ permissions, name }) => {
-    const { startCleaningRecordsSlice, startSettingComponentName, setBaseUrl, setTheKeyToGetCollectionOfData, records, error, isLoading, nextPage, page, pagesCanBeGenerated, previousPage } = useRecordsStorePagination();
+    const { startCleaningRecordsSlice, startSettingComponentName, setBaseUrl, setTheKeyToGetCollectionOfData } = useRecordsStorePagination();
 
     useEffect(() => {
         startCleaningRecordsSlice();
@@ -24,17 +24,7 @@ export const Users = ({ permissions, name }) => {
     return (
         <div className='space-y-3'>
             <h2 className='text-center font-bold text-xl'>{name}</h2>
-            <PaginationContainer data={records} error={error} isLoading={isLoading} nextPage={nextPage} page={page} pagesCanBeGenerated={pagesCanBeGenerated} previousPage={previousPage} >
-                <CardsContainer>
-                    {
-                        records?.map(usuario => (
-                            <Card key={usuario.id}>
-                                <DataContainer name='nombres' data={usuario.nombres} />
-                            </Card>
-                        ))
-                    }
-                </CardsContainer>
-            </PaginationContainer >
+            <UsersPagination permissions={permissions} />
         </div>
     )
 }
