@@ -1,5 +1,5 @@
 import { useRecordsStorePaginationHooks } from '../../hooks';
-import { UsersPagination, UsersFilters } from '../components/users';
+import { UsersPagination, UsersFilters, UsersCreateButton, UsersCreateForm } from '../components/users';
 
 
 const baseUrl = '/usuarios';
@@ -15,12 +15,17 @@ export const Users = ({ permissions, name }) => {
         <div className='space-y-3'>
             <h2 className='text-center font-bold text-xl'>{name}</h2>
             {
+                permissions.find(permission => permission === 'CREAR') &&
+                <UsersCreateButton />
+            }
+            {
                 permissions.find(permission => permission === 'VER') &&
                 <>
                     <UsersFilters baseUrl={baseUrl} />
                     <UsersPagination permissions={permissions} />
                 </>
             }
+            <UsersCreateForm baseUrl={baseUrl}/>
         </div>
     )
 }
