@@ -2,6 +2,28 @@ export const emailValidator = (email = '') => /(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?
 
 export const passwordValidation = (password = null) => password && password.trim().length >= 5;
 
-export const stringValuesValidation = (value = null) => value && value.trim().length >= 1;
+export const stringValuesValidation = (value = null) => value && typeof value === 'string' && value.trim() !== '' && !/[<>]/.test(value);
 
 export const booleanValuesValidation = (value = null) => String(value) == 'true' || String(value) == 'false';
+
+export const modulesValidation = (modules = null) => {
+    if (!Array.isArray(modules) || modules.length < 1) return false;
+
+    for (const module of modules) {
+        if (typeof module !== 'object' || Object.keys(module).length !== 4) return false;
+
+        if (!module.nombre || typeof module.nombre !== 'string') return false;
+
+        if (!module.componente || typeof module.componente !== 'string') return false;
+
+        if (!module.ruta || typeof module.ruta !== 'string') return false;
+
+        if (!module.permisos || !Array.isArray(module.permisos) || module.permisos.length < 1) return false;
+
+        for (const permission of module.permisos) {
+            if (typeof permission !== 'string') return false;
+        }
+
+        return true;
+    }
+};
