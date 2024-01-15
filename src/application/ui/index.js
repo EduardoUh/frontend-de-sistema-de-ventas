@@ -10,3 +10,4 @@ export * from './components/Modal';
 export * from './components/PaginatedSelect';
 export * from './components/DisplayModules';
 export * from './components/RoundedAddButton';
+export * from './components/ModulesCheckbox';
