@@ -1,4 +1,3 @@
-import { useEffect } from 'react';
 import { usePagination } from '../../../hooks';
 import { Message } from '../../../utilities';
 import { PaginationBar } from '../';
@@ -17,10 +16,6 @@ const formatDataToBeUsedInPaginatedSelector = (keyToGetSelectValue = '', keyToGe
 
 export const PaginatedSelect = ({ baseUrl, keyToGetData = '', inputId = 'defaultSelectId', inputName = 'defaultSelectName', value = 'defaultSelectValue', handleChange = null, hasError = false, errorMessage = 'Error in the paginated input', severity = 'error', containerStyle = '', labelStyle = '', inputStyle = '', labelText = '', keyToGetSelectValue = '', keyToGetSelectText = '' }) => {
     const { data, page, error, isLoading, nextPage, previousPage } = usePagination(baseUrl);
-
-    useEffect(() => {
-        if (isLoading && handleChange && handleChange instanceof Function) handleChange({ target: { name: inputName, value: '' } });
-    }, [isLoading]);
 
     if (!handleChange || !(handleChange instanceof Function)) return (<Message message='handleChange function is required' severity='error' />);
 
