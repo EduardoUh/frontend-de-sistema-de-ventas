@@ -1,5 +1,5 @@
 export const PaginationBar = ({ pagesCanBeGenerated = null, currentPage = null, nextPage = null, previousPage = null, isLoading = false }) => {
-    if (!pagesCanBeGenerated || !currentPage || !nextPage || !previousPage) return (<div>All parameters are required</div>)
+    if (!/^\d*$/.test(pagesCanBeGenerated) || !/^\d*$/.test(currentPage) || !nextPage || !previousPage) return (<div>All parameters are required</div>)
     return (
         <div className="space-y-3 mt-5">
 
