@@ -10,7 +10,6 @@ const updateFormValidations = {
     apellidoMaterno: [stringValuesValidation, 'El campo apellido materno es inválido'],
     rfc: [stringValuesValidation, 'El campo rfc es inválido'],
     rol: [stringValuesValidation, 'El campo rol es inválido'],
-    sucursal: [stringValuesValidation, 'El campo sucursal es inválido'],
     email: [emailValidator, 'El campo email es inválido'],
     direccion: [stringValuesValidation, 'El campo dirección es inválido'],
     numTelefono: [stringValuesValidation, 'El campo teléfono es inválido'],
@@ -52,7 +51,7 @@ const handleCloseModal = (startCloseUpdateModal, setFormSubmitted, handleResetFo
 
     setFormSubmitted(false);
 }
-// TODO: move form title, and buttons off the div with overflow-auto
+
 export const UsersUpdateForm = ({ baseUrl }) => {
     const { selectedRecord, errors, error, isLoading, sucessMessage, startCleaningRecord, startUpdatingRecord } = useRecordsStoreUpdate();
     const { updateModalIsOpen, startCloseUpdateModal } = useUIStore();
