@@ -16,7 +16,7 @@ export const ModulesCheckbox = ({ values, handleInputChange, hasError, errorMess
                 modulesCollection.map(module =>
                 (
                     <div key={module._id}>
-                        <input type="checkbox" name={module.nombre} id={module._id} value={module.nombre} onChange={() => handleCheckBoxChange(values, handleInputChange, module)} />
+                        <input type="checkbox" name={module.nombre} id={module._id} defaultChecked={values.find(value => value.nombre === module.nombre)} onChange={() => handleCheckBoxChange(values, handleInputChange, module)} />
                         <label htmlFor={module._id}> {module.nombre}</label>
                     </div>
                 ))
