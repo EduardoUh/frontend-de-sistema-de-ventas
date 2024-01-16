@@ -84,7 +84,7 @@ export const UsersFilters = ({ baseUrl }) => {
                         containerStyle='w-[80%] md:w-[30%]'
                     />
                     <PaginatedSelect
-                        baseUrl='roles'
+                        baseUrl='/roles'
                         inputId='rolFilter'
                         inputName='rol'
                         labelText='Filtrar por rol'
