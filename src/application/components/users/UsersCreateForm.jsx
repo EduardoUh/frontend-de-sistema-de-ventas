@@ -61,22 +61,22 @@ export const UsersCreateForm = ({ baseUrl }) => {
 
     return (
         <Modal showModal={createModalIsOpen}>
-            <div className="w-11/12 md:w-3/6 lg:w-2/6 h-5/6 bg-white px-6 py-8 rounded-md shadow-md">
+            <div className="w-11/12 md:w-3/6 lg:w-2/6 h-5/6 bg-white px-6 py-8 rounded-md shadow-md overflow-auto">
+                <h3 className="text-center font-bold text-2xl">Crear Usuario</h3>
+                {
+                    errors.hasErrors
+                        ? Object.keys(errors.errors).map(error => (
+                            <Message key={errors.errors[error].path} message={errors.errors[error].msg} severity='error' />
+                        ))
+                        : <></>
+                }
+                {
+                    error.hasError && !errors.hasErrors && <Message message={error.errorMessage} severity='error' />
+                }
+                {
+                    sucessMessage && <Message message={sucessMessage} severity='success' />
+                }
                 <div className="w-full h-full space-y-3 overflow-auto">
-                    <h3 className="text-center font-bold text-2xl">Crear Usuario</h3>
-                    {
-                        errors.hasErrors
-                            ? Object.keys(errors.errors).map(error => (
-                                <Message key={errors.errors[error].path} message={errors.errors[error].msg} severity='error' />
-                            ))
-                            : <></>
-                    }
-                    {
-                        error.hasError && !errors.hasErrors && <Message message={error.errorMessage} severity='error' />
-                    }
-                    {
-                        sucessMessage && <Message message={sucessMessage} severity='success' />
-                    }
                     <form
                         onSubmit={event => handleSubmitCreateForm(event, startCreatingRecord, baseUrl, { ...formState }, isFormValid, setFormSubmitted)}
                         className='space-y-3'

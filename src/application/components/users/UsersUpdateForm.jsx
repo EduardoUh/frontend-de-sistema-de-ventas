@@ -52,7 +52,7 @@ const handleCloseModal = (startCloseUpdateModal, setFormSubmitted, handleResetFo
 
     setFormSubmitted(false);
 }
-
+// TODO: move form title, and buttons off the div with overflow-auto
 export const UsersUpdateForm = ({ baseUrl }) => {
     const { selectedRecord, errors, error, isLoading, sucessMessage, startCleaningRecord, startUpdatingRecord } = useRecordsStoreUpdate();
     const { updateModalIsOpen, startCloseUpdateModal } = useUIStore();
@@ -64,22 +64,22 @@ export const UsersUpdateForm = ({ baseUrl }) => {
 
     return (
         <Modal showModal={updateModalIsOpen}>
-            <div className="w-11/12 md:w-3/6 lg:w-2/6 h-5/6 bg-white px-6 py-8 rounded-md shadow-md">
-                <div className="w-full h-full space-y-3 overflow-auto">
-                    <h3 className="text-center font-bold text-2xl">Actualizar Usuario</h3>
-                    {
-                        errors.hasErrors
-                            ? Object.keys(errors.errors).map(error => (
-                                <Message key={errors.errors[error].path} message={errors.errors[error].msg} severity='error' />
-                            ))
-                            : <></>
-                    }
-                    {
-                        error.hasError && !errors.hasErrors && <Message message={error.errorMessage} severity='error' />
-                    }
-                    {
-                        sucessMessage && <Message message={sucessMessage} severity='success' />
-                    }
+            <div className="w-11/12 md:w-3/6 lg:w-2/6 h-5/6 bg-white px-6 py-8 rounded-md shadow-md overflow-auto">
+                <h3 className="text-center font-bold text-2xl">Actualizar Usuario</h3>
+                {
+                    errors.hasErrors
+                        ? Object.keys(errors.errors).map(error => (
+                            <Message key={errors.errors[error].path} message={errors.errors[error].msg} severity='error' />
+                        ))
+                        : <></>
+                }
+                {
+                    error.hasError && !errors.hasErrors && <Message message={error.errorMessage} severity='error' />
+                }
+                {
+                    sucessMessage && <Message message={sucessMessage} severity='success' />
+                }
+                <div className="w-full h-full overflow-auto">
                     <form
                         onSubmit={event => handleSubmitUpdateForm(event, startUpdatingRecord, baseUrl, { ...formState }, isFormValid, setFormSubmitted)}
                         className='space-y-3'
@@ -217,7 +217,7 @@ export const UsersUpdateForm = ({ baseUrl }) => {
                             errorMessage={modulosValid}
                             hasError={!!modulosValid && isFormSubmitted}
                         />
-                        <div className="flex flex-col space-y-2 sm:flex-row sm:justify-between sm:space-y-0">
+                        <div className="flex flex-col gap-2 sm:flex-row sm:justify-between">
                             <button
                                 type="submit"
                                 disabled={isLoading}
