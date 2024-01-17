@@ -39,6 +39,8 @@ const handleSubmitUpdateForm = (event, startUpdatingRecord, url, payload, isForm
 
     delete payload.id;
 
+    payload.sucursal || delete payload.sucursal;
+
     startUpdatingRecord(url, payload, 'usuario');
 }
 

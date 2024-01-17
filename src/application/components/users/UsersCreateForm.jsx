@@ -24,7 +24,6 @@ const createFormValidations = {
     apellidoMaterno: [stringValuesValidation, 'El campo apellido materno es inválido'],
     rfc: [stringValuesValidation, 'El campo rfc es inválido'],
     rol: [stringValuesValidation, 'El campo rol es inválido'],
-    sucursal: [stringValuesValidation, 'El campo sucursal es inválido'],
     email: [emailValidator, 'El campo email es inválido'],
     password: [passwordValidation, 'El campo contraseña es inválido'],
     direccion: [stringValuesValidation, 'El campo dirección es inválido'],
@@ -38,6 +37,8 @@ const handleSubmitCreateForm = (event, startCreatingRecord, url, payload, isForm
     setFormSubmitted(true);
 
     if (!isFormValid) return;
+
+    payload.sucursal || delete payload.sucursal;
 
     startCreatingRecord(url, payload, 'usuario');
 }
