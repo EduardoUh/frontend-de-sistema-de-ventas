@@ -38,7 +38,7 @@ const handleSubmitUpdateForm = (event, updateFn, url, payload, isFormValid, setF
 
     if (!isFormValid) return;
 
-    payload.activa = payload.activa === 'true';
+    payload.activa = String(payload.activa) === 'true';
 
     delete payload.id;
 

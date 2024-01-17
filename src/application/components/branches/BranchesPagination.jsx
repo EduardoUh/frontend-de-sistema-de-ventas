@@ -21,7 +21,7 @@ export const BranchesPagination = ({ permissions }) => {
                             <DataContainer name='Ciudad' data={branchData.ciudad} />
                             <DataContainer name='Direccion' data={branchData.direccion} />
                             <DataContainer name='Email' data={branchData.email} />
-                            <DataContainer name='Estatus' data={branchData.activa ? 'Activa' : 'inactiva'} />
+                            <DataContainer name='Estatus' data={branchData.activa ? 'Activa' : 'Inactiva'} />
                             <DataContainer name='Creador' data={branchData.creador.nombres} />
                             <DataContainer name='Creada el' data={branchData.fechaCreacion} convertToDate={true} />
                             <DataContainer name='Ultimo en modificar' data={branchData.ultimoEnModificar.nombres} />
