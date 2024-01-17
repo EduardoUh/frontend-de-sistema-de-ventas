@@ -4,8 +4,15 @@ import { setComponentName, setPage, setUrl, setKeyToGetCollectionOfData, onSetRe
 import { api } from '../api/api';
 
 
-export const useRecordsStorePaginationHooks = (name) => {
-    const { componentName, url, keyToGetCollectionOfData, isFilteringBySameFilters, startSettingRecords } = useRecordsStorePagination();
+export const useRecordsStorePaginationHooks = (name = '', baseUrl = '', key = '') => {
+    const { componentName, url, keyToGetCollectionOfData, isFilteringBySameFilters, startSettingRecords, startCleaningRecordsSlice, startSettingComponentName, setBaseUrl, setTheKeyToGetCollectionOfData } = useRecordsStorePagination();
+
+    useEffect(() => {
+        startCleaningRecordsSlice();
+        startSettingComponentName(name);
+        setBaseUrl(baseUrl);
+        setTheKeyToGetCollectionOfData(key);
+    }, []);
 
     useEffect(() => {
         if (url && keyToGetCollectionOfData && name === componentName) startSettingRecords(url);
@@ -40,7 +47,7 @@ export const useRecordsStorePagination = () => {
         if (page === 1) return;
 
         dispatch(setPage(page - 1));
-        
+
         dispatch(setUrl(`${url.split('page=')[0]}page=${page - 1}`));
     }
 

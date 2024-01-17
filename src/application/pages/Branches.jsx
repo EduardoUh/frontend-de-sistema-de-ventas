@@ -1,5 +1,4 @@
-import { useEffect } from 'react';
-import { useRecordsStorePaginationHooks, useRecordsStorePagination } from '../../hooks';
+import { useRecordsStorePaginationHooks } from '../../hooks';
 import { BranchesPagination, BranchesUpdateForm, BranchesCreateButton, BranchesCreateForm, BranchesFilters } from '../components/branches';
 
 
@@ -8,16 +7,7 @@ const baseUrl = '/sucursales';
 const keyToGetCollectionOfData = 'sucursales';
 
 export const Branches = ({ permissions, name }) => {
-    const { startCleaningRecordsSlice, startSettingComponentName, setBaseUrl, setTheKeyToGetCollectionOfData } = useRecordsStorePagination();
-
-    useEffect(() => {
-        startCleaningRecordsSlice();
-        startSettingComponentName(name);
-        setBaseUrl(baseUrl);
-        setTheKeyToGetCollectionOfData(keyToGetCollectionOfData);
-    }, []);
-
-    useRecordsStorePaginationHooks(name);
+    useRecordsStorePaginationHooks(name, baseUrl, keyToGetCollectionOfData);
 
     if (!permissions || !Array.isArray(permissions) || Array.isArray(permissions) && permissions.length === 0) return (<div>Sin credenciales en &eacute;ste m&oacute;dulo</div>)
 
