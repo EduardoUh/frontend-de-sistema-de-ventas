@@ -71,7 +71,7 @@ export const ProfileUpdateForm = ({ baseUrl }) => {
                             : <></>
                     }
                     {
-                        errorMessage && !errors.hasErrors && <div className="flex justify-center items-center"><Message message={errorMessage} severity='error' messageStyle='w-1/3' /></div>
+                        errorMessage && !errors.hasErrors && <div className="flex justify-center items-center"><Message message={errorMessage} severity='error' /></div>
                     }
                     {
                         successMessage && <div className="flex justify-center items-center"><Message message={successMessage} severity='success' /></div>
