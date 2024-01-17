@@ -73,10 +73,10 @@ export const BranchesUpdateForm = ({ baseUrl }) => {
                             : <></>
                     }
                     {
-                        error.hasError && !errors.hasErrors && <div className="flex justify-center items-center"><Message message={error.errorMessage} severity='error' messageStyle='w-1/3' /></div>
+                        error.hasError && !errors.hasErrors && <Message message={error.errorMessage} severity='error' />
                     }
                     {
-                        sucessMessage && <div className="flex justify-center items-center"><Message message={sucessMessage} severity='success' /></div>
+                        sucessMessage && <Message message={sucessMessage} severity='success' />
                     }
                     <form
                         onSubmit={event => handleSubmitUpdateForm(event, startUpdatingRecord, baseUrl, { ...formState }, isFormValid, setFormSubmitted)}
