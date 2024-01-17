@@ -1,11 +1,14 @@
 import { Message } from './Message';
 
 
-export const InputComponent = ({ value = '', pattern = '', patternExample = '', handleChange, hasError = false, errorMessage = 'Error in the form input', severity = 'error', labelText = 'Label', inputType = 'text', inputId = 'defaultId', inputName = 'defaultName', placeholder = 'defaultPlaceholder', selectOptions = [], containerStyle = '', labelStyle = '', inputStyle = '' }) => {
+export const InputComponent = ({ value = '', pattern = '', patternExample = '', handleChange, hasError = false, errorMessage = 'Error in the form input', severity = 'error', labelText = 'Label', inputType = 'text', inputId = 'defaultId', inputName = 'defaultName', placeholder = 'defaultPlaceholder', selectOptions = [], containerStyle = '', labelStyle = '', inputStyle = '', isOptional = false }) => {
     return (
         <>
             <div className={`flex flex-col space-y-2 ${containerStyle.toLowerCase()}`}>
                 <label htmlFor={inputId} className={`font-semibold ${labelStyle.toLowerCase()}`}>{labelText}: </label>
+                {
+                    isOptional && <small className='text-blue-500'>El campo {labelText} es opcional</small>
+                }
                 {
                     inputType.toLowerCase() === 'select' &&
                     (
