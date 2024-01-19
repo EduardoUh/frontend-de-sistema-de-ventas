@@ -1,5 +1,5 @@
 import { useRecordsStorePaginationHooks } from '../../hooks';
-import { ProvidersPagination } from '../components/providers';
+import { ProvidersPagination, ProvidersFilters } from '../components/providers';
 
 
 const baseUrl = '/proveedores';
@@ -13,7 +13,13 @@ export const Providers = ({ permissions, name }) => {
     return (
         <div className='space-y-3'>
             <h2 className='text-center font-bold text-lg'>{name}</h2>
-            <ProvidersPagination permissions={permissions} />
+            {
+                permissions.find(permission => permission === 'VER') &&
+                <>
+                    <ProvidersFilters baseUrl={baseUrl} />
+                    <ProvidersPagination permissions={permissions} />
+                </>
+            }
         </div>
     )
 }
