@@ -34,6 +34,7 @@ export const ProvidersPagination = ({ permissions }) => {
                                 && <Button
                                     text='Actualizar'
                                     type='button'
+                                    buttonSyles='w-full'
                                     handleClick={() => handleOpenModalAndStartSelectingRecord(
                                         startOpenUpdateModal,
                                         startSelectingRecord, {

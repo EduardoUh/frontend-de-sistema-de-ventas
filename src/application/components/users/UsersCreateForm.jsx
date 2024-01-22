@@ -1,6 +1,6 @@
 import { useUIStore, useRecordsStoreCreate, useForm } from '../../../hooks';
-import { InputComponent, Message } from '../../../utilities';
-import { Modal, PaginatedSelect, ModulesCheckbox } from '../../ui';
+import { InputComponent } from '../../../utilities';
+import { Modal, PaginatedSelect, ModulesCheckbox, ShowErrorMessages, ShowErrorMessage, ShowSuccessMessage } from '../../ui';
 import { stringValuesValidation, emailValidator, passwordValidation, modulesValidation } from '../../../helpers';
 
 
@@ -64,19 +64,9 @@ export const UsersCreateForm = ({ baseUrl }) => {
         <Modal showModal={createModalIsOpen}>
             <div className="w-11/12 md:w-3/6 lg:w-2/6 h-5/6 bg-white px-6 py-8 rounded-md shadow-md overflow-auto">
                 <h3 className="text-center font-bold text-2xl">Crear Usuario</h3>
-                {
-                    errors.hasErrors
-                        ? Object.keys(errors.errors).map(error => (
-                            <Message key={errors.errors[error].path} message={errors.errors[error].msg} severity='error' />
-                        ))
-                        : <></>
-                }
-                {
-                    error.hasError && !errors.hasErrors && <Message message={error.errorMessage} severity='error' />
-                }
-                {
-                    sucessMessage && <Message message={sucessMessage} severity='success' />
-                }
+                <ShowErrorMessages hasErrors={errors.hasErrors} errors={errors.errors} />
+                <ShowErrorMessage hasError={error.hasError} error={error.errorMessage} />
+                <ShowSuccessMessage successMessage={sucessMessage} />
                 <div className="w-full h-full space-y-3 overflow-auto">
                     <form
                         onSubmit={event => handleSubmitCreateForm(event, startCreatingRecord, baseUrl, { ...formState }, isFormValid, setFormSubmitted)}
