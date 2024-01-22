@@ -1,7 +1,7 @@
 import { useForm, useUIStore, useRecordsStoreCreate } from '../../../hooks';
-import { Modal } from '../../ui';
+import { Modal, ShowErrorMessage, ShowErrorMessages, ShowSuccessMessage } from '../../ui';
 import { stringValuesValidation, emailValidator } from '../../../helpers';
-import { InputComponent, Message } from '../../../utilities';
+import { InputComponent } from '../../../utilities';
 
 
 const createForm = {
@@ -51,19 +51,9 @@ export const BranchesCreateForm = ({ baseUrl = '' }) => {
             <div className="w-11/12 md:w-3/6 lg:w-2/6 bg-white px-6 py-8 rounded-md shadow-md">
                 <div className="w-full space-y-3">
                     <h3 className="text-center font-bold text-2xl">Crear Sucursal</h3>
-                    {
-                        errors.hasErrors
-                            ? Object.keys(errors.errors).map(error => (
-                                <Message key={errors.errors[error].path} message={errors.errors[error].msg} severity='error' />
-                            ))
-                            : <></>
-                    }
-                    {
-                        error.hasError && !errors.hasErrors && <Message message={error.errorMessage} severity='error' />
-                    }
-                    {
-                        sucessMessage && <Message message={sucessMessage} severity='success' />
-                    }
+                    <ShowErrorMessages hasErrors={errors.hasErrors} errors={errors.errors} />
+                    <ShowErrorMessage hasError={error.hasError} error={error.errorMessage} />
+                    <ShowSuccessMessage successMessage={sucessMessage} />
                     <form
                         onSubmit={event => handleSubmitCreateForm(event, startCreatingRecord, baseUrl, { ...formState }, isFormValid, setFormSubmitted)}
                         className='space-y-3'

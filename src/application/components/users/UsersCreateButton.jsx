@@ -13,7 +13,7 @@ export const UsersCreateButton = () => {
     const { startOpenCreateModal } = useUIStore();
 
     return (
-        <div className='p2'>
+        <div className='p-2'>
             <RoundedAddButton handleClick={() => handleClick(clearMessages, startOpenCreateModal)} />
         </div>
     )
