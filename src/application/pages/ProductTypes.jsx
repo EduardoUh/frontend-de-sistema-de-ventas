@@ -1,5 +1,5 @@
-import { useRecordsStorePaginationHooks } from '../../hooks';
-import { ProductTypesPagination, ProductTypesFilters } from '../components/productTypes';
+import { useRecordsStorePaginationHooks, useUIStore } from '../../hooks';
+import { ProductTypesPagination, ProductTypesFilters, ProductTypesUpdateForm } from '../components/productTypes';
 
 
 const baseUrl = '/tiposProductos';
@@ -8,6 +8,7 @@ const keyToGetData = 'tiposProductos';
 
 export const ProductTypes = ({ permissions, name }) => {
     useRecordsStorePaginationHooks(name, baseUrl, keyToGetData);
+    const { updateModalIsOpen } = useUIStore();
 
     if (!permissions || !Array.isArray(permissions) || Array.isArray(permissions) && permissions.length === 0) return (<div className='text-center font-bold text-3xl'>Sin credenciales en &eacute;ste m&oacute;dulo</div>)
 
@@ -20,6 +21,10 @@ export const ProductTypes = ({ permissions, name }) => {
                     <ProductTypesFilters baseUrl={baseUrl} />
                     <ProductTypesPagination permissions={permissions} />
                 </>
+            }
+            {
+                updateModalIsOpen &&
+                <ProductTypesUpdateForm baseUrl={baseUrl} />
             }
         </div>
     )

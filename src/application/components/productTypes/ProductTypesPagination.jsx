@@ -1,9 +1,17 @@
-import { useRecordsStorePagination } from '../../../hooks';
-import { PaginationContainer, CardsContainer, Card, DataContainer } from '../../ui';
+import { useRecordsStorePagination, useRecordsStoreUpdate, useUIStore } from '../../../hooks';
+import { PaginationContainer, CardsContainer, Card, DataContainer, Button } from '../../ui';
 
+
+const handleOpenModalAndStartSelectingRecord = (startOpenUpdateModal, startSelectingRecord, record) => {
+    startSelectingRecord(record);
+
+    startOpenUpdateModal();
+}
 
 export const ProductTypesPagination = ({ permissions }) => {
     const { records, error, isLoading, pagesCanBeGenerated, page, nextPage, previousPage } = useRecordsStorePagination();
+    const { startSelectingRecord } = useRecordsStoreUpdate();
+    const { startOpenUpdateModal } = useUIStore();
 
     return (
         <PaginationContainer data={records} isLoading={isLoading} error={error} pagesCanBeGenerated={pagesCanBeGenerated} page={page} nextPage={nextPage} previousPage={previousPage} >
@@ -18,6 +26,25 @@ export const ProductTypesPagination = ({ permissions }) => {
                             <DataContainer name='Fecha de creación' data={productType.fechaCreacion} convertToDate={true} />
                             <DataContainer name='Ultimo en modificar' data={productType.ultimoEnModificar.nombres} />
                             <DataContainer name='Fecha de última modificación' data={productType.fechaUltimaModificacion} convertToDate={true} />
+                            {
+                                permissions.find(permission => permission === 'ACTUALIZAR')
+                                && <Button
+                                    text='Actualizar'
+                                    type='button'
+                                    buttonSyles='w-full'
+                                    handleClick={() => handleOpenModalAndStartSelectingRecord(
+                                        startOpenUpdateModal,
+                                        startSelectingRecord,
+                                        {
+                                            id: productType.id,
+                                            tipoProducto: productType.tipoProducto,
+                                            descripcion: productType.descripcion,
+                                            activo: productType.activo,
+                                        }
+                                    )
+                                    }
+                                />
+                            }
                         </Card>
                     ))
                 }
