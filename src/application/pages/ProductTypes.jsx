@@ -1,7 +1,23 @@
-import React from 'react'
+import { useRecordsStorePaginationHooks } from '../../hooks';
+import { ProductTypesPagination } from '../components/productTypes';
 
-export const ProductTypes = () => {
+
+const baseUrl = '/tiposProductos';
+
+const keyToGetData = 'tiposProductos';
+
+export const ProductTypes = ({ permissions, name }) => {
+    useRecordsStorePaginationHooks(name, baseUrl, keyToGetData);
+
+    if (!permissions || !Array.isArray(permissions) || Array.isArray(permissions) && permissions.length === 0) return (<div className='text-center font-bold text-3xl'>Sin credenciales en &eacute;ste m&oacute;dulo</div>)
+
     return (
-        <div>ProductTypes</div>
+        <div className='space-y-3'>
+            <h2 className='text-center font-bold text-xl'>{name}</h2>
+            {
+                permissions.find(permission => permission === 'VER') &&
+                <ProductTypesPagination permissions={permissions} />
+            }
+        </div>
     )
 }
