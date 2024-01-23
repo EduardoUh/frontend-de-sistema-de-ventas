@@ -19,7 +19,7 @@ export const ProductsPagination = ({ permissions }) => {
                             <DataContainer name='Creador' data={product.creador?.nombres} />
                             <DataContainer name='Fecha de creación' data={product.fechaCreacion} convertToDate={true} />
                             <DataContainer name='Último en modificar' data={product.ultimoEnModificar?.nombres} />
-                            <DataContainer name='Fecha de última modificación' data={product.fechaUltimaModificacion} />
+                            <DataContainer name='Fecha de última modificación' data={product.fechaUltimaModificacion} convertToDate={true} />
                         </Card>
                     ))
                 }
