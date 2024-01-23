@@ -16,6 +16,7 @@ export const ProductsPagination = ({ permissions }) => {
                             <DataContainer name='Tipo de producto' data={product.tipoProducto?.tipoProducto} />
                             <DataContainer name='Proveedor' data={product.proveedor?.nombre} />
                             <DataContainer name='Venta por' data={product.ventaPor} />
+                            <DataContainer name='Estatus' data={product.activo ? 'Activo' : 'Inactivo'} />
                             <DataContainer name='Creador' data={product.creador?.nombres} />
                             <DataContainer name='Fecha de creación' data={product.fechaCreacion} convertToDate={true} />
                             <DataContainer name='Último en modificar' data={product.ultimoEnModificar?.nombres} />
