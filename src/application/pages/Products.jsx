@@ -1,5 +1,5 @@
-import { useRecordsStorePaginationHooks } from '../../hooks';
-import { ProductsPagination, ProductsFilters } from '../components/products';
+import { useRecordsStorePaginationHooks, useUIStore } from '../../hooks';
+import { ProductsPagination, ProductsFilters, ProductsUpdateForm } from '../components/products';
 
 
 const baseUrl = '/productos';
@@ -8,6 +8,7 @@ const keyToGetData = 'productos';
 
 export const Products = ({ permissions, name }) => {
     useRecordsStorePaginationHooks(name, baseUrl, keyToGetData);
+    const { updateModalIsOpen } = useUIStore();
 
     return (
         <div className='space-y-3'>
@@ -18,6 +19,10 @@ export const Products = ({ permissions, name }) => {
                     <ProductsFilters baseUrl={baseUrl} />
                     <ProductsPagination permissions={permissions} />
                 </>
+            }
+            {
+                updateModalIsOpen &&
+                <ProductsUpdateForm baseUrl={baseUrl} />
             }
         </div>
     )
