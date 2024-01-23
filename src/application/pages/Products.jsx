@@ -1,5 +1,5 @@
 import { useRecordsStorePaginationHooks } from '../../hooks';
-import { ProductsPagination } from '../components/products';
+import { ProductsPagination, ProductsFilters } from '../components/products';
 
 
 const baseUrl = '/productos';
@@ -12,7 +12,13 @@ export const Products = ({ permissions, name }) => {
     return (
         <div className='space-y-3'>
             <h2 className='text-center font-bold text-xl'>{name}</h2>
-            <ProductsPagination permissions={permissions} />
+            {
+                permissions.find(permission => permission === 'VER') &&
+                <>
+                    <ProductsFilters baseUrl={baseUrl} />
+                    <ProductsPagination permissions={permissions} />
+                </>
+            }
         </div>
     )
 }
