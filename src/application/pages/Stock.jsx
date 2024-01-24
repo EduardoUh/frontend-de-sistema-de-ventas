@@ -1,5 +1,5 @@
 import { useRecordsStorePaginationHooks } from '../../hooks';
-import { StockPagination } from '../components/stock';
+import { StockPagination, StockFilters } from '../components/stock';
 
 
 const baseUrl = '/stockProductos';
@@ -16,7 +16,10 @@ export const Stock = ({ permissions, name }) => {
             <h2 className='text-center font-bold text-xl'>{name}</h2>
             {
                 permissions.find(permission => permission === 'VER') &&
-                <StockPagination permissions={permissions} />
+                <>
+                    <StockFilters baseUrl={baseUrl} />
+                    <StockPagination permissions={permissions} />
+                </>
             }
         </div>
     )
