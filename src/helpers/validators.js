@@ -27,3 +27,5 @@ export const modulesValidation = (modules = null) => {
         return true;
     }
 };
+
+export const floatingPointValuesValidation = (value = null) => value && /^(?:\d+)?(?:\.\d{1,2})?$/.test(value);
