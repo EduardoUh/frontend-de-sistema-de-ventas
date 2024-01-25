@@ -32,7 +32,12 @@ export const InputComponent = ({ value = '', pattern = '', patternExample = '', 
                     )
                 }
                 {
-                    inputType.toLowerCase() !== 'select' && inputType.toLowerCase() !== 'tel' && (
+                    inputType.toLowerCase() === 'number' && (
+                        <input type={inputType.toLowerCase()} id={inputId} name={inputName} placeholder={placeholder} className={`rounded-md text-center border-2 border-gray-300 placeholder-gray-400 ${inputStyle.toLowerCase()}`} value={value} onChange={!!handleChange ? handleChange : ({ target }) => { console.log(`${target.name}: ${target.value}`) }} pattern='^(?:\d+)?(?:\.\d{1,2})?$' min='0' step='0.01' />
+                    )
+                }
+                {
+                    inputType.toLowerCase() !== 'select' && inputType.toLowerCase() !== 'tel' && inputType.toLowerCase() !== 'number' && (
                         <input type={inputType.toLowerCase()} id={inputId} name={inputName} placeholder={placeholder} className={`rounded-md text-center border-2 border-gray-300 placeholder-gray-400 ${inputStyle.toLowerCase()}`} value={value} onChange={!!handleChange ? handleChange : ({ target }) => { console.log(`${target.name}: ${target.value}`) }} />
                     )
                 }
