@@ -1,5 +1,5 @@
-import { useRecordsStorePaginationHooks } from '../../hooks';
-import { StockPagination, StockFilters } from '../components/stock';
+import { useRecordsStorePaginationHooks, useUIStore } from '../../hooks';
+import { StockPagination, StockFilters, StockUpdateForm } from '../components/stock';
 
 
 const baseUrl = '/stockProductos';
@@ -8,6 +8,7 @@ const keyToGetData = 'stockProductos';
 
 export const Stock = ({ permissions, name }) => {
     useRecordsStorePaginationHooks(name, baseUrl, keyToGetData);
+    const { updateModalIsOpen } = useUIStore();
 
     if (!permissions || !Array.isArray(permissions) || Array.isArray(permissions) && permissions.length === 0) return (<div className='text-center font-bold text-3xl'>Sin credenciales en &eacute;ste m&oacute;dulo</div>)
 
@@ -20,6 +21,10 @@ export const Stock = ({ permissions, name }) => {
                     <StockFilters baseUrl={baseUrl} />
                     <StockPagination permissions={permissions} />
                 </>
+            }
+            {
+                updateModalIsOpen &&
+                <StockUpdateForm baseUrl={baseUrl} />
             }
         </div>
     )
