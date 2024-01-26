@@ -1,5 +1,5 @@
 import { useRecordsStorePaginationHooks } from '../../hooks';
-import { CustomersPagination } from '../components/customers';
+import { CustomersPagination, CustomersFilters } from '../components/customers';
 
 
 const baseUrl = '/clientes';
@@ -17,6 +17,7 @@ export const Customers = ({ permissions, name }) => {
             {
                 permissions.find(permission => permission === 'VER') &&
                 <>
+                    <CustomersFilters baseUrl={baseUrl} />
                     <CustomersPagination permissions={permissions} />
                 </>
             }
