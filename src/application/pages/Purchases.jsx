@@ -1,6 +1,5 @@
 import { useRecordsStorePaginationHooks, useUIStore } from '../../hooks';
-import { PurchasesPagination } from '../components/purchases';
-import { PurchasesDisplayItems } from '../components/purchases/PurchasesDisplayItems';
+import { PurchasesPagination, PurchasesDisplayItems, PurchasesFilters } from '../components/purchases';
 
 
 const baseUrl = '/compras';
@@ -18,7 +17,10 @@ export const Purchases = ({ permissions, name }) => {
             <h2 className='text-center font-bold text-xl'>{name}</h2>
             {
                 permissions.find(permission => permission === 'VER') &&
-                <PurchasesPagination />
+                <>
+                    <PurchasesFilters baseUrl={baseUrl} />
+                    <PurchasesPagination />
+                </>
             }
             {
                 showMoreModalIsOpen && <PurchasesDisplayItems />
