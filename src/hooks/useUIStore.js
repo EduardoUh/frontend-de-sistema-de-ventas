@@ -1,9 +1,9 @@
 import { useSelector, useDispatch } from 'react-redux';
-import { onSwitchNavbarState, onOpenUpdateModal, onCloseUpdateModal, onOpenCreateModal, onCloseCreateModal } from '../store/ui/uISlice';
+import { onSwitchNavbarState, onOpenUpdateModal, onCloseUpdateModal, onOpenCreateModal, onCloseCreateModal, onOpenShowMoreModal, onCloseShowMoreModal } from '../store/ui/uISlice';
 
 
 export const useUIStore = () => {
-    const { showNavbar, updateModalIsOpen, createModalIsOpen } = useSelector(state => state.uI);
+    const { showNavbar, updateModalIsOpen, createModalIsOpen, showMoreModalIsOpen } = useSelector(state => state.uI);
     const dispatch = useDispatch();
 
     const startSwitchNavbarState = () => {
@@ -26,16 +26,27 @@ export const useUIStore = () => {
         dispatch(onCloseCreateModal());
     }
 
+    const startOpenShowMoreModal = () => {
+        dispatch(onOpenShowMoreModal());
+    }
+
+    const startCloseShowMoreModal = () => {
+        dispatch(onCloseShowMoreModal());
+    }
+
     return {
         // ? properties
         showNavbar,
         updateModalIsOpen,
         createModalIsOpen,
+        showMoreModalIsOpen,
         // ? methods
         startSwitchNavbarState,
         startOpenUpdateModal,
         startCloseUpdateModal,
         startOpenCreateModal,
         startCloseCreateModal,
+        startOpenShowMoreModal,
+        startCloseShowMoreModal,
     }
 }
