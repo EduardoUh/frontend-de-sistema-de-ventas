@@ -1,7 +1,21 @@
-import React from 'react'
+/*
+    {
+    "sucursal": "6574b2c69c25e03e7ed43f51",
+    "cliente": "657774be8a71541208f0a05b",
+    "articulos": [{"producto": "65775da88dde2c511601f204", "cantidad": 3}],
+    "total": 31.5,
+    "pagoCon": 0,
+    "pago": 0,
+    "cambio": 0,
+    "saldo": 31.5
+}
+*/
+export const CreateSelling = ({ permissions, name }) => {
+    if (!permissions || !Array.isArray(permissions) || Array.isArray(permissions) && permissions.length === 0) return (<div className='text-center font-bold text-3xl'>Sin credenciales en &eacute;ste m&oacute;dulo</div>)
 
-export const CreateSelling = () => {
     return (
-        <div>CreateSelling</div>
+        <div className='space-y-3'>
+            <h2 className='text-center font-bold text-xl'>{name}</h2>
+        </div>
     )
 }
