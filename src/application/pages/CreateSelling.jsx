@@ -1,5 +1,5 @@
 import { useCreateSellingStore } from '../../hooks';
-import { CreateSellingFormBranchClient } from '../components/createSelling';
+import { CreateSellingFormBranchClient, CreateSellingProductsPagination } from '../components/createSelling';
 
 /*
     {
@@ -14,12 +14,18 @@ import { CreateSellingFormBranchClient } from '../components/createSelling';
 }
 */
 export const CreateSelling = ({ permissions, name }) => {
+    const { sucursal } = useCreateSellingStore();
+
     if (!permissions || !Array.isArray(permissions) || Array.isArray(permissions) && permissions.length === 0) return (<div className='text-center font-bold text-3xl'>Sin credenciales en &eacute;ste m&oacute;dulo</div>)
 
     return (
         <div className='space-y-3'>
             <h2 className='text-center font-bold text-xl'>{name}</h2>
             <CreateSellingFormBranchClient />
+            {
+                sucursal.trim().length === 24 &&
+                <CreateSellingProductsPagination name={name}/>
+            }
         </div>
     )
 }
