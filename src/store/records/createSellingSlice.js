@@ -31,6 +31,12 @@ export const createSellingSlice = createSlice({
         onAddProduct: (state, { payload }) => {
             state.payload.articulos.push(payload);
         },
+        onSetBranch: (state, { payload }) => {
+            state.payload.sucursal = payload;
+        },
+        onSetClient: (state, { payload }) => {
+            state.payload.cliente = payload;
+        },
         onSetIsLoading: (state) => {
             state.isLoading = true;
         },
@@ -62,4 +68,4 @@ export const createSellingSlice = createSlice({
     }
 });
 
-export const { onAddProduct, onSetIsLoading, onClearIsLoading, onSetErrors, onClearErrors, onSetError, onClearError, onSetSuccessMessage, onClearSuccessMessage } = createSellingSlice.actions;
+export const { onAddProduct, onSetBranch, onSetClient, onSetIsLoading, onClearIsLoading, onSetErrors, onClearErrors, onSetError, onClearError, onSetSuccessMessage, onClearSuccessMessage } = createSellingSlice.actions;
