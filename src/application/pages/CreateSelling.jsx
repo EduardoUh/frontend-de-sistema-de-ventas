@@ -1,3 +1,6 @@
+import { useCreateSellingStore } from '../../hooks';
+import { CreateSellingFormBranchClient } from '../components/createSelling';
+
 /*
     {
     "sucursal": "6574b2c69c25e03e7ed43f51",
@@ -16,6 +19,7 @@ export const CreateSelling = ({ permissions, name }) => {
     return (
         <div className='space-y-3'>
             <h2 className='text-center font-bold text-xl'>{name}</h2>
+            <CreateSellingFormBranchClient />
         </div>
     )
 }
