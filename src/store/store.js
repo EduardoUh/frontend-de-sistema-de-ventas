@@ -1,5 +1,5 @@
 import { configureStore } from '@reduxjs/toolkit';
-import { authSlice, uISlice, recordsSlice } from './';
+import { authSlice, uISlice, recordsSlice, createSellingSlice } from './';
 
 
 export const store = configureStore({
@@ -7,5 +7,6 @@ export const store = configureStore({
         auth: authSlice.reducer,
         uI: uISlice.reducer,
         records: recordsSlice.reducer,
+        createSelling: createSellingSlice.reducer,
     }
 });
