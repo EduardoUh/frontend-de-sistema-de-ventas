@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { useAuthStore, useCreateSellingStore } from '../../../hooks';
+import { useAuthStore, useCreateSellingStore, useRecordsStorePagination } from '../../../hooks';
 import { PaginatedSelect } from '../../ui';
 import { InputComponent } from '../../../utilities';
 
@@ -11,13 +11,18 @@ const createSucursalesSelectOptions = user => {
     }];
 }
 
-export const CreateSellingFormBranchClient = () => {
+export const CreateSellingFormBranchClient = ({ baseUrl }) => {
     const { sucursal, cliente, startSettingBranch, startSettingClient } = useCreateSellingStore();
     const { user } = useAuthStore();
+    const { setBaseUrl } = useRecordsStorePagination();
 
     useEffect(() => {
         user.rol !== 'SUPER USUARIO' && startSettingBranch(user.sucursalId);
     }, []);
+
+    useEffect(() => {
+        sucursal && user.rol === 'SUPER USUARIO' && setBaseUrl(`${baseUrl}/${sucursal}`);
+    }, [sucursal]);
 
     return (
         <div className="relative border rounded-md shadow-md p-3">

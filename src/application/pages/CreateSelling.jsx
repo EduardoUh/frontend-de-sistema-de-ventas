@@ -13,6 +13,10 @@ import { CreateSellingFormBranchClient, CreateSellingProductsPagination } from '
     "saldo": 31.5
 }
 */
+const baseUrl = '/stockProductos/sucursal';
+
+const keyToGetData = 'stockProductos';
+
 export const CreateSelling = ({ permissions, name }) => {
     const { sucursal } = useCreateSellingStore();
 
@@ -21,10 +25,10 @@ export const CreateSelling = ({ permissions, name }) => {
     return (
         <div className='space-y-3'>
             <h2 className='text-center font-bold text-xl'>{name}</h2>
-            <CreateSellingFormBranchClient />
+            <CreateSellingFormBranchClient baseUrl={baseUrl} />
             {
                 sucursal.trim().length === 24 &&
-                <CreateSellingProductsPagination name={name}/>
+                <CreateSellingProductsPagination name={name} baseUrl={baseUrl} keyToGetData={keyToGetData} />
             }
         </div>
     )

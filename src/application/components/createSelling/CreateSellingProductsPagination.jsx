@@ -2,11 +2,7 @@ import { useCreateSellingStore, useRecordsStorePaginationHooks, useRecordsStoreP
 import { PaginationContainer, CardsContainer, Card, DataContainer } from '../../ui';
 
 
-const baseUrl = '/stockProductos/sucursal';
-
-const keyToGetData = 'stockProductos';
-
-export const CreateSellingProductsPagination = ({ name }) => {
+export const CreateSellingProductsPagination = ({ name, baseUrl, keyToGetData }) => {
     const { sucursal } = useCreateSellingStore();
     useRecordsStorePaginationHooks(name, `${baseUrl}/${sucursal}`, keyToGetData);
     const { records, isLoading, error, pagesCanBeGenerated, page, nextPage, previousPage } = useRecordsStorePagination();
