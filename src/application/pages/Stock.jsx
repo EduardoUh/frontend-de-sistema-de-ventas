@@ -23,7 +23,7 @@ export const Stock = ({ permissions, name }) => {
                 permissions.find(permission => permission === 'VER') &&
                 <>
                     <StockFilters baseUrl={baseUrl} />
-                    <StockPagination permissions={permissions} />
+                    <StockPagination permissions={permissions} name={name} />
                 </>
             }
             {

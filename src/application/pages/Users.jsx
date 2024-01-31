@@ -23,7 +23,7 @@ export const Users = ({ permissions, name }) => {
                 permissions.find(permission => permission === 'VER') &&
                 <>
                     <UsersFilters baseUrl={baseUrl} />
-                    <UsersPagination permissions={permissions} />
+                    <UsersPagination permissions={permissions} name={name} />
                 </>
             }
             {

@@ -8,10 +8,12 @@ const handleOpenModalAndSelectRecord = (startOpenShowMoreModal, startSelectingRe
     startOpenShowMoreModal();
 }
 
-export const PurchasesPagination = () => {
-    const { records, isLoading, error, pagesCanBeGenerated, page, nextPage, previousPage } = useRecordsStorePagination();
+export const PurchasesPagination = ({ name }) => {
+    const { records, isLoading, error, pagesCanBeGenerated, page, componentName, nextPage, previousPage } = useRecordsStorePagination();
     const { startSelectingRecord } = useRecordsStoreUpdate();
     const { startOpenShowMoreModal } = useUIStore();
+
+    if (componentName !== name) return (<></>);
 
     return (
         <PaginationContainer data={records} isLoading={isLoading} error={error} pagesCanBeGenerated={pagesCanBeGenerated} page={page} nextPage={nextPage} previousPage={previousPage}>
@@ -19,9 +21,9 @@ export const PurchasesPagination = () => {
                 {
                     records?.map(purchase => (
                         <Card key={purchase.id}>
-                            <DataContainer name='Sucursal' data={purchase.sucursal?.nombre} />
-                            <DataContainer name='Creador' data={purchase.creador?.nombres} />
-                            <DataContainer name='Proveedor' data={purchase.proveedor?.nombre} />
+                            <DataContainer name='Sucursal' data={purchase.sucursal.nombre} />
+                            <DataContainer name='Creador' data={purchase.creador.nombres} />
+                            <DataContainer name='Proveedor' data={purchase.proveedor.nombre} />
                             <DataContainer name='Total' data={`$${purchase.total}`} />
                             <DataContainer name='Fecha de creación' data={purchase.fechaCreacion} convertToDate={true} />
                             <Button

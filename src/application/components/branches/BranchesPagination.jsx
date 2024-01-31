@@ -6,10 +6,12 @@ const handleOpenModalAndStartSelectingRecord = (startOpenUpdateModal, startSelec
     startOpenUpdateModal();
 }
 
-export const BranchesPagination = ({ permissions }) => {
-    const { records, isLoading, error, page, pagesCanBeGenerated, nextPage, previousPage } = useRecordsStorePagination();
+export const BranchesPagination = ({ permissions, name }) => {
+    const { records, isLoading, error, page, pagesCanBeGenerated, componentName, nextPage, previousPage } = useRecordsStorePagination();
     const { startOpenUpdateModal } = useUIStore();
     const { startSelectingRecord } = useRecordsStoreUpdate();
+
+    if (componentName !== name) return (<></>);
 
     return (
         <PaginationContainer data={records} isLoading={isLoading} error={error} page={page} pagesCanBeGenerated={pagesCanBeGenerated} nextPage={nextPage} previousPage={previousPage}>
