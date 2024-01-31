@@ -21,7 +21,7 @@ export const Providers = ({ permissions, name }) => {
                 permissions.find(permission => permission === 'VER') &&
                 <>
                     <ProvidersFilters baseUrl={baseUrl} />
-                    <ProvidersPagination permissions={permissions} />
+                    <ProvidersPagination permissions={permissions} name={name} />
                 </>
             }
             {

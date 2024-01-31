@@ -8,10 +8,12 @@ const handleOpenModalAndStartSelectingRecord = (startOpenUpdateModal, startSelec
     startOpenUpdateModal();
 }
 
-export const ProductsPagination = ({ permissions }) => {
-    const { records, isLoading, error, pagesCanBeGenerated, page, nextPage, previousPage } = useRecordsStorePagination();
+export const ProductsPagination = ({ permissions, name }) => {
+    const { records, isLoading, error, pagesCanBeGenerated, page, componentName, nextPage, previousPage } = useRecordsStorePagination();
     const { startSelectingRecord } = useRecordsStoreUpdate();
     const { startOpenUpdateModal } = useUIStore();
+
+    if (componentName !== name) return (<></>);
 
     return (
         <PaginationContainer data={records} isLoading={isLoading} error={error} pagesCanBeGenerated={pagesCanBeGenerated} page={page} nextPage={nextPage} previousPage={previousPage}>
@@ -25,9 +27,9 @@ export const ProductsPagination = ({ permissions }) => {
                             <DataContainer name='Proveedor' data={product.proveedor?.nombre} />
                             <DataContainer name='Venta por' data={product.ventaPor} />
                             <DataContainer name='Estatus' data={product.activo ? 'Activo' : 'Inactivo'} />
-                            <DataContainer name='Creador' data={product.creador?.nombres} />
+                            <DataContainer name='Creador' data={product.creador.nombres} />
                             <DataContainer name='Fecha de creación' data={product.fechaCreacion} convertToDate={true} />
-                            <DataContainer name='Último en modificar' data={product.ultimoEnModificar?.nombres} />
+                            <DataContainer name='Último en modificar' data={product.ultimoEnModificar.nombres} />
                             <DataContainer name='Fecha de última modificación' data={product.fechaUltimaModificacion} convertToDate={true} />
                             {
                                 permissions.find(permission => permission === 'ACTUALIZAR') &&
