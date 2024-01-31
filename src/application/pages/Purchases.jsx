@@ -19,7 +19,7 @@ export const Purchases = ({ permissions, name }) => {
                 permissions.find(permission => permission === 'VER') &&
                 <>
                     <PurchasesFilters baseUrl={baseUrl} />
-                    <PurchasesPagination />
+                    <PurchasesPagination name={name} />
                 </>
             }
             {

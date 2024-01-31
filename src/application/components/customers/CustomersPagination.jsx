@@ -8,10 +8,12 @@ const handleOpenModalAndStartSelectingRecord = (startOpenUpdateModal, startSelec
     startOpenUpdateModal();
 }
 
-export const CustomersPagination = ({ permissions }) => {
-    const { records, isLoading, error, pagesCanBeGenerated, page, nextPage, previousPage } = useRecordsStorePagination();
+export const CustomersPagination = ({ permissions, name }) => {
+    const { records, isLoading, error, pagesCanBeGenerated, page, componentName, nextPage, previousPage } = useRecordsStorePagination();
     const { startSelectingRecord } = useRecordsStoreUpdate();
     const { startOpenUpdateModal } = useUIStore();
+
+    if (componentName !== name) return (<></>);
 
     return (
         <PaginationContainer data={records} isLoading={isLoading} error={error} pagesCanBeGenerated={pagesCanBeGenerated} page={page} nextPage={nextPage} previousPage={previousPage}>
@@ -28,9 +30,9 @@ export const CustomersPagination = ({ permissions }) => {
                             <DataContainer name='Teléfono' data={customer.numTelefono} />
                             <DataContainer name='Dirección' data={customer.direccion} />
                             <DataContainer name='Estatus' data={customer.activo ? 'Activo' : 'Inactivo'} />
-                            <DataContainer name='Creador' data={customer.creador?.nombres} />
+                            <DataContainer name='Creador' data={customer.creador.nombres} />
                             <DataContainer name='Fecha de creación' data={customer.fechaCreacion} convertToDate={true} />
-                            <DataContainer name='Último en modificar' data={customer.ultimoEnModificar?.nombres} />
+                            <DataContainer name='Último en modificar' data={customer.ultimoEnModificar.nombres} />
                             <DataContainer name='Fecha de última modificación' data={customer.fechaUltimaModificacion} convertToDate={true} />
                             {
                                 permissions.find(permission => permission === 'ACTUALIZAR') &&

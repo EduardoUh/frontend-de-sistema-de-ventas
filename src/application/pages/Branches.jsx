@@ -25,7 +25,7 @@ export const Branches = ({ permissions, name }) => {
                 (
                     <>
                         <BranchesFilters baseUrl={baseUrl} />
-                        <BranchesPagination permissions={permissions} />
+                        <BranchesPagination permissions={permissions} name={name} />
                     </>
                 )
             }
