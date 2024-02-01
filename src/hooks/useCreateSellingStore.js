@@ -1,5 +1,6 @@
 import { useSelector, useDispatch } from 'react-redux';
 import {
+    onClearSellingState,
     onAddProduct, onRemoveProduct, onClearPayloadExceptBranchAndClient, onSetBranch, onSetClient,
     onSetIsLoading, onClearIsLoading,
     onSetErrors, onClearErrors,
@@ -12,6 +13,10 @@ import { api } from '../api/api';
 export const useCreateSellingStore = () => {
     const { payload, isLoading, errors, error, successMessage } = useSelector(state => state.createSelling);
     const dispatch = useDispatch();
+
+    const startClearSellingState = () => {
+        dispatch(onClearSellingState());
+    }
 
     const startSettingBranch = (branch) => {
         dispatch(onSetBranch(branch));
@@ -42,6 +47,7 @@ export const useCreateSellingStore = () => {
         error,
         successMessage,
         // ?? Methods
+        startClearSellingState,
         startSettingBranch,
         startSettingClient,
         startAddingProduct,

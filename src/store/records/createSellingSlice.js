@@ -28,6 +28,28 @@ export const createSellingSlice = createSlice({
     name: 'createSelling',
     initialState,
     reducers: {
+        onClearSellingState: (state) => {
+            state.payload = {
+                sucursal: '',
+                cliente: '',
+                articulos: [],
+                total: 0,
+                pagoCon: 0,
+                pago: 0,
+                cambio: 0,
+                saldo: 0
+            };
+            state.isLoading = false;
+            state.errors = {
+                hasErrors: false,
+                messages: null
+            };
+            state.error = {
+                hasError: false,
+                message: null
+            };
+            state.successMessage = null;
+        },
         onAddProduct: (state, { payload }) => {
             state.payload.articulos.push(payload);
         },
@@ -79,4 +101,4 @@ export const createSellingSlice = createSlice({
     }
 });
 
-export const { onAddProduct, onRemoveProduct, onClearPayloadExceptBranchAndClient, onSetBranch, onSetClient, onSetIsLoading, onClearIsLoading, onSetErrors, onClearErrors, onSetError, onClearError, onSetSuccessMessage, onClearSuccessMessage } = createSellingSlice.actions;
+export const { onClearSellingState, onAddProduct, onRemoveProduct, onClearPayloadExceptBranchAndClient, onSetBranch, onSetClient, onSetIsLoading, onClearIsLoading, onSetErrors, onClearErrors, onSetError, onClearError, onSetSuccessMessage, onClearSuccessMessage } = createSellingSlice.actions;
