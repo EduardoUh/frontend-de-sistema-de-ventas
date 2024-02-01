@@ -31,6 +31,17 @@ export const createSellingSlice = createSlice({
         onAddProduct: (state, { payload }) => {
             state.payload.articulos.push(payload);
         },
+        onRemoveProduct: (state, { payload }) => {
+            state.payload.articulos = state.payload.articulos.filter(item => item.product === payload);
+        },
+        onClearPayloadExceptBranchAndClient: (state) => {
+            state.payload.articulos = [];
+            state.payload.total = 0;
+            state.payload.pagoCon = 0;
+            state.payload.pago = 0;
+            state.payload.cambio = 0;
+            state.payload.saldo = 0;
+        },
         onSetBranch: (state, { payload }) => {
             state.payload.sucursal = payload;
         },
@@ -68,4 +79,4 @@ export const createSellingSlice = createSlice({
     }
 });
 
-export const { onAddProduct, onSetBranch, onSetClient, onSetIsLoading, onClearIsLoading, onSetErrors, onClearErrors, onSetError, onClearError, onSetSuccessMessage, onClearSuccessMessage } = createSellingSlice.actions;
+export const { onAddProduct, onRemoveProduct, onClearPayloadExceptBranchAndClient, onSetBranch, onSetClient, onSetIsLoading, onClearIsLoading, onSetErrors, onClearErrors, onSetError, onClearError, onSetSuccessMessage, onClearSuccessMessage } = createSellingSlice.actions;

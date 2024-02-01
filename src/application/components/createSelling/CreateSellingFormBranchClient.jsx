@@ -11,8 +11,14 @@ const createSucursalesSelectOptions = user => {
     }];
 }
 
+const startSetBaseUrlAndClearPayload = (baseUrl, sucursal, setBaseUrl, startClearPayloadExceptBranchAndClient) => {
+    setBaseUrl(`${baseUrl}/${sucursal}`);
+
+    startClearPayloadExceptBranchAndClient();
+}
+
 export const CreateSellingFormBranchClient = ({ baseUrl }) => {
-    const { sucursal, cliente, startSettingBranch, startSettingClient } = useCreateSellingStore();
+    const { sucursal, cliente, startSettingBranch, startSettingClient, startClearPayloadExceptBranchAndClient } = useCreateSellingStore();
     const { user } = useAuthStore();
     const { setBaseUrl } = useRecordsStorePagination();
 
@@ -21,7 +27,7 @@ export const CreateSellingFormBranchClient = ({ baseUrl }) => {
     }, []);
 
     useEffect(() => {
-        sucursal && user.rol === 'SUPER USUARIO' && setBaseUrl(`${baseUrl}/${sucursal}`);
+        sucursal && user.rol === 'SUPER USUARIO' && startSetBaseUrlAndClearPayload(baseUrl, sucursal, setBaseUrl, startClearPayloadExceptBranchAndClient);
     }, [sucursal]);
 
     return (

@@ -1,6 +1,6 @@
 import { useSelector, useDispatch } from 'react-redux';
 import {
-    onAddProduct, onSetBranch, onSetClient,
+    onAddProduct, onRemoveProduct, onClearPayloadExceptBranchAndClient, onSetBranch, onSetClient,
     onSetIsLoading, onClearIsLoading,
     onSetErrors, onClearErrors,
     onSetError, onClearError,
@@ -21,6 +21,18 @@ export const useCreateSellingStore = () => {
         dispatch(onSetClient(client));
     }
 
+    const startAddingProduct = (producto) => {
+        dispatch(onAddProduct(producto));
+    }
+
+    const startRemovingProduct = (id) => {
+        dispatch(onRemoveProduct(id));
+    }
+
+    const startClearPayloadExceptBranchAndClient = () => {
+        dispatch(onClearPayloadExceptBranchAndClient());
+    }
+
     return {
         // ?? Properties
         ...payload,
@@ -32,5 +44,8 @@ export const useCreateSellingStore = () => {
         // ?? Methods
         startSettingBranch,
         startSettingClient,
+        startAddingProduct,
+        startRemovingProduct,
+        startClearPayloadExceptBranchAndClient,
     }
 }
