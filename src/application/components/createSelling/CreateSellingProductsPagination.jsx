@@ -9,7 +9,7 @@ export const CreateSellingProductsPagination = ({ name, baseUrl, keyToGetData })
 
     return (
         <PaginationContainer data={records} isLoading={isLoading} error={error} pagesCanBeGenerated={pagesCanBeGenerated} page={page} nextPage={nextPage} previousPage={previousPage}>
-            <CardsContainer>
+            <CardsContainer headingTag='h4' title='Artículos en existencia'>
                 {
                     records?.map(product => (
                         <Card key={product?.id}>
