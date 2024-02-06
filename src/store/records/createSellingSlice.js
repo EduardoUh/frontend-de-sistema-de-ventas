@@ -54,7 +54,7 @@ export const createSellingSlice = createSlice({
             state.payload.articulos.push(payload);
         },
         onRemoveProduct: (state, { payload }) => {
-            state.payload.articulos = state.payload.articulos.filter(item => item.product === payload);
+            state.payload.articulos = state.payload.articulos.filter(item => item.producto !== payload);
         },
         onClearPayloadExceptBranchAndClient: (state) => {
             state.payload.articulos = [];
@@ -63,6 +63,9 @@ export const createSellingSlice = createSlice({
             state.payload.pago = 0;
             state.payload.cambio = 0;
             state.payload.saldo = 0;
+        },
+        onUpdateProductAmount: (state, { payload }) => {
+            state.payload.articulos = state.payload.articulos.map(item => item.producto === payload.product ? { producto: item.producto, cantidad: payload.amount } : item);
         },
         onSetBranch: (state, { payload }) => {
             state.payload.sucursal = payload;
@@ -101,4 +104,4 @@ export const createSellingSlice = createSlice({
     }
 });
 
-export const { onClearSellingState, onAddProduct, onRemoveProduct, onClearPayloadExceptBranchAndClient, onSetBranch, onSetClient, onSetIsLoading, onClearIsLoading, onSetErrors, onClearErrors, onSetError, onClearError, onSetSuccessMessage, onClearSuccessMessage } = createSellingSlice.actions;
+export const { onClearSellingState, onAddProduct, onRemoveProduct, onClearPayloadExceptBranchAndClient, onUpdateProductAmount, onSetBranch, onSetClient, onSetIsLoading, onClearIsLoading, onSetErrors, onClearErrors, onSetError, onClearError, onSetSuccessMessage, onClearSuccessMessage } = createSellingSlice.actions;

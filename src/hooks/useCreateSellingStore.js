@@ -1,7 +1,7 @@
 import { useSelector, useDispatch } from 'react-redux';
 import {
     onClearSellingState,
-    onAddProduct, onRemoveProduct, onClearPayloadExceptBranchAndClient, onSetBranch, onSetClient,
+    onAddProduct, onRemoveProduct, onClearPayloadExceptBranchAndClient, onUpdateProductAmount, onSetBranch, onSetClient,
     onSetIsLoading, onClearIsLoading,
     onSetErrors, onClearErrors,
     onSetError, onClearError,
@@ -31,11 +31,16 @@ export const useCreateSellingStore = () => {
     }
 
     const startRemovingProduct = (id) => {
+        console.log(id);
         dispatch(onRemoveProduct(id));
     }
 
     const startClearPayloadExceptBranchAndClient = () => {
         dispatch(onClearPayloadExceptBranchAndClient());
+    }
+
+    const startUpdatingProductAmount = (product) => {
+        dispatch(onUpdateProductAmount(product));
     }
 
     return {
@@ -53,5 +58,6 @@ export const useCreateSellingStore = () => {
         startAddingProduct,
         startRemovingProduct,
         startClearPayloadExceptBranchAndClient,
+        startUpdatingProductAmount,
     }
 }
