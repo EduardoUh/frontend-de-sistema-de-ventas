@@ -31,7 +31,6 @@ export const useCreateSellingStore = () => {
     }
 
     const startRemovingProduct = (id) => {
-        console.log(id);
         dispatch(onRemoveProduct(id));
     }
 
