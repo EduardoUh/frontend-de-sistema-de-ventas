@@ -1,7 +1,7 @@
 import { Message } from './Message';
 
 
-export const InputComponent = ({ value = '', pattern = '', patternExample = '', handleChange, hasError = false, errorMessage = 'Error in the form input', severity = 'error', labelText = 'Label', inputType = 'text', inputId = 'defaultId', inputName = 'defaultName', placeholder = 'defaultPlaceholder', selectOptions = [], containerStyle = '', labelStyle = '', inputStyle = '', isOptional = false, disabled = false, step = '0.01' }) => {
+export const InputComponent = ({ value = '', pattern = '', patternExample = '', handleChange, hasError = false, errorMessage = 'Error in the form input', severity = 'error', labelText = 'Label', inputType = 'text', inputId = 'defaultId', inputName = 'defaultName', placeholder = 'defaultPlaceholder', selectOptions = [], containerStyle = '', labelStyle = '', inputStyle = '', isOptional = false, disabled = false, step = '0.01', min = '0', acceptDecimals = true }) => {
     return (
         <>
             <div className={`flex flex-col space-y-2 ${containerStyle.toLowerCase()}`}>
@@ -33,7 +33,7 @@ export const InputComponent = ({ value = '', pattern = '', patternExample = '', 
                 }
                 {
                     inputType.toLowerCase() === 'number' && (
-                        <input type={inputType.toLowerCase()} id={inputId} name={inputName} placeholder={placeholder} disabled={disabled} className={`rounded-md text-center border-2 border-gray-300 placeholder-gray-400 ${inputStyle.toLowerCase()}`} value={value} onChange={!!handleChange ? handleChange : ({ target }) => { console.log(`${target.name}: ${target.value}`) }} pattern='^(?:\d+)?(?:\.\d{1,2})?$' min='0' step={step} />
+                        <input type={inputType.toLowerCase()} id={inputId} name={inputName} placeholder={placeholder} disabled={disabled} className={`rounded-md text-center border-2 border-gray-300 placeholder-gray-400 ${inputStyle.toLowerCase()}`} value={value} onChange={!!handleChange ? handleChange : ({ target }) => { console.log(`${target.name}: ${target.value}`) }} pattern={acceptDecimals ? '^(?:\d+)?(?:\.\d{1,2})?$' : '^\d*$'} min={min} step={step} />
                     )
                 }
                 {
