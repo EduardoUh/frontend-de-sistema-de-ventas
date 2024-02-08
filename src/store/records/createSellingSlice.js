@@ -70,6 +70,18 @@ export const createSellingSlice = createSlice({
         onSetTotal: (state, { payload }) => {
             state.payload.total = payload;
         },
+        onSetPagoCon: (state, { payload }) => {
+            state.payload.pagoCon = payload;
+        },
+        onSetPago: (state, { payload }) => {
+            state.payload.pago = payload;
+        },
+        onSetCambio: (state, { payload }) => {
+            state.payload.cambio = payload;
+        },
+        onSetSaldo: (state, { payload }) => {
+            state.payload.saldo = payload;
+        },
         onSetBranch: (state, { payload }) => {
             state.payload.sucursal = payload;
         },
@@ -107,4 +119,4 @@ export const createSellingSlice = createSlice({
     }
 });
 
-export const { onClearSellingState, onAddProduct, onRemoveProduct, onClearPayloadExceptBranchAndClient, onUpdateProductAmount, onSetTotal, onSetBranch, onSetClient, onSetIsLoading, onClearIsLoading, onSetErrors, onClearErrors, onSetError, onClearError, onSetSuccessMessage, onClearSuccessMessage } = createSellingSlice.actions;
+export const { onClearSellingState, onAddProduct, onRemoveProduct, onClearPayloadExceptBranchAndClient, onUpdateProductAmount, onSetTotal, onSetPagoCon, onSetPago, onSetCambio, onSetSaldo, onSetBranch, onSetClient, onSetIsLoading, onClearIsLoading, onSetErrors, onClearErrors, onSetError, onClearError, onSetSuccessMessage, onClearSuccessMessage } = createSellingSlice.actions;

@@ -1,7 +1,8 @@
 import { useSelector, useDispatch } from 'react-redux';
 import {
     onClearSellingState,
-    onAddProduct, onRemoveProduct, onClearPayloadExceptBranchAndClient, onUpdateProductAmount, onSetTotal,
+    onAddProduct, onRemoveProduct, onClearPayloadExceptBranchAndClient, onUpdateProductAmount,
+    onSetTotal, onSetPagoCon, onSetPago, onSetCambio, onSetSaldo,
     onSetBranch, onSetClient,
     onSetIsLoading, onClearIsLoading,
     onSetErrors, onClearErrors,
@@ -47,6 +48,22 @@ export const useCreateSellingStore = () => {
         dispatch(onSetTotal(total));
     }
 
+    const startSettingPagoCon = (pagoCon) => {
+        dispatch(onSetPagoCon(pagoCon));
+    }
+
+    const startSettingPago = (pago) => {
+        dispatch(onSetPago(pago));
+    }
+
+    const startSettingCambio = (cambio) => {
+        dispatch(onSetCambio(cambio));
+    }
+
+    const startSettingSaldo = (saldo) => {
+        dispatch(onSetSaldo(saldo));
+    }
+
     return {
         // ?? Properties
         ...payload,
@@ -64,5 +81,9 @@ export const useCreateSellingStore = () => {
         startClearPayloadExceptBranchAndClient,
         startUpdatingProductAmount,
         startSettingTotal,
+        startSettingPagoCon,
+        startSettingPago,
+        startSettingCambio,
+        startSettingSaldo,
     }
 }
