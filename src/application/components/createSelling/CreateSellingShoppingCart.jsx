@@ -6,9 +6,17 @@ import { useEffect } from 'react';
 
 const calculateTotal = (shoppingCartItems = []) => shoppingCartItems.reduce((accumulated, current) => accumulated += (parseFloat(current.precio) * (/^(?:\d+)?(?:\.\d{1,2})?$/.test(parseFloat(current.cantidad)) ? parseFloat(current.cantidad) : 0)), 0);
 
+const handleBeforeInput = (e, acceptDecimals) => {
+    if (acceptDecimals && !/^\d*$/.test(e.data) && e.data !== '.') {
+        e.preventDefault();
+    }
+    if (!acceptDecimals && !/^\d*$/.test(e.data)) {
+        e.preventDefault();
+    }
+}
 
 export const CreateSellingShoppingCart = () => {
-    const { articulos, total, startUpdatingProductAmount, startRemovingProduct, startSettingTotal } = useCreateSellingStore();
+    const { articulos, total, pagoCon, startUpdatingProductAmount, startRemovingProduct, startSettingTotal } = useCreateSellingStore();
 
     useEffect(() => {
         if (articulos.length >= 0) startSettingTotal(calculateTotal(articulos));
@@ -38,7 +46,10 @@ export const CreateSellingShoppingCart = () => {
                                         min={shopingCartItem.ventaPor === 'KILOGRAMO' ? 0.01 : 1}
                                         acceptDecimals={shopingCartItem.ventaPor === 'KILOGRAMO' ? true : false}
                                         value={shopingCartItem.cantidad}
-                                        handleChange={(e) => startUpdatingProductAmount({ product: shopingCartItem.producto, amount: e.target.value })}
+                                        handleChange={e => startUpdatingProductAmount({ product: shopingCartItem.producto, amount: parseFloat(e.target.value) })}
+                                        onBeforeInput={e => handleBeforeInput(e, shopingCartItem.ventaPor === 'KILOGRAMO')}
+                                        hasError={shopingCartItem.cantidad > shopingCartItem.existencia}
+                                        errorMessage='La cantidad no puede exceder a la existencia'
                                     />
                                     <button
                                         type="button"
@@ -54,14 +65,25 @@ export const CreateSellingShoppingCart = () => {
                 </div>
                 <div className='border md:w-1/2 p-1'>
                     <InputComponent
-                        inputId=''
-                        inputName=''
+                        inputId='total'
+                        inputName='total'
                         inputType='number'
                         labelText='Total'
                         placeholder='0.0'
                         disabled={true}
                         value={total}
                     />
+                    {/* <InputComponent
+                        inputId='pagoCon'
+                        inputName='pagoCon'
+                        inputType='number'
+                        labelText='Pago con'
+                        placeholder='0.0'
+                        step={0.01}
+                        acceptDecimals={true}
+                        value={pagoCon}
+                        handleChange={ }
+                    /> */}
                     {/* <InputComponent>Pago con:
                     <InputComponent>pago:
                     <InputComponent>cambio
