@@ -65,7 +65,10 @@ export const createSellingSlice = createSlice({
             state.payload.saldo = 0;
         },
         onUpdateProductAmount: (state, { payload }) => {
-            state.payload.articulos = state.payload.articulos.map(item => item.producto === payload.product ? { producto: item.producto, cantidad: payload.amount } : item);
+            state.payload.articulos = state.payload.articulos.map(item => item.producto === payload.product ? { ...item, producto: item.producto, cantidad: payload.amount } : item);
+        },
+        onSetTotal: (state, { payload }) => {
+            state.payload.total = payload;
         },
         onSetBranch: (state, { payload }) => {
             state.payload.sucursal = payload;
@@ -104,4 +107,4 @@ export const createSellingSlice = createSlice({
     }
 });
 
-export const { onClearSellingState, onAddProduct, onRemoveProduct, onClearPayloadExceptBranchAndClient, onUpdateProductAmount, onSetBranch, onSetClient, onSetIsLoading, onClearIsLoading, onSetErrors, onClearErrors, onSetError, onClearError, onSetSuccessMessage, onClearSuccessMessage } = createSellingSlice.actions;
+export const { onClearSellingState, onAddProduct, onRemoveProduct, onClearPayloadExceptBranchAndClient, onUpdateProductAmount, onSetTotal, onSetBranch, onSetClient, onSetIsLoading, onClearIsLoading, onSetErrors, onClearErrors, onSetError, onClearError, onSetSuccessMessage, onClearSuccessMessage } = createSellingSlice.actions;
