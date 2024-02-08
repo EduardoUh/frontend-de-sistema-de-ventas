@@ -16,11 +16,23 @@ const handleBeforeInput = (e, acceptDecimals) => {
 }
 
 export const CreateSellingShoppingCart = () => {
-    const { articulos, total, pagoCon, startUpdatingProductAmount, startRemovingProduct, startSettingTotal } = useCreateSellingStore();
+    const { articulos, total, pagoCon, pago, cliente, cambio, saldo, startUpdatingProductAmount, startRemovingProduct, startSettingTotal, startSettingPagoCon, startSettingPago, startSettingCambio, startSettingSaldo } = useCreateSellingStore();
 
     useEffect(() => {
         if (articulos.length >= 0) startSettingTotal(calculateTotal(articulos));
     }, [articulos]);
+
+    useEffect(() => {
+        if (cliente.trim() === '') startSettingPago(total);
+    }, [total]);
+
+    useEffect(() => {
+        startSettingCambio(pagoCon - pago > 0 ? pagoCon - pago : 0);
+    }, [pago, pagoCon]);
+
+    useEffect(() => {
+        startSettingSaldo(total - pago > 0 ? total - pago : 0);
+    });
 
     return (
         <div className='border shadow-md rounded-lg'>
@@ -46,7 +58,7 @@ export const CreateSellingShoppingCart = () => {
                                         min={shopingCartItem.ventaPor === 'KILOGRAMO' ? 0.01 : 1}
                                         acceptDecimals={shopingCartItem.ventaPor === 'KILOGRAMO' ? true : false}
                                         value={shopingCartItem.cantidad}
-                                        handleChange={e => startUpdatingProductAmount({ product: shopingCartItem.producto, amount: parseFloat(e.target.value) })}
+                                        handleChange={e => startUpdatingProductAmount({ product: shopingCartItem.producto, amount: /^(?:\d+)?(?:\.\d{1,2})?$/.test(parseFloat(e.target.value)) ? parseFloat(e.target.value) : 0 })}
                                         onBeforeInput={e => handleBeforeInput(e, shopingCartItem.ventaPor === 'KILOGRAMO')}
                                         hasError={shopingCartItem.cantidad > shopingCartItem.existencia}
                                         errorMessage='La cantidad no puede exceder a la existencia'
@@ -73,21 +85,59 @@ export const CreateSellingShoppingCart = () => {
                         disabled={true}
                         value={total}
                     />
-                    {/* <InputComponent
+                    <InputComponent
                         inputId='pagoCon'
                         inputName='pagoCon'
                         inputType='number'
-                        labelText='Pago con'
+                        labelText='Paga con la cantidad'
                         placeholder='0.0'
                         step={0.01}
+                        min={cliente.trim() === '' ? total : 0}
                         acceptDecimals={true}
                         value={pagoCon}
-                        handleChange={ }
-                    /> */}
-                    {/* <InputComponent>Pago con:
-                    <InputComponent>pago:
-                    <InputComponent>cambio
-                    <InputComponent>Saldo */}
+                        handleChange={e => startSettingPagoCon(/^(?:\d+)?(?:\.\d{1,2})?$/.test(parseFloat(e.target.value)) ? parseFloat(e.target.value) : 0)}
+                        onBeforeInput={e => handleBeforeInput(e, true)}
+                    />
+                    <InputComponent
+                        inputId='pago'
+                        inputName='pago'
+                        inputType='number'
+                        labelText='Paga la cantidad de'
+                        placeholder='0.0'
+                        step={0.01}
+                        min={cliente.trim() === '' ? total : 0}
+                        acceptDecimals={true}
+                        value={pago}
+                        handleChange={e => startSettingPago(/^(?:\d+)?(?:\.\d{1,2})?$/.test(parseFloat(e.target.value)) ? parseFloat(e.target.value) : 0)}
+                        onBeforeInput={e => handleBeforeInput(e, true)}
+                        disabled={cliente.trim() === ''}
+                    />
+                    <InputComponent
+                        inputId='cambio'
+                        inputName='cambio'
+                        inputType='number'
+                        labelText='Cambio'
+                        placeholder='0.0'
+                        step={0.01}
+                        min={0}
+                        acceptDecimals={true}
+                        value={cambio}
+                        handleChange={() => { }}
+                        disabled={true}
+                    />
+                    <InputComponent
+                        inputId='saldo'
+                        inputName='saldo'
+                        inputType='number'
+                        labelText='Saldo'
+                        placeholder='0.0'
+                        step={0.01}
+                        min={0}
+                        acceptDecimals={true}
+                        value={saldo}
+                        handleChange={() => { }}
+                        disabled={true}
+                    />
                 </div>
             </div>
         </div>
