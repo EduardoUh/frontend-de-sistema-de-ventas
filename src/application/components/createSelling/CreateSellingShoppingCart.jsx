@@ -1,11 +1,18 @@
-import { useCreateSellingStore, useRecordsStorePagination } from '../../../hooks';
+import { useCreateSellingStore } from '../../../hooks';
 import { Card, DataContainer } from '../../ui';
 import { InputComponent } from '../../../utilities';
+import { useEffect } from 'react';
+
+
+const calculateTotal = (shoppingCartItems = []) => shoppingCartItems.reduce((accumulated, current) => accumulated += (parseFloat(current.precio) * (/^(?:\d+)?(?:\.\d{1,2})?$/.test(parseFloat(current.cantidad)) ? parseFloat(current.cantidad) : 0)), 0);
 
 
 export const CreateSellingShoppingCart = () => {
-    const { articulos, startUpdatingProductAmount, startRemovingProduct } = useCreateSellingStore();
-    const { records } = useRecordsStorePagination();
+    const { articulos, total, startUpdatingProductAmount, startRemovingProduct, startSettingTotal } = useCreateSellingStore();
+
+    useEffect(() => {
+        if (articulos.length >= 0) startSettingTotal(calculateTotal(articulos));
+    }, [articulos]);
 
     return (
         <div className='border shadow-md rounded-lg'>
@@ -14,45 +21,51 @@ export const CreateSellingShoppingCart = () => {
                 <div className='overflow-auto md:w-1/2 h-96 border p-1'>
                     {
                         articulos.length > 0
-                            ? articulos?.map(shopingCartItem => {
-                                const product = records.find(record => record.id === shopingCartItem.producto);
-                                return (
-                                    <Card key={product.id} className='border'>
-                                        <DataContainer name='Producto' data={product.nombre} />
-                                        <DataContainer name='Venta por' data={product.ventaPor} />
-                                        <DataContainer name='Existencia' data={product.existencia} />
-                                        <DataContainer name='Precio' data={product.precio} />
-                                        <InputComponent
-                                            inputId={`${product.id}Amount`}
-                                            inputName='cantidad'
-                                            inputType='number'
-                                            labelText='Cantidad'
-                                            placeholder={product.ventaPor === 'KILOGRAMO' ? 0.01 : 1}
-                                            step={product.ventaPor === 'KILOGRAMO' ? 0.01 : 1}
-                                            min={product.ventaPor === 'KILOGRAMO' ? 0.01 : 1}
-                                            acceptDecimals={product.ventaPor === 'KILOGRAMO' ? true : false}
-                                            value={shopingCartItem.cantidad}
-                                            handleChange={(e) => startUpdatingProductAmount({ product: product.id, amount: e.target.value })}
-                                        />
-                                        <button
-                                            type="button"
-                                            className={`w-full rounded bg-red-600 text-white font-bold p-2  hover:bg-red-800 focus:bg-red-400`}
-                                            onClick={() => startRemovingProduct(product.id)}
-                                        >
-                                            Remover del carrito
-                                        </button>
-                                    </Card>
-                                );
-                            })
+                            ? articulos?.map(shopingCartItem =>
+                            (
+                                <Card key={shopingCartItem.producto} className='border'>
+                                    <DataContainer name='Producto' data={shopingCartItem.nombre} />
+                                    <DataContainer name='Venta por' data={shopingCartItem.ventaPor} />
+                                    <DataContainer name='Existencia' data={shopingCartItem.existencia} />
+                                    <DataContainer name='Precio' data={shopingCartItem.precio} />
+                                    <InputComponent
+                                        inputId={`${shopingCartItem.producto}Amount`}
+                                        inputName='cantidad'
+                                        inputType='number'
+                                        labelText='Cantidad'
+                                        placeholder={shopingCartItem.ventaPor === 'KILOGRAMO' ? 0.01 : 1}
+                                        step={shopingCartItem.ventaPor === 'KILOGRAMO' ? 0.01 : 1}
+                                        min={shopingCartItem.ventaPor === 'KILOGRAMO' ? 0.01 : 1}
+                                        acceptDecimals={shopingCartItem.ventaPor === 'KILOGRAMO' ? true : false}
+                                        value={shopingCartItem.cantidad}
+                                        handleChange={(e) => startUpdatingProductAmount({ product: shopingCartItem.producto, amount: e.target.value })}
+                                    />
+                                    <button
+                                        type="button"
+                                        className={`w-full rounded bg-red-600 text-white font-bold p-2  hover:bg-red-800 focus:bg-red-400`}
+                                        onClick={() => startRemovingProduct(shopingCartItem.producto)}
+                                    >
+                                        Remover del carrito
+                                    </button>
+                                </Card>
+                            ))
                             : <div className='font-semibold text-xl text-center'>Carrito vac&iacute;o</div>
                     }
                 </div>
                 <div className='border md:w-1/2 p-1'>
-                    <p>Total:</p>
-                    <p>Pago con:</p>
-                    <p>pago:</p>
-                    <p>cambio</p>
-                    <p>Saldo</p>
+                    <InputComponent
+                        inputId=''
+                        inputName=''
+                        inputType='number'
+                        labelText='Total'
+                        placeholder='0.0'
+                        disabled={true}
+                        value={total}
+                    />
+                    {/* <InputComponent>Pago con:
+                    <InputComponent>pago:
+                    <InputComponent>cambio
+                    <InputComponent>Saldo */}
                 </div>
             </div>
         </div>
