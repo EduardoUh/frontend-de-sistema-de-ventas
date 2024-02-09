@@ -1,5 +1,5 @@
 import { useCreateSellingStore } from '../../hooks';
-import { CreateSellingFormBranchClient, CreateSellingProductsPagination, CreateSellingShoppingCart } from '../components/createSelling';
+import { CreateSellingFormBranchClient, CreateSellingProductsPagination, CreateSellingShoppingCartAndPaymentPanel } from '../components/createSelling';
 
 /*
     {
@@ -26,7 +26,7 @@ export const CreateSelling = ({ permissions, name }) => {
         <div className='space-y-3'>
             <h2 className='text-center font-bold text-xl'>{name}</h2>
             <CreateSellingFormBranchClient baseUrl={baseUrl} />
-            <CreateSellingShoppingCart />
+            <CreateSellingShoppingCartAndPaymentPanel />
             {
                 sucursal.trim().length === 24 &&
                 <CreateSellingProductsPagination name={name} baseUrl={baseUrl} keyToGetData={keyToGetData} />
