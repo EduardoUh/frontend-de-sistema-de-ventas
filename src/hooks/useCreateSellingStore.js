@@ -64,6 +64,14 @@ export const useCreateSellingStore = () => {
         dispatch(onSetSaldo(saldo));
     }
 
+    const startSettingError = (errorMessage) => {
+        dispatch(onSetError(errorMessage));
+    }
+
+    const startClearError = () => {
+        dispatch(onClearError());
+    }
+
     return {
         // ?? Properties
         ...payload,
@@ -85,5 +93,7 @@ export const useCreateSellingStore = () => {
         startSettingPago,
         startSettingCambio,
         startSettingSaldo,
+        startSettingError,
+        startClearError,
     }
 }
