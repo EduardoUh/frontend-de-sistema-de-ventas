@@ -72,6 +72,43 @@ export const useCreateSellingStore = () => {
         dispatch(onClearError());
     }
 
+    const startCreatingSelling = async (payload) => {
+        dispatch(onSetIsLoading());
+
+        try {
+            const { data } = await api.post('/ventas', payload);
+
+            dispatch(onSetSuccessMessage(data.message));
+
+            dispatch(onSetClient(''));
+            dispatch(onClearPayloadExceptBranchAndClient());
+
+            setTimeout(() => {
+                dispatch(onClearSuccessMessage());
+            }, 4000);
+
+        } catch (error) {
+            if (error.response.data.message) {
+                dispatch(onSetError(error.response.data.message));
+
+                setTimeout(() => {
+                    dispatch(onClearError());
+                }, 4000);
+            }
+
+            if (error.response.data.errors) {
+                dispatch(onSetErrors(error.response.data.errors));
+
+                setTimeout(() => {
+                    dispatch(onClearErrors());
+                }, 4000);
+            }
+        }
+        finally {
+            dispatch(onClearIsLoading());
+        }
+    }
+
     return {
         // ?? Properties
         ...payload,
@@ -95,5 +132,6 @@ export const useCreateSellingStore = () => {
         startSettingSaldo,
         startSettingError,
         startClearError,
+        startCreatingSelling,
     }
 }
