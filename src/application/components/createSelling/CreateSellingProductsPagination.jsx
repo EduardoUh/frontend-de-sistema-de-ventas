@@ -1,11 +1,20 @@
+import { useEffect } from 'react';
 import { useCreateSellingStore, useRecordsStorePaginationHooks, useRecordsStorePagination } from '../../../hooks';
 import { PaginationContainer, CardsContainer, Card, DataContainer, Button } from '../../ui';
 
 
 export const CreateSellingProductsPagination = ({ name, baseUrl, keyToGetData }) => {
-    const { sucursal, startAddingProduct, articulos } = useCreateSellingStore();
+    const { sucursal, startAddingProduct, articulos, successMessage } = useCreateSellingStore();
     useRecordsStorePaginationHooks(name, `${baseUrl}/${sucursal}`, keyToGetData);
-    const { records, isLoading, error, pagesCanBeGenerated, page, nextPage, previousPage } = useRecordsStorePagination();
+    const { componentName, records, isLoading, error, pagesCanBeGenerated, page, nextPage, previousPage, startSettingRecords } = useRecordsStorePagination();
+
+    // Logic to trigger a new request to the products in stock for the selected branch
+    // took this approach to get the updated stock after creating a selling
+    useEffect(() => {
+        if (!!successMessage) startSettingRecords(`${baseUrl}/${sucursal}`);
+    }, [successMessage]);
+
+    if (componentName !== name) return (<></>);
 
     return (
         <PaginationContainer data={records} isLoading={isLoading} error={error} pagesCanBeGenerated={pagesCanBeGenerated} page={page} nextPage={nextPage} previousPage={previousPage}>
