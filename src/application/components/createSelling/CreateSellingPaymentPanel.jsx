@@ -4,7 +4,7 @@ import { InputComponent } from '../../../utilities';
 import { validateIfAcceptFloatingPointNumbersOrNot, calculateTotal, isValidProductsCollection } from '../../../helpers';
 
 
-const handleClick = (payload = [], startSettingError, startClearError) => {
+const handleClick = (payload = [], startSettingError, startClearError, startCreatingSelling) => {
     if (!isValidProductsCollection(payload.articulos)) {
         startSettingError('Error en la cantidad de piezas o kilogramos');
         setTimeout(() => {
@@ -45,14 +45,32 @@ const handleClick = (payload = [], startSettingError, startClearError) => {
         return;
     }
 
-    console.log(payload);
+    for (const item of payload.articulos) {
+        delete item.precio;
+        delete item.existencia;
+        delete item.nombre;
+        delete item.ventaPor;
+    }
+
+    if (!payload.cliente) {
+        delete payload.cliente;
+    }
+
+    startCreatingSelling(payload);
+}
+
+const startClearPayloadExceptBranch = (startSettingClient, startClearPayloadExceptBranchAndClient) => {
+    startSettingClient('');
+    startClearPayloadExceptBranchAndClient();
 }
 
 export const CreateSellingPaymentPanel = () => {
     const {
         payload, isLoading, articulos, total, pagoCon, pago, cliente, cambio, saldo,
         startSettingTotal, startSettingPagoCon, startSettingPago, startSettingCambio,
-        startSettingSaldo, startSettingError, startClearError
+        startSettingSaldo, startSettingError, startClearError,
+        startSettingClient, startClearPayloadExceptBranchAndClient,
+        startCreatingSelling,
     } = useCreateSellingStore();
 
     useEffect(() => {
@@ -69,7 +87,7 @@ export const CreateSellingPaymentPanel = () => {
 
     useEffect(() => {
         startSettingSaldo(total - pago > 0 ? total - pago : 0);
-    });
+    }, [total, pago]);
 
     useEffect(() => {
         if (articulos.length === 0) {
@@ -79,7 +97,7 @@ export const CreateSellingPaymentPanel = () => {
             startSettingSaldo(0);
             startSettingCambio(0);
         }
-    });
+    }, [articulos]);
 
     return (
         <div className='border md:w-1/2 p-1'>
@@ -149,14 +167,22 @@ export const CreateSellingPaymentPanel = () => {
                 handleChange={() => { }}
                 disabled={true}
             />
-            <div className='flex justify-center items-center my-2'>
+            <div className='flex flex-col sm:flex-row justify-center items-center gap-2 my-2'>
                 <button
                     type="button"
                     disabled={articulos.length < 1 || isLoading}
-                    className={`w-4/5 sm:w-1/3 rounded text-white font-bold p-2 ${articulos.length < 1 || isLoading ? 'bg-indigo-300' : 'bg-indigo-600 hover:bg-indigo-800 focus:bg-indigo-400'}`}
-                    onClick={() => handleClick(payload, startSettingError, startClearError)}
+                    className={`w-full sm:w-6/12 rounded text-white font-bold p-2 ${articulos.length < 1 || isLoading ? 'bg-indigo-300' : 'bg-indigo-600 hover:bg-indigo-800 focus:bg-indigo-400'}`}
+                    onClick={() => handleClick(structuredClone(payload), startSettingError, startClearError, startCreatingSelling)}
                 >
                     Crear venta
+                </button>
+                <button
+                    type="button"
+                    disabled={articulos.length < 1 || isLoading}
+                    className={`w-full sm:w-6/12 rounded text-white font-bold p-2 ${articulos.length < 1 || isLoading ? 'bg-red-300' : 'bg-red-600 hover:bg-red-800 focus:bg-red-400'}`}
+                    onClick={() => startClearPayloadExceptBranch(startSettingClient, startClearPayloadExceptBranchAndClient)}
+                >
+                    Cancelar venta
                 </button>
             </div>
         </div>
