@@ -29,3 +29,13 @@ export const modulesValidation = (modules = null) => {
 };
 
 export const floatingPointValuesValidation = (value = null) => value && /^(?:\d+)?(?:\.\d{1,2})?$/.test(value);
+
+export const isValidProductsCollection = (products = null) => {
+    if (!Array.isArray(products) || products.length < 1) return false;
+
+    for (const product of products) {
+        if (!product.producto || !product.cantidad || Number(product.cantidad) < 0.01 || product.cantidad > product.existencia) return false;
+    }
+
+    return true;
+}
