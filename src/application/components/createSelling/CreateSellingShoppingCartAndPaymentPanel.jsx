@@ -10,7 +10,7 @@ export const CreateSellingShoppingCartAndPaymentPanel = () => {
     return (
         <div className='border shadow-md rounded-lg'>
             <h3 className='text-center font-semibold text-2xl'>Canasta</h3>
-            <div className="w-5/6">
+            <div className="flex justify-center items-center">
                 <ShowErrorMessages hasErrors={errors.hasErrors} errors={errors.messages} />
                 <ShowErrorMessage hasError={error.hasError} error={error.message} />
                 <ShowSuccessMessage successMessage={successMessage} />
