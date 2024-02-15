@@ -8,6 +8,6 @@ export const store = configureStore({
         uI: uISlice.reducer,
         records: recordsSlice.reducer,
         createSelling: createSellingSlice.reducer,
-        createPurchase: createSellingSlice.reducer,
+        createPurchase: createPurchaseSlice.reducer,
     }
 });
