@@ -31,6 +31,10 @@ export const useRecordsStorePagination = () => {
         dispatch(setUrl(`${baseUrl.trim()}?page=${page}`));
     }
 
+    const setBaseUrlWithParams = baseUrl => {
+        dispatch(setUrl(`${baseUrl.trim()}&page=${page}`));
+    }
+
     const setTheKeyToGetCollectionOfData = (key = '') => {
         dispatch(setKeyToGetCollectionOfData(key));
     }
@@ -133,5 +137,6 @@ export const useRecordsStorePagination = () => {
         addFiltersToUrl,
         startSettingRecords,
         startCleaningRecordsSlice,
+        setBaseUrlWithParams,
     }
 }
