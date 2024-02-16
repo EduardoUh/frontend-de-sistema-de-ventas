@@ -3,6 +3,7 @@ import {
     onSetBranch,
     onSetProvider,
     onClearPayloadExceptBranchAndProvider,
+    onAddProduct,
 } from '../store/records/createPurchaseSlice';
 
 
@@ -22,6 +23,10 @@ export const useCreatePurchaseStore = () => {
         dispatch(onClearPayloadExceptBranchAndProvider());
     }
 
+    const startAddingProduct = (product) => {
+        dispatch(onAddProduct(product));
+    }
+
     return {
         // ? Properties
         payload,
@@ -38,5 +43,6 @@ export const useCreatePurchaseStore = () => {
         startSettingBranch,
         startSettingProvider,
         startClearPayloadExceptBranchAndProvider,
+        startAddingProduct,
     }
 }

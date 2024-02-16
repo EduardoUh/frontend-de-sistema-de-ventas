@@ -2,8 +2,25 @@ import { useCreatePurchaseStore, useRecordsStorePaginationHooks, useRecordsStore
 import { PaginationContainer, CardsContainer, Card, DataContainer, Button } from '../../ui';
 
 
+/* 
+    {
+    "sucursal": "6575fffa22029109607ee3b9",
+    "proveedor": "65774afbb8a2ba10834d2640",
+    "articulos": [
+                {
+                    "producto":"65775da88dde2c511601f204",
+                    "precioSinImpuesto": 10, 
+                    "impuesto": 0.16,
+                    "precioConImpuesto": 11.6,
+                    "precioVenta": 13.6,
+                    "cantidad": 100
+                }
+            ],
+    "total": 1160
+    }
+*/
 export const CreatePurchaseProductsPagination = ({ name, baseUrl, keyToGetData }) => {
-    const { proveedor, articulos } = useCreatePurchaseStore();
+    const { proveedor, articulos, startAddingProduct } = useCreatePurchaseStore();
     useRecordsStorePaginationHooks(name, `${baseUrl}?proveedor=${proveedor}`, keyToGetData);
     const { componentName, records, isLoading, error, pagesCanBeGenerated, page, nextPage, previousPage, startSettingRecords } = useRecordsStorePagination();
 
@@ -14,11 +31,28 @@ export const CreatePurchaseProductsPagination = ({ name, baseUrl, keyToGetData }
             <CardsContainer>
                 {
                     records?.map(product => (
-                        <Card key={product.id}>
+                        <Card key={product?.id}>
                             <DataContainer name='Nombre' data={product?.nombre} />
                             <DataContainer name='Descripción' data={product?.descripcion} />
                             <DataContainer name='Venta por' data={product?.ventaPor} />
                             <DataContainer name='Estatus' data={product?.activo ? 'Activo' : 'Inactivo'} />
+                            {
+                                !articulos?.find(item => item?.producto === product?.id) &&
+                                <Button
+                                    type='button'
+                                    text='Añadir a la canasta'
+                                    buttonSyles='w-full'
+                                    handleClick={() => startAddingProduct({
+                                        producto: product?.id,
+                                        nombre: product?.nombre,
+                                        precioSinImpuesto: 0,
+                                        impuesto: 0,
+                                        precioConImpuesto: 0,
+                                        precioVenta: 0,
+                                        cantidad: 0,
+                                    })}
+                                />
+                            }
                         </Card>
                     ))
                 }
