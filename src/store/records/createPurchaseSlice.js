@@ -26,24 +26,22 @@ export const createPurchaseSlice = createSlice({
     initialState,
     reducers: {
         onClearPurchaseState: (state) => {
-            state = {
-                payload: {
-                    sucursal: '',
-                    proveedor: '',
-                    articulos: [],
-                    total: 0
-                },
-                isLoading: false,
-                errors: {
-                    hasErrors: false,
-                    messages: null
-                },
-                error: {
-                    hasError: false,
-                    message: null
-                },
-                successMessage: null
-            }
+            state.payload = {
+                sucursal: '',
+                proveedor: '',
+                articulos: [],
+                total: 0
+            };
+            state.isLoading = false;
+            state.errors = {
+                hasErrors: false,
+                messages: null
+            };
+            state.error = {
+                hasError: false,
+                message: null
+            };
+            state.successMessage = null;
         },
         onSetBranch: (state, { payload }) => {
             state.payload.sucursal = payload;

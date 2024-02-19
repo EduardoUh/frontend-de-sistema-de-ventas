@@ -1,5 +1,6 @@
 import { useSelector, useDispatch } from 'react-redux';
 import {
+    onClearPurchaseState,
     onSetBranch,
     onSetProvider,
     onClearPayloadExceptBranchAndProvider,
@@ -14,6 +15,10 @@ import {
 export const useCreatePurchaseStore = () => {
     const { payload, selectedProduct, isLoading, errors, error, successMessage } = useSelector(state => state.createPurchase);
     const dispatch = useDispatch();
+
+    const startClearPurchaseState = () => {
+        dispatch(onClearPurchaseState());
+    }
 
     const startSettingBranch = (branchId) => {
         dispatch(onSetBranch(branchId));
@@ -69,6 +74,7 @@ export const useCreatePurchaseStore = () => {
         articulos: payload.articulos,
         total: payload.total,
         // ? Methods
+        startClearPurchaseState,
         startSettingBranch,
         startSettingProvider,
         startClearPayloadExceptBranchAndProvider,

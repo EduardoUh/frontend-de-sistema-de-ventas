@@ -1,4 +1,4 @@
-import { useUIStore, useAuthStore, useCreateSellingStore, useRecordsStorePagination } from '../../../hooks';
+import { useUIStore, useAuthStore, useCreateSellingStore, useRecordsStorePagination, useCreatePurchaseStore } from '../../../hooks';
 
 
 const handleClearStoreStates = (...clearFunctions) => {
@@ -10,6 +10,7 @@ export const Header = () => {
     const { user, startLogout } = useAuthStore();
     const { startCleaningRecordsSlice } = useRecordsStorePagination();
     const { startClearSellingState } = useCreateSellingStore();
+    const { startClearPurchaseState } = useCreatePurchaseStore();
 
     return (
         <header className="h-16 bg-gradient-to-r from-blue-500 via-blue-400 to-cyan-500 text-white font-bold text-lg flex justify-between">
@@ -32,7 +33,7 @@ export const Header = () => {
                 </h1>
             </div>
             <div className="w-2/12 md:w-1/12 flex justify-center items-center">
-                <button type="button" className="hover:scale-105" onClick={() => handleClearStoreStates(startLogout, startClearSellingState, startCleaningRecordsSlice)}>
+                <button type="button" className="hover:scale-105" onClick={() => handleClearStoreStates(startLogout, startClearSellingState, startCleaningRecordsSlice, startClearPurchaseState)}>
                     <svg className='w-full h-10 md:h-12' xmlns="http://www.w3.org/2000/svg" fill="#fff" stroke="#fff" viewBox="0 0 512 512">
                         <g id="SVGRepo_iconCarrier">
                             <defs>
