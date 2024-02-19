@@ -1,5 +1,5 @@
-import { useCreatePurchaseStore } from '../../hooks';
-import { CreatePurchaseFormProviderBranch, CreatePurchaseProductsPagination } from '../components/createPurchase';
+import { useCreatePurchaseStore, useUIStore } from '../../hooks';
+import { CreatePurchaseFormProviderBranch, CreatePurchaseProductsPagination, CreatePurchaseAddProductModal } from '../components/createPurchase';
 
 
 const baseUrl = '/productos';
@@ -8,6 +8,7 @@ const keyToGetData = 'productos';
 
 export const CreatePurchase = ({ permissions, name }) => {
     const { proveedor } = useCreatePurchaseStore();
+    const { createModalIsOpen } = useUIStore();
 
     if (!permissions || !Array.isArray(permissions) || Array.isArray(permissions) && permissions.length === 0) return (<div className='text-center font-bold text-3xl'>Sin credenciales en &eacute;ste m&oacute;dulo</div>)
 
@@ -18,6 +19,9 @@ export const CreatePurchase = ({ permissions, name }) => {
             {
                 proveedor.trim().length === 24 &&
                 <CreatePurchaseProductsPagination name={name} baseUrl={baseUrl} keyToGetData={keyToGetData} />
+            }
+            {
+                createModalIsOpen && <CreatePurchaseAddProductModal />
             }
         </div>
     )

@@ -3,12 +3,16 @@ import {
     onSetBranch,
     onSetProvider,
     onClearPayloadExceptBranchAndProvider,
+    onSetSelectedProduct,
+    onClearSelectedProduct,
     onAddProduct,
+    onSetSuccessMessage, onClearSuccessMessage,
+    onSetError, onClearError
 } from '../store/records/createPurchaseSlice';
 
 
 export const useCreatePurchaseStore = () => {
-    const { payload, isLoading, errors, error, successMessage } = useSelector(state => state.createPurchase);
+    const { payload, selectedProduct, isLoading, errors, error, successMessage } = useSelector(state => state.createPurchase);
     const dispatch = useDispatch();
 
     const startSettingBranch = (branchId) => {
@@ -23,13 +27,38 @@ export const useCreatePurchaseStore = () => {
         dispatch(onClearPayloadExceptBranchAndProvider());
     }
 
+    const startSettingSelectedProduct = (product) => {
+        dispatch(onSetSelectedProduct(product));
+    }
+
+    const startRemovingSelectedProduct = () => {
+        dispatch(onClearSelectedProduct());
+    }
+
     const startAddingProduct = (product) => {
         dispatch(onAddProduct(product));
+    }
+
+    const startSettingSuccessMessage = (message) => {
+        dispatch(onSetSuccessMessage(message));
+    }
+
+    const startRemovingSuccessMessage = () => {
+        dispatch(onClearSuccessMessage());
+    }
+
+    const startSettingErrorMessage = (message) => {
+        dispatch(onSetError(message));
+    }
+
+    const startRemovingErrorMessage = () => {
+        dispatch(onClearError());
     }
 
     return {
         // ? Properties
         payload,
+        selectedProduct,
         isLoading,
         errors,
         error,
@@ -43,6 +72,12 @@ export const useCreatePurchaseStore = () => {
         startSettingBranch,
         startSettingProvider,
         startClearPayloadExceptBranchAndProvider,
+        startSettingSelectedProduct,
+        startRemovingSelectedProduct,
         startAddingProduct,
+        startSettingSuccessMessage,
+        startRemovingSuccessMessage,
+        startSettingErrorMessage,
+        startRemovingErrorMessage,
     }
 }

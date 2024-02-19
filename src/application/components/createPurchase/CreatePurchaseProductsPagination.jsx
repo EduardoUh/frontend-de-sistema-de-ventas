@@ -1,4 +1,4 @@
-import { useCreatePurchaseStore, useRecordsStorePaginationHooks, useRecordsStorePagination } from '../../../hooks';
+import { useCreatePurchaseStore, useRecordsStorePaginationHooks, useRecordsStorePagination, useUIStore } from '../../../hooks';
 import { PaginationContainer, CardsContainer, Card, DataContainer, Button } from '../../ui';
 
 
@@ -19,10 +19,18 @@ import { PaginationContainer, CardsContainer, Card, DataContainer, Button } from
     "total": 1160
     }
 */
+
+const handleClick = (startSettingSelectedProduct, productData, startOpenCreateModal) => {
+    startSettingSelectedProduct(productData);
+
+    startOpenCreateModal();
+}
+
 export const CreatePurchaseProductsPagination = ({ name, baseUrl, keyToGetData }) => {
-    const { proveedor, articulos, startAddingProduct } = useCreatePurchaseStore();
+    const { proveedor, articulos, startSettingSelectedProduct } = useCreatePurchaseStore();
     useRecordsStorePaginationHooks(name, `${baseUrl}?proveedor=${proveedor}`, keyToGetData);
     const { componentName, records, isLoading, error, pagesCanBeGenerated, page, nextPage, previousPage, startSettingRecords } = useRecordsStorePagination();
+    const { startOpenCreateModal } = useUIStore();
 
     if (componentName !== name) return (<></>);
 
@@ -40,17 +48,21 @@ export const CreatePurchaseProductsPagination = ({ name, baseUrl, keyToGetData }
                                 !articulos?.find(item => item?.producto === product?.id) &&
                                 <Button
                                     type='button'
-                                    text='Añadir a la canasta'
+                                    text='Añadir a lista de compra'
                                     buttonSyles='w-full'
-                                    handleClick={() => startAddingProduct({
-                                        producto: product?.id,
-                                        nombre: product?.nombre,
-                                        precioSinImpuesto: 0,
-                                        impuesto: 0,
-                                        precioConImpuesto: 0,
-                                        precioVenta: 0,
-                                        cantidad: 0,
-                                    })}
+                                    handleClick={() => handleClick(
+                                        startSettingSelectedProduct,
+                                        {
+                                            producto: product?.id,
+                                            ventaPor: product?.ventaPor,
+                                            nombre: product?.nombre,
+                                            precioCompra: 0,
+                                            precioVenta: 0,
+                                            cantidad: 0,
+                                            total: 0
+                                        },
+                                        startOpenCreateModal
+                                    )}
                                 />
                             }
                         </Card>

@@ -8,6 +8,7 @@ const initialState = {
         articulos: [],
         total: 0
     },
+    selectedProduct: null,
     isLoading: false,
     errors: {
         hasErrors: false,
@@ -49,6 +50,12 @@ export const createPurchaseSlice = createSlice({
         },
         onSetProvider: (state, { payload }) => {
             state.payload.proveedor = payload;
+        },
+        onSetSelectedProduct: (state, { payload }) => {
+            state.selectedProduct = payload;
+        },
+        onClearSelectedProduct: (state) => {
+            state.selectedProduct = null;
         },
         onAddProduct: (state, { payload }) => {
             state.payload.articulos.push(payload);
@@ -110,7 +117,8 @@ export const createPurchaseSlice = createSlice({
 });
 
 export const {
-    onClearPurchaseState, onSetBranch, onSetProvider, onAddProduct, onRemoveProduct, onClearPayloadExceptBranchAndProvider,
+    onClearPurchaseState, onSetBranch, onSetProvider, onSetSelectedProduct, onClearSelectedProduct,
+    onAddProduct, onRemoveProduct, onClearPayloadExceptBranchAndProvider,
     onUpdateProductAmount, onUpdateNoTaxePrice, onUpdateTaxePercentage,
     onUpdatePriceWithTax, onUpdateSellingPrice, onSetTotal,
     onSetIsLoading, onClearIsLoading,
