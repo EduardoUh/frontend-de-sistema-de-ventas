@@ -7,9 +7,13 @@ import {
     onSetSelectedProduct,
     onClearSelectedProduct,
     onAddProduct, onRemoveProduct, onUpdateProduct,
+    onSetTotal,
     onSetSuccessMessage, onClearSuccessMessage,
-    onSetError, onClearError
+    onSetError, onClearError,
+    onSetIsLoading, onClearIsLoading,
+    onSetErrors, onClearErrors
 } from '../store/records/createPurchaseSlice';
+import { api } from '../api/api';
 
 
 export const useCreatePurchaseStore = () => {
@@ -52,6 +56,48 @@ export const useCreatePurchaseStore = () => {
         dispatch(onUpdateProduct(product));
     }
 
+    const startSettingTotal = (total) => {
+        dispatch(onSetTotal(total));
+    }
+
+    const startCreatingPurchase = async (payload) => {
+        dispatch(onSetIsLoading());
+
+        try {
+            const { data } = await api.post('/compras', payload);
+
+            dispatch(onSetSuccessMessage(data.message));
+
+            dispatch(onSetProvider(''));
+
+            dispatch(onClearPayloadExceptBranchAndProvider());
+
+            setTimeout(() => {
+                dispatch(onClearSuccessMessage());
+            }, 4000);
+
+        } catch (error) {
+            if (error.response.data.message) {
+                dispatch(onSetError(error.response.data.message));
+
+                setTimeout(() => {
+                    dispatch(onClearError());
+                }, 4000);
+            }
+
+            if (error.response.data.errors) {
+                dispatch(onSetErrors(error.response.data.errors));
+
+                setTimeout(() => {
+                    dispatch(onClearErrors());
+                }, 4000);
+            }
+        }
+        finally {
+            dispatch(onClearIsLoading());
+        }
+    }
+
     const startSettingSuccessMessage = (message) => {
         dispatch(onSetSuccessMessage(message));
     }
@@ -91,6 +137,8 @@ export const useCreatePurchaseStore = () => {
         startAddingProduct,
         startRemovingProduct,
         startUpdatingProduct,
+        startSettingTotal,
+        startCreatingPurchase,
         startSettingSuccessMessage,
         startRemovingSuccessMessage,
         startSettingErrorMessage,
