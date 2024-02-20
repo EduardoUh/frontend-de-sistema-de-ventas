@@ -68,23 +68,6 @@ export const createPurchaseSlice = createSlice({
         onUpdateProduct: (state, { payload }) => {
             state.payload.articulos = state.payload.articulos.map(item => item.producto === payload.producto ? payload : item);
         },
-        // maybe not using theese, should consider remove
-        onUpdateProductAmount: (state, { payload }) => {
-            state.payload.articulos = state.payload.articulos.map(item => item.producto === payload.product ? { ...item, cantidad: payload.amount } : item);
-        },
-        onUpdateNoTaxePrice: (state, { payload }) => {
-            state.payload.articulos = state.payload.articulos.map(item => item.producto === payload.product ? { ...item, precioSinImpuesto: payload.noTaxePrice } : item);
-        },
-        onUpdateTaxePercentage: (state, { payload }) => {
-            state.payload.articulos = state.payload.articulos.map(item => item.producto === payload.product ? { ...item, impuesto: payload.taxePercentage } : item);
-        },
-        onUpdatePriceWithTax: (state, { payload }) => {
-            state.payload.articulos = state.payload.articulos.map(item => item.producto === payload.product ? { ...item, precioConImpuesto: payload.priceWithTaxe } : item);
-        },
-        onUpdateSellingPrice: (state, { payload }) => {
-            state.payload.articulos = state.payload.articulos.map(item => item.producto === payload.product ? { ...item, precioVenta: payload.sellingPrice } : item);
-        },
-        // 
         onSetTotal: (state, { payload }) => {
             state.payload.total = payload;
         },
@@ -123,8 +106,7 @@ export const {
     onClearPurchaseState, onSetBranch, onSetProvider, onSetSelectedProduct, onClearSelectedProduct,
     onAddProduct, onRemoveProduct, onClearPayloadExceptBranchAndProvider,
     onUpdateProduct,
-    onUpdateProductAmount, onUpdateNoTaxePrice, onUpdateTaxePercentage,
-    onUpdatePriceWithTax, onUpdateSellingPrice, onSetTotal,
+    onSetTotal,
     onSetIsLoading, onClearIsLoading,
     onSetErrors, onClearErrors,
     onSetError, onClearError,
