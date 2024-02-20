@@ -2,24 +2,6 @@ import { useCreatePurchaseStore, useRecordsStorePaginationHooks, useRecordsStore
 import { PaginationContainer, CardsContainer, Card, DataContainer, Button } from '../../ui';
 
 
-/* 
-    {
-    "sucursal": "6575fffa22029109607ee3b9",
-    "proveedor": "65774afbb8a2ba10834d2640",
-    "articulos": [
-                {
-                    "producto":"65775da88dde2c511601f204",
-                    "precioSinImpuesto": 10, 
-                    "impuesto": 0.16,
-                    "precioConImpuesto": 11.6,
-                    "precioVenta": 13.6,
-                    "cantidad": 100
-                }
-            ],
-    "total": 1160
-    }
-*/
-
 const handleClick = (startSettingSelectedProduct, productData, startOpenCreateModal) => {
     startSettingSelectedProduct(productData);
 
