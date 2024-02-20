@@ -20,12 +20,12 @@ export const PurchasesPagination = ({ name }) => {
             <CardsContainer>
                 {
                     records?.map(purchase => (
-                        <Card key={purchase.id}>
-                            <DataContainer name='Sucursal' data={purchase.sucursal.nombre} />
-                            <DataContainer name='Creador' data={purchase.creador.nombres} />
-                            <DataContainer name='Proveedor' data={purchase.proveedor.nombre} />
-                            <DataContainer name='Total' data={`$${purchase.total}`} />
-                            <DataContainer name='Fecha de creación' data={purchase.fechaCreacion} convertToDate={true} />
+                        <Card key={purchase?.id}>
+                            <DataContainer name='Sucursal' data={purchase?.sucursal?.nombre} />
+                            <DataContainer name='Creador' data={purchase?.creador?.nombres} />
+                            <DataContainer name='Proveedor' data={purchase?.proveedor?.nombre} />
+                            <DataContainer name='Total' data={`$${purchase?.total}`} />
+                            <DataContainer name='Fecha de creación' data={purchase?.fechaCreacion} convertToDate={true} />
                             <Button
                                 text='Ver artículos'
                                 type='button'

@@ -33,7 +33,14 @@ export const CreateSellingProductsPagination = ({ name, baseUrl, keyToGetData })
                                     text='Añadir a canasta'
                                     type='button'
                                     buttonSyles='w-full'
-                                    handleClick={() => startAddingProduct({ producto: product.id, cantidad: 0, precio: product.precio, existencia: product.existencia, nombre: product.nombre, ventaPor: product.ventaPor })}
+                                    handleClick={() => startAddingProduct({
+                                        producto: product?.id,
+                                        cantidad: 0,
+                                        precio: product?.precio,
+                                        existencia: product?.existencia,
+                                        nombre: product?.nombre,
+                                        ventaPor: product?.ventaPor
+                                    })}
                                 />
                             }
                         </Card>

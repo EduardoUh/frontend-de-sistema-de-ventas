@@ -20,17 +20,17 @@ export const ProvidersPagination = ({ permissions, name }) => {
             <CardsContainer>
                 {
                     records?.map(provider => (
-                        <Card key={provider.id}>
-                            <DataContainer name='Nombre' data={provider.nombre} />
-                            <DataContainer name='Dirección' data={provider.direccion} />
-                            <DataContainer name='Teléfono' data={provider.numTelefono} />
-                            <DataContainer name='Email' data={provider.email} />
-                            <DataContainer name='Rfc' data={provider.rfc} />
-                            <DataContainer name='Estatus' data={provider.activo ? 'Activo' : 'Inactivo'} />
-                            <DataContainer name='Creador' data={provider.creador.nombres} />
-                            <DataContainer name='Fecha de creación' data={provider.fechaCreacion} convertToDate={true} />
-                            <DataContainer name='Último en modificar' data={provider.ultimoEnModificar.nombres} />
-                            <DataContainer name='Fecha de última modificación' data={provider.fechaUltimaModificacion} convertToDate={true} />
+                        <Card key={provider?.id}>
+                            <DataContainer name='Nombre' data={provider?.nombre} />
+                            <DataContainer name='Dirección' data={provider?.direccion} />
+                            <DataContainer name='Teléfono' data={provider?.numTelefono} />
+                            <DataContainer name='Email' data={provider?.email} />
+                            <DataContainer name='Rfc' data={provider?.rfc} />
+                            <DataContainer name='Estatus' data={provider?.activo ? 'Activo' : 'Inactivo'} />
+                            <DataContainer name='Creador' data={provider?.creador?.nombres} />
+                            <DataContainer name='Fecha de creación' data={provider?.fechaCreacion} convertToDate={true} />
+                            <DataContainer name='Último en modificar' data={provider?.ultimoEnModificar?.nombres} />
+                            <DataContainer name='Fecha de última modificación' data={provider?.fechaUltimaModificacion} convertToDate={true} />
                             {
                                 permissions.find(permission => permission === 'ACTUALIZAR')
                                 && <Button
@@ -40,13 +40,13 @@ export const ProvidersPagination = ({ permissions, name }) => {
                                     handleClick={() => handleOpenModalAndStartSelectingRecord(
                                         startOpenUpdateModal,
                                         startSelectingRecord, {
-                                        id: provider.id,
-                                        nombre: provider.nombre,
-                                        direccion: provider.direccion,
-                                        numTelefono: provider.numTelefono,
-                                        email: provider.email,
-                                        rfc: provider.rfc,
-                                        activo: provider.activo
+                                        id: provider?.id,
+                                        nombre: provider?.nombre,
+                                        direccion: provider?.direccion,
+                                        numTelefono: provider?.numTelefono,
+                                        email: provider?.email,
+                                        rfc: provider?.rfc,
+                                        activo: provider?.activo
                                     })} />
                             }
                         </Card>

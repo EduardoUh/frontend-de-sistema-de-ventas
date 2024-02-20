@@ -21,19 +21,19 @@ export const CustomersPagination = ({ permissions, name }) => {
                 {
                     records?.map(customer =>
                     (
-                        <Card key={customer.id}>
-                            <DataContainer name='Nombres' data={customer.nombres} />
-                            <DataContainer name='Apellido paterno' data={customer.apellidoPaterno} />
-                            <DataContainer name='Apellido materno' data={customer.apellidoMaterno} />
-                            <DataContainer name='Rfc' data={customer.rfc} />
-                            <DataContainer name='Email' data={customer.email} />
-                            <DataContainer name='Teléfono' data={customer.numTelefono} />
-                            <DataContainer name='Dirección' data={customer.direccion} />
-                            <DataContainer name='Estatus' data={customer.activo ? 'Activo' : 'Inactivo'} />
-                            <DataContainer name='Creador' data={customer.creador.nombres} />
-                            <DataContainer name='Fecha de creación' data={customer.fechaCreacion} convertToDate={true} />
-                            <DataContainer name='Último en modificar' data={customer.ultimoEnModificar.nombres} />
-                            <DataContainer name='Fecha de última modificación' data={customer.fechaUltimaModificacion} convertToDate={true} />
+                        <Card key={customer?.id}>
+                            <DataContainer name='Nombres' data={customer?.nombres} />
+                            <DataContainer name='Apellido paterno' data={customer?.apellidoPaterno} />
+                            <DataContainer name='Apellido materno' data={customer?.apellidoMaterno} />
+                            <DataContainer name='Rfc' data={customer?.rfc} />
+                            <DataContainer name='Email' data={customer?.email} />
+                            <DataContainer name='Teléfono' data={customer?.numTelefono} />
+                            <DataContainer name='Dirección' data={customer?.direccion} />
+                            <DataContainer name='Estatus' data={customer?.activo ? 'Activo' : 'Inactivo'} />
+                            <DataContainer name='Creador' data={customer?.creador?.nombres} />
+                            <DataContainer name='Fecha de creación' data={customer?.fechaCreacion} convertToDate={true} />
+                            <DataContainer name='Último en modificar' data={customer?.ultimoEnModificar?.nombres} />
+                            <DataContainer name='Fecha de última modificación' data={customer?.fechaUltimaModificacion} convertToDate={true} />
                             {
                                 permissions.find(permission => permission === 'ACTUALIZAR') &&
                                 <Button
@@ -44,15 +44,15 @@ export const CustomersPagination = ({ permissions, name }) => {
                                         startOpenUpdateModal,
                                         startSelectingRecord,
                                         {
-                                            id: customer.id,
-                                            nombres: customer.nombres,
-                                            apellidoPaterno: customer.apellidoPaterno,
-                                            apellidoMaterno: customer.apellidoMaterno,
-                                            rfc: customer.rfc,
-                                            email: customer.email,
-                                            numTelefono: customer.numTelefono,
-                                            direccion: customer.direccion,
-                                            activo: customer.activo
+                                            id: customer?.id,
+                                            nombres: customer?.nombres,
+                                            apellidoPaterno: customer?.apellidoPaterno,
+                                            apellidoMaterno: customer?.apellidoMaterno,
+                                            rfc: customer?.rfc,
+                                            email: customer?.email,
+                                            numTelefono: customer?.numTelefono,
+                                            direccion: customer?.direccion,
+                                            activo: customer?.activo
                                         }
                                     )}
                                 />
