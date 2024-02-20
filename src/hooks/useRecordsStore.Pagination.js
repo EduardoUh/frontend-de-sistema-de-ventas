@@ -28,7 +28,7 @@ export const useRecordsStorePagination = () => {
     const dispatch = useDispatch();
 
     const setBaseUrl = baseUrl => {
-        dispatch(setUrl(`${baseUrl.trim()}?page=${page}`));
+        dispatch(setUrl(`${baseUrl.trim()}${baseUrl.trim().includes('?') ? `&page=${page}` : `?page=${page}`}`));
     }
 
     const setTheKeyToGetCollectionOfData = (key = '') => {
