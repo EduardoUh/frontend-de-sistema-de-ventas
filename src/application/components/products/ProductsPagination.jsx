@@ -20,17 +20,17 @@ export const ProductsPagination = ({ permissions, name }) => {
             <CardsContainer>
                 {
                     records?.map(product => (
-                        <Card key={product.id}>
-                            <DataContainer name='Nombre' data={product.nombre} />
-                            <DataContainer name='Descripción' data={product.descripcion} />
-                            <DataContainer name='Tipo de producto' data={product.tipoProducto?.tipoProducto} />
-                            <DataContainer name='Proveedor' data={product.proveedor?.nombre} />
-                            <DataContainer name='Venta por' data={product.ventaPor} />
-                            <DataContainer name='Estatus' data={product.activo ? 'Activo' : 'Inactivo'} />
-                            <DataContainer name='Creador' data={product.creador.nombres} />
-                            <DataContainer name='Fecha de creación' data={product.fechaCreacion} convertToDate={true} />
-                            <DataContainer name='Último en modificar' data={product.ultimoEnModificar.nombres} />
-                            <DataContainer name='Fecha de última modificación' data={product.fechaUltimaModificacion} convertToDate={true} />
+                        <Card key={product?.id}>
+                            <DataContainer name='Nombre' data={product?.nombre} />
+                            <DataContainer name='Descripción' data={product?.descripcion} />
+                            <DataContainer name='Tipo de producto' data={product?.tipoProducto?.tipoProducto} />
+                            <DataContainer name='Proveedor' data={product?.proveedor?.nombre} />
+                            <DataContainer name='Venta por' data={product?.ventaPor} />
+                            <DataContainer name='Estatus' data={product?.activo ? 'Activo' : 'Inactivo'} />
+                            <DataContainer name='Creador' data={product?.creador?.nombres} />
+                            <DataContainer name='Fecha de creación' data={product?.fechaCreacion} convertToDate={true} />
+                            <DataContainer name='Último en modificar' data={product?.ultimoEnModificar?.nombres} />
+                            <DataContainer name='Fecha de última modificación' data={product?.fechaUltimaModificacion} convertToDate={true} />
                             {
                                 permissions.find(permission => permission === 'ACTUALIZAR') &&
                                 <Button
@@ -41,13 +41,13 @@ export const ProductsPagination = ({ permissions, name }) => {
                                         startOpenUpdateModal,
                                         startSelectingRecord,
                                         {
-                                            id: product.id,
-                                            nombre: product.nombre,
-                                            descripcion: product.descripcion,
-                                            tipoProducto: product.tipoProducto?.id,
-                                            proveedor: product.proveedor?.id,
-                                            ventaPor: product.ventaPor,
-                                            activo: product.activo,
+                                            id: product?.id,
+                                            nombre: product?.nombre,
+                                            descripcion: product?.descripcion,
+                                            tipoProducto: product?.tipoProducto?.id,
+                                            proveedor: product?.proveedor?.id,
+                                            ventaPor: product?.ventaPor,
+                                            activo: product?.activo,
                                         }
                                     )}
                                 />

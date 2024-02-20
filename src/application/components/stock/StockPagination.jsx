@@ -20,15 +20,15 @@ export const StockPagination = ({ permissions, name }) => {
             <CardsContainer>
                 {
                     records?.map(stock => (
-                        <Card key={stock.id}>
-                            <DataContainer name='Sucursal' data={stock.sucursal.nombre} />
-                            <DataContainer name='Producto' data={stock.producto.nombre} />
-                            <DataContainer name='Existencia' data={stock.existencia} />
-                            <DataContainer name='Precio' data={`$${stock.precio}`} />
-                            <DataContainer name='Creador' data={stock.creador.nombres} />
-                            <DataContainer name='Fecha de creación' data={stock.fechaCreacion} convertToDate={true} />
-                            <DataContainer name='Último en modificar' data={stock.ultimoEnModificar.nombres} />
-                            <DataContainer name='Fecha de última modificación' data={stock.fechaUltimaModificacion} convertToDate={true} />
+                        <Card key={stock?.id}>
+                            <DataContainer name='Sucursal' data={stock?.sucursal?.nombre} />
+                            <DataContainer name='Producto' data={stock?.producto?.nombre} />
+                            <DataContainer name='Existencia' data={stock?.existencia} />
+                            <DataContainer name='Precio' data={`$${stock?.precio}`} />
+                            <DataContainer name='Creador' data={stock?.creador?.nombres} />
+                            <DataContainer name='Fecha de creación' data={stock?.fechaCreacion} convertToDate={true} />
+                            <DataContainer name='Último en modificar' data={stock?.ultimoEnModificar?.nombres} />
+                            <DataContainer name='Fecha de última modificación' data={stock?.fechaUltimaModificacion} convertToDate={true} />
                             {
                                 permissions.find(permission => permission === 'ACTUALIZAR') &&
                                 <Button
@@ -39,11 +39,11 @@ export const StockPagination = ({ permissions, name }) => {
                                         startOpenUpdateModal,
                                         startSelectingRecord,
                                         {
-                                            id: stock.id,
-                                            sucursal: stock.sucursal.id,
-                                            producto: stock.producto.id,
-                                            existencia: stock.existencia,
-                                            precio: stock.precio
+                                            id: stock?.id,
+                                            sucursal: stock?.sucursal?.id,
+                                            producto: stock?.producto?.id,
+                                            existencia: stock?.existencia,
+                                            precio: stock?.precio
                                         }
                                     )}
                                 />
