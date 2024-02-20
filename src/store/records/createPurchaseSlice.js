@@ -65,6 +65,10 @@ export const createPurchaseSlice = createSlice({
             state.payload.articulos = [];
             state.payload.total = 0;
         },
+        onUpdateProduct: (state, { payload }) => {
+            state.payload.articulos = state.payload.articulos.map(item => item.producto === payload.producto ? payload : item);
+        },
+        // maybe not using theese, should consider remove
         onUpdateProductAmount: (state, { payload }) => {
             state.payload.articulos = state.payload.articulos.map(item => item.producto === payload.product ? { ...item, cantidad: payload.amount } : item);
         },
@@ -80,6 +84,7 @@ export const createPurchaseSlice = createSlice({
         onUpdateSellingPrice: (state, { payload }) => {
             state.payload.articulos = state.payload.articulos.map(item => item.producto === payload.product ? { ...item, precioVenta: payload.sellingPrice } : item);
         },
+        // 
         onSetTotal: (state, { payload }) => {
             state.payload.total = payload;
         },
@@ -117,6 +122,7 @@ export const createPurchaseSlice = createSlice({
 export const {
     onClearPurchaseState, onSetBranch, onSetProvider, onSetSelectedProduct, onClearSelectedProduct,
     onAddProduct, onRemoveProduct, onClearPayloadExceptBranchAndProvider,
+    onUpdateProduct,
     onUpdateProductAmount, onUpdateNoTaxePrice, onUpdateTaxePercentage,
     onUpdatePriceWithTax, onUpdateSellingPrice, onSetTotal,
     onSetIsLoading, onClearIsLoading,

@@ -6,7 +6,7 @@ import {
     onClearPayloadExceptBranchAndProvider,
     onSetSelectedProduct,
     onClearSelectedProduct,
-    onAddProduct,
+    onAddProduct, onRemoveProduct, onUpdateProduct,
     onSetSuccessMessage, onClearSuccessMessage,
     onSetError, onClearError
 } from '../store/records/createPurchaseSlice';
@@ -42,6 +42,14 @@ export const useCreatePurchaseStore = () => {
 
     const startAddingProduct = (product) => {
         dispatch(onAddProduct(product));
+    }
+
+    const startRemovingProduct = (id) => {
+        dispatch(onRemoveProduct(id));
+    }
+
+    const startUpdatingProduct = (product) => {
+        dispatch(onUpdateProduct(product));
     }
 
     const startSettingSuccessMessage = (message) => {
@@ -81,6 +89,8 @@ export const useCreatePurchaseStore = () => {
         startSettingSelectedProduct,
         startRemovingSelectedProduct,
         startAddingProduct,
+        startRemovingProduct,
+        startUpdatingProduct,
         startSettingSuccessMessage,
         startRemovingSuccessMessage,
         startSettingErrorMessage,
