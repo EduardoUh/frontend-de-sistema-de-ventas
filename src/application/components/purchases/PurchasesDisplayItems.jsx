@@ -22,9 +22,8 @@ export const PurchasesDisplayItems = () => {
                             selectedRecord?.map(item => (
                                 <Card key={item._id}>
                                     <DataContainer name='Producto' data={item?.producto?.nombre} />
-                                    <DataContainer name='Precio sin impuestos' data={item?.precioSinImpuesto} />
-                                    <DataContainer name='Impuesto' data={item?.impuesto} />
-                                    <DataContainer name='Precio con impuestos' data={item?.precioConImpuesto} />
+                                    <DataContainer name='Precio de compra' data={item?.precioCompra} />
+                                    <DataContainer name='Precio de venta' data={item?.precioVenta} />
                                     <DataContainer name='Cantidad' data={item?.cantidad} />
                                 </Card>
                             )
