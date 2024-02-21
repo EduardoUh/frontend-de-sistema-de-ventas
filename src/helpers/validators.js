@@ -34,7 +34,7 @@ export const isValidProductsCollection = (products = null) => {
     if (!Array.isArray(products) || products.length < 1) return false;
 
     for (const product of products) {
-        if (!product.producto || !product.cantidad || Number(product.cantidad) < 0.01 || product.cantidad > product.existencia) return false;
+        if (!product.producto || !product.cantidad || Number(product.cantidad) < 0.01 || product.cantidad > product.existencia || !floatingPointValuesValidation(product.cantidad)) return false;
     }
 
     return true;
