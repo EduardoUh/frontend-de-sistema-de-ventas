@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import { useCreatePurchaseStore, useUIStore } from '../../../hooks';
 import { Modal, ShowErrorMessage, ShowSuccessMessage } from '../../ui';
-import { validateIfAcceptFloatingPointNumbersOrNot } from '../../../helpers';
+import { validateIfAcceptFloatingPointNumbersOrNot, floatingPointValuesValidation } from '../../../helpers';
 import { InputComponent } from '../../../utilities';
 
 
@@ -10,6 +10,15 @@ const handleSubmitUpdateForm = (e, startUpdatingProduct, selectedProduct, startS
 
     if (selectedProduct.precioCompra === 0 || selectedProduct.precioVenta === 0 || selectedProduct.cantidad === 0 || selectedProduct.total === 0) {
         startSettingErrorMessage('Las cantidades no pueden ser cero');
+
+        return;
+    }
+
+    if (selectedProduct.precioCompra > 0 && !floatingPointValuesValidation(selectedProduct.precioCompra)
+        || selectedProduct.precioVenta > 0 && !floatingPointValuesValidation(selectedProduct.precioVenta)
+        || selectedProduct.cantidad > 0 && !floatingPointValuesValidation(selectedProduct.cantidad)
+    ) {
+        startSettingErrorMessage('Solo se aceptan dos decimales después del punto');
 
         return;
     }
@@ -41,7 +50,7 @@ export const CreatePurchaseUpdateProductModal = () => {
     const { updateModalIsOpen, startCloseUpdateModal } = useUIStore();
 
     useEffect(() => {
-        startSettingSelectedProduct({ ...selectedProduct, total: (selectedProduct.precioCompra * selectedProduct.cantidad) });
+        startSettingSelectedProduct({ ...selectedProduct, total: (selectedProduct.precioCompra * selectedProduct.cantidad).toFixed(2) });
     }, [selectedProduct.cantidad, selectedProduct.precioCompra]);
 
     return (
@@ -52,7 +61,7 @@ export const CreatePurchaseUpdateProductModal = () => {
                     <ShowErrorMessage hasError={error.hasError} error={error.message} />
                     <ShowSuccessMessage successMessage={successMessage} />
                     <form
-                        onSubmit={e => handleSubmitUpdateForm(e, startUpdatingProduct, selectedProduct, startSettingSuccessMessage, startSettingErrorMessage, startRemovingErrorMessage)}
+                        onSubmit={e => handleSubmitUpdateForm(e, startUpdatingProduct, { ...selectedProduct }, startSettingSuccessMessage, startSettingErrorMessage, startRemovingErrorMessage)}
                         className='space-y-3'
                     >
                         <InputComponent
@@ -74,7 +83,9 @@ export const CreatePurchaseUpdateProductModal = () => {
                             min={0.01}
                             acceptDecimals={true}
                             value={selectedProduct.precioCompra}
-                            handleChange={e => startSettingSelectedProduct({ ...selectedProduct, precioCompra: /^(?:\d+)?(?:\.\d{1,2})?$/.test(parseFloat(e.target.value)) ? parseFloat(e.target.value) : 0 })}
+                            hasError={selectedProduct.precioCompra > 0 && !floatingPointValuesValidation(selectedProduct.precioCompra)}
+                            errorMessage='Solo se aceptan dos decimales después del punto'
+                            handleChange={e => startSettingSelectedProduct({ ...selectedProduct, precioCompra: parseFloat(e.target.value) ? parseFloat(e.target.value) : 0 })}
                             onBeforeInput={e => validateIfAcceptFloatingPointNumbersOrNot(e, true)}
                         />
                         <InputComponent
@@ -87,7 +98,9 @@ export const CreatePurchaseUpdateProductModal = () => {
                             min={0.01}
                             acceptDecimals={true}
                             value={selectedProduct.precioVenta}
-                            handleChange={e => startSettingSelectedProduct({ ...selectedProduct, precioVenta: /^(?:\d+)?(?:\.\d{1,2})?$/.test(parseFloat(e.target.value)) ? parseFloat(e.target.value) : 0 })}
+                            hasError={selectedProduct.precioVenta > 0 && !floatingPointValuesValidation(selectedProduct.precioVenta)}
+                            errorMessage='Solo se aceptan dos decimales después del punto'
+                            handleChange={e => startSettingSelectedProduct({ ...selectedProduct, precioVenta: parseFloat(e.target.value) ? parseFloat(e.target.value) : 0 })}
                             onBeforeInput={e => validateIfAcceptFloatingPointNumbersOrNot(e, true)}
                         />
                         <InputComponent
@@ -100,7 +113,9 @@ export const CreatePurchaseUpdateProductModal = () => {
                             min={selectedProduct.ventaPor === 'KILOGRAMO' ? 0.01 : 1}
                             acceptDecimals={selectedProduct.ventaPor === 'KILOGRAMO' ? true : false}
                             value={selectedProduct.cantidad}
-                            handleChange={e => startSettingSelectedProduct({ ...selectedProduct, cantidad: /^(?:\d+)?(?:\.\d{1,2})?$/.test(parseFloat(e.target.value)) ? parseFloat(e.target.value) : 0 })}
+                            hasError={selectedProduct.cantidad > 0 && !floatingPointValuesValidation(selectedProduct.cantidad)}
+                            errorMessage='Solo se aceptan dos decimales después del punto'
+                            handleChange={e => startSettingSelectedProduct({ ...selectedProduct, cantidad: parseFloat(e.target.value) ? parseFloat(e.target.value) : 0 })}
                             onBeforeInput={e => validateIfAcceptFloatingPointNumbersOrNot(e, selectedProduct.ventaPor === 'KILOGRAMO')}
                         />
                         <InputComponent
