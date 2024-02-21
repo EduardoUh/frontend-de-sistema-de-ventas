@@ -1,7 +1,7 @@
 import { useCreateSellingStore } from '../../../hooks';
 import { Card, DataContainer } from '../../ui';
 import { InputComponent } from '../../../utilities';
-import { validateIfAcceptFloatingPointNumbersOrNot } from '../../../helpers';
+import { validateIfAcceptFloatingPointNumbersOrNot, floatingPointValuesValidation } from '../../../helpers';
 
 
 export const CreateSellingShoppingCart = () => {
@@ -28,10 +28,10 @@ export const CreateSellingShoppingCart = () => {
                                 min={shopingCartItem.ventaPor === 'KILOGRAMO' ? 0.01 : 1}
                                 acceptDecimals={shopingCartItem.ventaPor === 'KILOGRAMO' ? true : false}
                                 value={shopingCartItem.cantidad}
-                                handleChange={e => startUpdatingProductAmount({ product: shopingCartItem.producto, amount: /^(?:\d+)?(?:\.\d{1,2})?$/.test(parseFloat(e.target.value)) ? parseFloat(e.target.value) : 0 })}
+                                handleChange={e => startUpdatingProductAmount({ product: shopingCartItem.producto, amount: parseFloat(e.target.value) ? parseFloat(e.target.value) : 0 })}
                                 onBeforeInput={e => validateIfAcceptFloatingPointNumbersOrNot(e, shopingCartItem.ventaPor === 'KILOGRAMO')}
-                                hasError={shopingCartItem.cantidad > shopingCartItem.existencia}
-                                errorMessage='La cantidad no puede exceder a la existencia'
+                                hasError={shopingCartItem.cantidad > shopingCartItem.existencia || (shopingCartItem.cantidad > 0 && !floatingPointValuesValidation(shopingCartItem.cantidad))}
+                                errorMessage={shopingCartItem.cantidad > shopingCartItem.existencia ? 'La cantidad no puede exceder a la existencia' : 'Solo se aceptan dos decimales después del punto'}
                             />
                             <button
                                 type="button"

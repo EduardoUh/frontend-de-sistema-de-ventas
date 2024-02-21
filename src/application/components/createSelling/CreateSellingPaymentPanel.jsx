@@ -86,7 +86,7 @@ export const CreateSellingPaymentPanel = () => {
     }, [total]);
 
     useEffect(() => {
-        startSettingCambio(pagoCon - pago > 0 ? parseFloat((pagoCon - pago).toFixed(2)) : 0);
+        startSettingCambio(pagoCon - pago > 0 && total > 0 ? parseFloat((pagoCon - pago).toFixed(2)) : 0);
     }, [pago, pagoCon]);
 
     useEffect(() => {
