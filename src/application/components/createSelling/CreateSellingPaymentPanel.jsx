@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import { useCreateSellingStore } from '../../../hooks';
 import { InputComponent } from '../../../utilities';
-import { validateIfAcceptFloatingPointNumbersOrNot, calculateTotal, isValidProductsCollection } from '../../../helpers';
+import { validateIfAcceptFloatingPointNumbersOrNot, calculateTotal, isValidProductsCollection, floatingPointValuesValidation } from '../../../helpers';
 
 
 const handleClick = (payload = [], startSettingError, startClearError, startCreatingSelling) => {
@@ -45,6 +45,10 @@ const handleClick = (payload = [], startSettingError, startClearError, startCrea
         return;
     }
 
+    if (!floatingPointValuesValidation(payload.pagoCon) || !floatingPointValuesValidation(payload.pago)) {
+        return;
+    }
+
     for (const item of payload.articulos) {
         delete item.precio;
         delete item.existencia;
@@ -74,7 +78,7 @@ export const CreateSellingPaymentPanel = () => {
     } = useCreateSellingStore();
 
     useEffect(() => {
-        if (articulos.length >= 0) startSettingTotal(calculateTotal(articulos));
+        if (articulos.length >= 0) startSettingTotal(parseFloat((calculateTotal(articulos)).toFixed(2)));
     }, [articulos]);
 
     useEffect(() => {
@@ -82,11 +86,11 @@ export const CreateSellingPaymentPanel = () => {
     }, [total]);
 
     useEffect(() => {
-        startSettingCambio(pagoCon - pago > 0 ? pagoCon - pago : 0);
+        startSettingCambio(pagoCon - pago > 0 ? parseFloat((pagoCon - pago).toFixed(2)) : 0);
     }, [pago, pagoCon]);
 
     useEffect(() => {
-        startSettingSaldo(total - pago > 0 ? total - pago : 0);
+        startSettingSaldo(total - pago > 0 ? parseFloat((total - pago).toFixed(2)) : 0);
     }, [total, pago]);
 
     useEffect(() => {
@@ -120,10 +124,10 @@ export const CreateSellingPaymentPanel = () => {
                 min={cliente.trim() === '' ? total : 0}
                 acceptDecimals={true}
                 value={pagoCon}
-                handleChange={e => startSettingPagoCon(/^(?:\d+)?(?:\.\d{1,2})?$/.test(parseFloat(e.target.value)) ? parseFloat(e.target.value) : 0)}
+                handleChange={e => startSettingPagoCon(parseFloat(e.target.value) ? parseFloat(e.target.value) : 0)}
                 onBeforeInput={e => validateIfAcceptFloatingPointNumbersOrNot(e, true)}
-                hasError={pagoCon < pago}
-                errorMessage='La cantidad con la que se paga no puede ser menor a la cantidad a pagar'
+                hasError={pagoCon < pago || (pagoCon > 0 && !floatingPointValuesValidation(pagoCon))}
+                errorMessage={pagoCon < pago ? 'La cantidad con la que se paga no puede ser menor a la cantidad a pagar' : 'Solo se aceptan dos decimales después del punto'}
             />
             <InputComponent
                 inputId='pago'
@@ -135,10 +139,10 @@ export const CreateSellingPaymentPanel = () => {
                 min={cliente.trim() === '' ? total : 0}
                 acceptDecimals={true}
                 value={pago}
-                handleChange={e => startSettingPago(/^(?:\d+)?(?:\.\d{1,2})?$/.test(parseFloat(e.target.value)) ? parseFloat(e.target.value) : 0)}
+                handleChange={e => startSettingPago(parseFloat(e.target.value) ? parseFloat(e.target.value) : 0)}
                 onBeforeInput={e => validateIfAcceptFloatingPointNumbersOrNot(e, true)}
                 disabled={cliente.trim() === ''}
-                hasError={pago > total}
+                hasError={pago > total || (pago > 0 && !floatingPointValuesValidation(pago))}
                 errorMessage='La cantidad a pagar no puede ser mayor al total'
             />
             <InputComponent

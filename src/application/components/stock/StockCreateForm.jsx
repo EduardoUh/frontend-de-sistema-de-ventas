@@ -25,6 +25,15 @@ const handleSubmitCreateForm = (e, startCreatingRecord, url, payload, isFormVali
 
     if (!isFormValid) return;
 
+    if (parseFloat(payload.existencia) % 1 > 0) {
+        payload.existencia = parseFloat(parseFloat(payload.existencia).toFixed(2));
+    }
+    else {
+        payload.existencia = Number(payload.existencia);
+    }
+
+    payload.precio = parseFloat(parseFloat(payload.precio).toFixed(2));
+
     startCreatingRecord(url, payload, 'stockProducto');
 }
 
