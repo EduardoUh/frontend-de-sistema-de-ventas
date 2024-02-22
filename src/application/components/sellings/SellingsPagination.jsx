@@ -2,18 +2,16 @@ import { useRecordsStorePagination, useRecordsStoreUpdate, useUIStore } from '..
 import { PaginationContainer, CardsContainer, Card, DataContainer, Button } from '../../ui';
 
 
-// permissions on this module -> VER - CREAR PAGO - VER PAGOS
-
-const setSelectedRecordAndOpenShowMoreModal = (startSelectingRecord, record, startOpenShowMoreModal) => {
+const setSelectedRecordAndOpenModal = (startSelectingRecord, record, startOpenModal) => {
     startSelectingRecord(record);
 
-    startOpenShowMoreModal();
+    startOpenModal();
 }
 
 export const SellingsPagination = ({ permissions, name }) => {
     const { records, error, isLoading, pagesCanBeGenerated, page, componentName, nextPage, previousPage } = useRecordsStorePagination();
     const { startSelectingRecord } = useRecordsStoreUpdate();
-    const { startOpenShowMoreModal } = useUIStore();
+    const { startOpenShowMoreModal, startOpenCreateModal } = useUIStore();
 
     if (componentName !== name) return (<></>);
 
@@ -40,15 +38,15 @@ export const SellingsPagination = ({ permissions, name }) => {
                                     text='Ver más'
                                     type='button'
                                     buttonSyles='w-full'
-                                    handleClick={() => setSelectedRecordAndOpenShowMoreModal(startSelectingRecord, { id: selling?.id, articulos: selling?.articulos }, startOpenShowMoreModal)}
+                                    handleClick={() => setSelectedRecordAndOpenModal(startSelectingRecord, { id: selling?.id, articulos: selling?.articulos }, startOpenShowMoreModal)}
                                 />
                                 {
-                                    permissions.find(permission => permission === 'CREAR PAGO') &&
+                                    permissions.find(permission => permission === 'CREAR PAGO') && !selling?.saldada &&
                                     < Button
                                         text='Crear pago'
                                         type='button'
                                         buttonSyles='w-full'
-                                        handleClick={() => { }}
+                                        handleClick={() => setSelectedRecordAndOpenModal(startSelectingRecord, { id: selling?.id, saldo: selling?.saldo }, startOpenCreateModal)}
                                     />
                                 }
                             </div>
