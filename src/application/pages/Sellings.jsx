@@ -1,5 +1,5 @@
 import { useRecordsStorePaginationHooks, useUIStore } from '../../hooks';
-import { SellingsPagination, SellingsSeeMoreModal } from '../components/sellings';
+import { SellingsPagination, SellingsSeeMoreModal, SellingsFilters } from '../components/sellings';
 
 
 const baseUrl = '/ventas';
@@ -16,7 +16,11 @@ export const Sellings = ({ permissions, name }) => {
         <div className='space-y-3'>
             <h2 className='font-bold text-center text-xl'>{name}</h2>
             {
-                permissions.find(permission => permission === 'VER') && <SellingsPagination name={name} permissions={permissions} />
+                permissions.find(permission => permission === 'VER') &&
+                <>
+                    <SellingsFilters baseUrl={baseUrl} />
+                    <SellingsPagination name={name} permissions={permissions} />
+                </>
             }
             {
                 showMoreModalIsOpen && <SellingsSeeMoreModal permissions={permissions} />
