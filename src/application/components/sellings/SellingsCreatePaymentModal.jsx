@@ -64,7 +64,7 @@ export const SellingsCreatePaymentModal = () => {
         <Modal showModal={createModalIsOpen}>
             <div className="w-11/12 md:w-3/6 lg:w-2/6 bg-white px-6 py-8 rounded-md shadow-md">
                 <div className="w-full space-y-3">
-                    <h3 className="text-center font-bold text-2xl">Crear Sucursal</h3>
+                    <h3 className="text-center font-bold text-2xl">Crear Pago</h3>
                     <ShowErrorMessages hasErrors={errors.hasErrors} errors={errors.errorMessages} />
                     <ShowErrorMessage hasError={error.hasError} error={error.errorMessage} />
                     <ShowSuccessMessage successMessage={data?.message} />
