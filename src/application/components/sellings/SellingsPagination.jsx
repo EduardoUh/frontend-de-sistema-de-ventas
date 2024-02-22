@@ -1,23 +1,19 @@
-import { useRecordsStorePagination } from '../../../hooks';
+import { useRecordsStorePagination, useRecordsStoreUpdate, useUIStore } from '../../../hooks';
 import { PaginationContainer, CardsContainer, Card, DataContainer, Button } from '../../ui';
 
-/* 
-    sucursal
-    creador
-    cliente
-    total
-    pagoCon
-    pago
-    cambio
-    saldo
-    saldada
-    fechaCreacion
-*/
 
 // permissions on this module -> VER - CREAR PAGO - VER PAGOS
 
+const setSelectedRecordAndOpenShowMoreModal = (startSelectingRecord, record, startOpenShowMoreModal) => {
+    startSelectingRecord(record);
+
+    startOpenShowMoreModal();
+}
+
 export const SellingsPagination = ({ permissions, name }) => {
     const { records, error, isLoading, pagesCanBeGenerated, page, componentName, nextPage, previousPage } = useRecordsStorePagination();
+    const { startSelectingRecord } = useRecordsStoreUpdate();
+    const { startOpenShowMoreModal } = useUIStore();
 
     if (componentName !== name) return (<></>);
 
@@ -41,25 +37,20 @@ export const SellingsPagination = ({ permissions, name }) => {
                             <DataContainer name='Fecha de Creacion' data={selling.fechaCreacion} convertToDate={true} />
                             <div className='flex flex-col justify-center items-center gap-2'>
                                 <Button
-                                    text='Ver artículos'
+                                    text='Ver más'
                                     type='button'
                                     buttonSyles='w-full'
-                                    handleClick={() => { }}
+                                    handleClick={() => setSelectedRecordAndOpenShowMoreModal(startSelectingRecord, { id: selling?.id, articulos: selling?.articulos }, startOpenShowMoreModal)}
                                 />
                                 {
-                                    selling?.cliente && <Button
-                                        text='Ver pagos'
+                                    permissions.find(permission => permission === 'CREAR PAGO') &&
+                                    < Button
+                                        text='Crear pago'
                                         type='button'
                                         buttonSyles='w-full'
                                         handleClick={() => { }}
                                     />
                                 }
-                                <Button
-                                    text='Crear pago'
-                                    type='button'
-                                    buttonSyles='w-full'
-                                    handleClick={() => { }}
-                                />
                             </div>
                         </Card>
                     ))
