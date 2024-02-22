@@ -14,16 +14,18 @@ export const useRequest = () => {
 
     const requestData = async (url) => {
         try {
+            error.hasError && setError(errorInitialForm);
             setIsLoading(true);
             const { data } = await api.get(url);
             setData(data);
-            setIsLoading(false);
-            setError(errorInitialForm);
 
         }
         catch (error) {
             setError({ hasError: true, errorMessage: error.response.data.message });
             setData(null);
+
+        }
+        finally {
             setIsLoading(false);
         }
     }
