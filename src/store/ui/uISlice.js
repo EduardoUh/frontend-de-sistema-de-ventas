@@ -4,7 +4,7 @@ import { createSlice } from '@reduxjs/toolkit';
 export const uISlice = createSlice({
     name: 'uI',
     initialState: {
-        showNavbar: true,
+        showNavbar: false,
         updateModalIsOpen: false,
         createModalIsOpen: false,
         showMoreModalIsOpen: false,
