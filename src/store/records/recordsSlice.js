@@ -6,7 +6,7 @@ const initialStateForm = {
     page: 1,
     url: null,
     keyToGetCollectionOfData: null,
-    records: null,
+    records: [],
     pagesCanBeGenerated: null,
     selectedRecord: null,
     sucessMessage: null,
