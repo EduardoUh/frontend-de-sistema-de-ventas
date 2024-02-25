@@ -25,6 +25,10 @@ Frontend de un sistema de ventas hecho para practicar.
 
 [Sistema de ventas](https://spa-sistema-de-ventas.onrender.com "Sistema de ventas")
 
+### **Usuarios para acceder al sistema:**
+* super usuario -> superusuario@gmail.com contraseña -> superusuario
+* usuario administrador -> juanpalmagarza@gmail.com contraseña -> juanpalmagarzapassword
+
 ## **Tecnologías usadas en el proyecto:**
 
 * JavaScript.
