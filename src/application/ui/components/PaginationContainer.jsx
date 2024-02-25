@@ -7,7 +7,7 @@ export const PaginationContainer = ({ children, data, isLoading, error, page, pa
 
     return (
         <>
-            {data !== null && error.hasError === false ?
+            {error.hasError === false && data.length > 0 ?
                 (
                     <>
                         {children}
@@ -16,7 +16,7 @@ export const PaginationContainer = ({ children, data, isLoading, error, page, pa
                 )
                 :
                 (
-                    error.hasError === true && data === null && <div className="flex justify-center items-center"><Message message={error.errorMessage} severity='error' messageStyle='sm:w-1/3' /></div>
+                    error.hasError === true && data.length < 1 && <div className="flex justify-center items-center"><Message message={error.errorMessage} severity='error' messageStyle='sm:w-1/3' /></div>
                 )
             }
         </>
