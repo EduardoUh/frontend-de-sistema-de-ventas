@@ -24,7 +24,7 @@ export const CreatePurchasePaymentPanel = () => {
     const { payload, articulos, total, isLoading, startSettingTotal, startCreatingPurchase, startClearPayloadExceptBranchAndProvider, startSettingProvider } = useCreatePurchaseStore();
 
     useEffect(() => {
-        startSettingTotal(calculateTotal(articulos));
+        startSettingTotal(parseFloat((calculateTotal(articulos)).toFixed(2)));
     }, [articulos]);
 
     return (
