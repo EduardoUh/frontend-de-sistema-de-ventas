@@ -29,7 +29,7 @@ export const Header = () => {
             </div>
             <div className="w-8/12 md:w-10/12 flex justify-center items-center">
                 <h1>
-                    {user.sucursalNombre ? user.sucursalNombre : 'Habaneros palma'}
+                    {user.sucursalNombre ? user.sucursalNombre : 'Sistema de ventas'}
                 </h1>
             </div>
             <div className="w-2/12 md:w-1/12 flex justify-center items-center">
