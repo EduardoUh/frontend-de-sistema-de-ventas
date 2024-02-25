@@ -1,9 +1,13 @@
 import { configureStore } from '@reduxjs/toolkit';
-import { authSlice } from './';
+import { authSlice, uISlice, recordsSlice, createSellingSlice, createPurchaseSlice } from './';
 
 
 export const store = configureStore({
     reducer: {
         auth: authSlice.reducer,
+        uI: uISlice.reducer,
+        records: recordsSlice.reducer,
+        createSelling: createSellingSlice.reducer,
+        createPurchase: createPurchaseSlice.reducer,
     }
 });

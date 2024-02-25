@@ -18,19 +18,30 @@ export const AppRouter = () => {
     return (
         <Routes>
             {
-                status === 'authenticated'
-                    ? (
-                        <>
-                            <Route path="/*" element={<ApplicationRoutes />} />
-                        </>
-                    )
-                    :
-                    (
-                        <>
-                            <Route path="/*" element={<AuthRoutes />} />
-                        </>
-                    )
+                status === 'authenticated' &&
+                (
+                    <>
+                        <Route path='/*' element={<ApplicationRoutes />} />
+                    </>
+                )
             }
+            {
+                status === 'not-authenticated' && !sessionStorage.getItem('token') &&
+                (
+                    <>
+                        <Route path='/*' element={<AuthRoutes />} />
+                    </>
+                )
+            }
+            {
+                status === 'not-authenticated' && sessionStorage.getItem('token') &&
+                (
+                    <>
+                        <Route path='/*' element={<LoadingPage />} />
+                    </>
+                )
+            }
+
         </Routes>
     )
 }
