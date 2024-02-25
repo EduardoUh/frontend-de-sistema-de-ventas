@@ -43,7 +43,7 @@ export const recordsSlice = createSlice({
             state.pagesCanBeGenerated = payload.pagesCanBeGenerated;
         },
         onClearRecords: (state) => {
-            state.records = null;
+            state.records = [];
             state.pagesCanBeGenerated = null;
         },
         selectRecord: (state, { payload }) => {
@@ -97,7 +97,7 @@ export const recordsSlice = createSlice({
             state.page = 1;
             state.url = null;
             state.keyToGetCollectionOfData = null;
-            state.records = null;
+            state.records = [];
             state.pagesCanBeGenerated = null;
             state.selectedRecord = null;
             state.sucessMessage = null;
